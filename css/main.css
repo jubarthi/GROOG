@@ -328,3 +328,128 @@ body {
   font-size: 0.8rem;
   color: var(--text-dim);
 }
+
+/* ==========================================================================
+   PRINT / PDF OPTIMIZED STYLESHEET (PROFESSIONAL HIGH-CONTRAST TACTICAL DOSSIER)
+   ========================================================================== */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+  }
+
+  .boot-scan,
+  .hud-header,
+  .nav-tab-container,
+  .hud-footer,
+  .header-actions,
+  #btn-export-json,
+  #btn-print-sheet,
+  .btn-icon,
+  .btn-tactical,
+  .btn-stepper {
+    display: none !important;
+  }
+
+  .main-app-container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .hud-section,
+  .hud-frame-chamfer,
+  .hud-panel {
+    background: #ffffff !important;
+    border: 1px solid #333333 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    clip-path: none !important;
+    color: #000000 !important;
+    margin-bottom: 12px !important;
+    padding: 10px !important;
+    border-radius: 4px !important;
+  }
+
+  .section-title {
+    color: #000000 !important;
+    border-bottom: 2px solid #000000 !important;
+    padding-bottom: 4px !important;
+    font-size: 1rem !important;
+    text-shadow: none !important;
+  }
+
+  .section-title::before {
+    content: '▶ ' !important;
+    color: #000000 !important;
+    filter: none !important;
+  }
+
+  .form-label,
+  .label,
+  small {
+    color: #444444 !important;
+    font-weight: 700 !important;
+  }
+
+  strong, .value, .attr-val {
+    color: #000000 !important;
+    text-shadow: none !important;
+  }
+
+  .hud-table {
+    border: 1px solid #000000 !important;
+  }
+
+  .hud-table th {
+    background: #e8e8e8 !important;
+    color: #000000 !important;
+    border-bottom: 1px solid #000000 !important;
+    font-weight: bold !important;
+  }
+
+  .hud-table td {
+    color: #000000 !important;
+    border-bottom: 1px solid #cccccc !important;
+  }
+
+  .hud-input {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid #999999 !important;
+    color: #000000 !important;
+    font-weight: bold !important;
+    padding: 2px !important;
+  }
+
+  .grid-2col {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+
+  .grid-4col {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .telemetry-badge {
+    border: 1px solid #000000 !important;
+    background: #f0f0f0 !important;
+    color: #000000 !important;
+  }
+
+  .telemetry-badge .badge-num {
+    background: #000000 !important;
+    color: #ffffff !important;
+  }
+
+  .telemetry-badge .badge-label {
+    color: #333333 !important;
+  }
+
+  .telemetry-badge .badge-val {
+    color: #000000 !important;
+    text-shadow: none !important;
+  }
+}
