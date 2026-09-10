@@ -1,0 +1,281 @@
+/* ==========================================================================
+   GROOG - SCI-FI HUD FRAMES & COMPONENT BEZELS
+   45º Chamfers, Metallic Bevels, LED Tubes, Hexagons, Telemetry Badges
+   ========================================================================== */
+
+/* Glassmorphism & Panel Backdrop */
+.hud-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--chassis-border);
+  position: relative;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 0 25px rgba(var(--accent-primary-rgb), 0.08),
+              0 10px 30px rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+}
+
+/* 45-Degree Chamfered Frame (Type A & B Main Containers) */
+.hud-frame-chamfer {
+  position: relative;
+  background: var(--bg-panel);
+  clip-path: polygon(
+    14px 0%, calc(100% - 14px) 0%, 
+    100% 14px, 100% calc(100% - 14px), 
+    calc(100% - 14px) 100%, 14px 100%, 
+    0% calc(100% - 14px), 0% 14px
+  );
+  border: 1px solid var(--chassis-border);
+}
+
+.hud-frame-chamfer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+  box-shadow: 0 0 10px var(--accent-primary);
+}
+
+/* Bracket Corner Accents */
+.hud-bracket {
+  position: relative;
+}
+
+.hud-bracket::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  border-bottom: 2px solid var(--accent-primary);
+  border-right: 2px solid var(--accent-primary);
+  filter: drop-shadow(0 0 4px var(--accent-glow));
+}
+
+/* Hexagonal Node (For Primary Attributes ST, DX, IQ, HT) */
+.hex-node {
+  position: relative;
+  width: 100px;
+  height: 115px;
+  background: linear-gradient(180deg, var(--chassis-metal-dark) 0%, var(--bg-darkest) 100%);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 15px rgba(var(--accent-primary-rgb), 0.25);
+  transition: var(--transition-smooth);
+}
+
+.hex-node-inner {
+  position: absolute;
+  width: 92px;
+  height: 107px;
+  background: var(--bg-card);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--accent-glow);
+}
+
+.hex-node:hover {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 12px var(--accent-glow-strong));
+}
+
+.hex-node .attr-label {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.hex-node .attr-val {
+  font-family: var(--font-mono);
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--neon-white);
+  text-shadow: 0 0 10px var(--accent-glow);
+  line-height: 1;
+  margin: 2px 0;
+}
+
+.hex-node .attr-cost {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent-primary);
+}
+
+/* Telemetry Badges (001, 002, 003 Callouts) */
+.telemetry-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--chassis-border);
+  padding: 4px 10px;
+  border-radius: 2px;
+  position: relative;
+  font-family: var(--font-mono);
+}
+
+.telemetry-badge .badge-num {
+  background: var(--accent-primary);
+  color: var(--bg-darkest);
+  font-weight: 900;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  margin-right: 8px;
+  border-radius: 1px;
+  letter-spacing: 1px;
+}
+
+.telemetry-badge .badge-label {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  margin-right: 8px;
+  text-transform: uppercase;
+}
+
+.telemetry-badge .badge-val {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--neon-white);
+  text-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* LED Indicator Beacons & Tubes */
+.led-tube {
+  height: 4px;
+  background: var(--accent-primary);
+  box-shadow: 0 0 8px var(--accent-primary), 0 0 16px var(--accent-glow);
+  border-radius: 2px;
+  position: relative;
+}
+
+.led-beacon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--status-ready);
+  box-shadow: 0 0 8px var(--status-ready);
+  display: inline-block;
+}
+
+.led-beacon.alert {
+  background: var(--status-alert);
+  box-shadow: 0 0 10px var(--status-alert);
+  animation: pulse-alert 1s infinite alternate;
+}
+
+.led-beacon.warn {
+  background: var(--status-warn);
+  box-shadow: 0 0 8px var(--status-warn);
+}
+
+/* Stepper Buttons [+ / -] for Touch */
+.btn-stepper {
+  width: 38px;
+  height: 38px;
+  background: var(--bg-card);
+  border: 1px solid var(--chassis-border);
+  color: var(--accent-primary);
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  clip-path: polygon(6px 0%, 100% 0%, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0% 100%, 0% 6px);
+  transition: var(--transition-smooth);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-stepper:active, .btn-stepper:hover {
+  background: var(--accent-primary);
+  color: var(--bg-darkest);
+  box-shadow: 0 0 12px var(--accent-glow-strong);
+  border-color: var(--accent-primary);
+}
+
+/* Tactical Capsule Buttons */
+.btn-tactical {
+  background: linear-gradient(180deg, var(--chassis-metal-dark) 0%, var(--bg-card) 100%);
+  border: 1px solid var(--accent-primary);
+  color: var(--text-bright);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 8px 18px;
+  text-transform: uppercase;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: inset 0 0 8px rgba(var(--accent-primary-rgb), 0.2);
+}
+
+.btn-tactical:hover {
+  background: var(--accent-primary);
+  color: var(--bg-darkest);
+  box-shadow: 0 0 16px var(--accent-glow-strong);
+}
+
+.btn-tactical.active {
+  background: var(--accent-primary);
+  color: var(--bg-darkest);
+  font-weight: 900;
+  box-shadow: 0 0 18px var(--accent-glow-strong);
+}
+
+/* Inputs & Form Controls */
+.hud-input {
+  background: var(--bg-input);
+  border: 1px solid var(--chassis-border);
+  color: var(--neon-white);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  padding: 8px 12px;
+  border-radius: 2px;
+  outline: none;
+  width: 100%;
+  transition: var(--transition-smooth);
+}
+
+.hud-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Status Sliders & Progress Bars */
+.hud-progress-bar {
+  width: 100%;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--chassis-border);
+  border-radius: 1px;
+  overflow: hidden;
+  position: relative;
+}
+
+.hud-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+  box-shadow: 0 0 10px var(--accent-primary);
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}

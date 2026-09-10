@@ -1,0 +1,17 @@
+{
+  "name": "GROOG - Sistema Tático de RPG",
+  "short_name": "GROOG",
+  "description": "Calculadora e Motor Tático de Criação de Personagens (Base 3d6 / GURPS Engine)",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#060b13",
+  "theme_color": "#00d2ff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpolygon points='256,32 464,152 464,392 256,480 48,392 48,152' fill='%230a1322' stroke='%2300d2ff' stroke-width='16'/%3E%3Ctext x='256' y='285' fill='%2300d2ff' font-family='sans-serif' font-weight='900' font-size='96' text-anchor='middle' letter-spacing='8'%3EGROOG%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

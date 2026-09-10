@@ -1,0 +1,119 @@
+/* ==========================================================================
+   GROOG - DESIGN SYSTEM & THEME TOKENS (CSS VARIABLES)
+   Supports: Cyber Cyan (Default), Tactical Amber, Combat Red, Stealth Green
+   ========================================================================== */
+
+:root {
+  /* THEME: CYBER CYAN (Default) */
+  --bg-darkest: #040810;
+  --bg-dark: #070e1b;
+  --bg-panel: rgba(9, 20, 38, 0.78);
+  --bg-card: rgba(14, 28, 52, 0.65);
+  --bg-glass: rgba(10, 24, 46, 0.55);
+  --bg-input: rgba(5, 14, 28, 0.85);
+
+  --chassis-metal: #7a8fa6;
+  --chassis-metal-light: #b4c7dc;
+  --chassis-metal-dark: #2a384c;
+  --chassis-border: rgba(122, 143, 166, 0.35);
+
+  --accent-primary: #00d2ff;
+  --accent-primary-rgb: 0, 210, 255;
+  --accent-secondary: #0088ff;
+  --accent-glow: rgba(0, 210, 255, 0.55);
+  --accent-glow-strong: rgba(0, 210, 255, 0.85);
+
+  --neon-white: #ffffff;
+  --text-main: #d4e5f7;
+  --text-dim: #7d96b3;
+  --text-bright: #ffffff;
+  --text-accent: #00d2ff;
+
+  --status-ready: #00ffaa;
+  --status-warn: #ffb700;
+  --status-alert: #ff2255;
+
+  --font-display: 'Rajdhani', 'Orbitron', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Share Tech Mono', 'JetBrains Mono', 'Courier New', monospace;
+  --font-body: 'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --radius-chamfer: 8px;
+  --hud-bevel: 1px solid var(--chassis-border);
+  --hud-glow-drop: 0 0 15px var(--accent-glow);
+  --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* THEME 2: TACTICAL AMBER */
+[data-theme="amber"] {
+  --bg-darkest: #0a0804;
+  --bg-dark: #141007;
+  --bg-panel: rgba(35, 26, 12, 0.8);
+  --bg-card: rgba(48, 36, 16, 0.65);
+  --bg-glass: rgba(38, 28, 14, 0.55);
+  --bg-input: rgba(22, 16, 8, 0.85);
+
+  --chassis-metal: #a6917a;
+  --chassis-metal-light: #dcceb4;
+  --chassis-metal-dark: #4c3e2a;
+  --chassis-border: rgba(166, 145, 122, 0.35);
+
+  --accent-primary: #ffaa00;
+  --accent-primary-rgb: 255, 170, 0;
+  --accent-secondary: #ff7700;
+  --accent-glow: rgba(255, 170, 0, 0.55);
+  --accent-glow-strong: rgba(255, 170, 0, 0.85);
+
+  --text-main: #f7eed4;
+  --text-dim: #b3a17d;
+  --text-accent: #ffaa00;
+}
+
+/* THEME 3: COMBAT RED / ALERT */
+[data-theme="red"] {
+  --bg-darkest: #0a0406;
+  --bg-dark: #17070b;
+  --bg-panel: rgba(38, 10, 16, 0.8);
+  --bg-card: rgba(52, 14, 22, 0.65);
+  --bg-glass: rgba(46, 10, 18, 0.55);
+  --bg-input: rgba(26, 5, 10, 0.85);
+
+  --chassis-metal: #a67a83;
+  --chassis-metal-light: #dcb4bd;
+  --chassis-metal-dark: #4c2a32;
+  --chassis-border: rgba(166, 122, 131, 0.35);
+
+  --accent-primary: #ff2255;
+  --accent-primary-rgb: 255, 34, 85;
+  --accent-secondary: #ff0033;
+  --accent-glow: rgba(255, 34, 85, 0.55);
+  --accent-glow-strong: rgba(255, 34, 85, 0.85);
+
+  --text-main: #f7d4dc;
+  --text-dim: #b37d89;
+  --text-accent: #ff2255;
+}
+
+/* THEME 4: STEALTH GREEN */
+[data-theme="green"] {
+  --bg-darkest: #040a07;
+  --bg-dark: #07150e;
+  --bg-panel: rgba(10, 36, 22, 0.8);
+  --bg-card: rgba(14, 48, 30, 0.65);
+  --bg-glass: rgba(12, 40, 25, 0.55);
+  --bg-input: rgba(5, 22, 14, 0.85);
+
+  --chassis-metal: #7aa689;
+  --chassis-metal-light: #b4dcb9;
+  --chassis-metal-dark: #2a4c35;
+  --chassis-border: rgba(122, 166, 137, 0.35);
+
+  --accent-primary: #00ff9d;
+  --accent-primary-rgb: 0, 255, 157;
+  --accent-secondary: #00cc7a;
+  --accent-glow: rgba(0, 255, 157, 0.55);
+  --accent-glow-strong: rgba(0, 255, 157, 0.85);
+
+  --text-main: #d4f7e2;
+  --text-dim: #7db392;
+  --text-accent: #00ff9d;
+}

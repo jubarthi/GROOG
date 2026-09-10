@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>GROOG - Sistema Tático de Criação de Personagens</title>
+  
+  <!-- Web Manifest & Mobile Settings -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#00d2ff">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Motor e Calculadora Tática de Personagens GROOG (Base 3d6)">
+
+  <!-- Google Fonts: Futuristic & Tactical Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <!-- Core CSS Layers -->
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/hud-frames.css">
+  <link rel="stylesheet" href="./css/animations.css">
+  <link rel="stylesheet" href="./css/main.css">
+</head>
+<body>
+
+  <!-- Holographic Boot Scanline Overlay -->
+  <div class="boot-scan"></div>
+
+  <!-- STICKY TOP HUD BAR -->
+  <header class="hud-header">
+    <div class="hud-header-content">
+      
+      <!-- LOGO -->
+      <div class="logo-block">
+        <svg class="logo-symbol" viewBox="0 0 100 100">
+          <polygon points="50,5 95,28 95,72 50,95 5,72 5,28" fill="none" stroke="currentColor" stroke-width="8"/>
+          <polygon points="50,22 80,38 80,62 50,78 20,62 20,38" fill="currentColor" opacity="0.3"/>
+          <circle cx="50" cy="50" r="10" fill="currentColor"/>
+        </svg>
+        <div>
+          <div class="logo-text">GROOG</div>
+          <div class="logo-sub">TACTICAL ENGINE</div>
+        </div>
+      </div>
+
+      <!-- MASTER POINTS TELEMETRY HUD -->
+      <div class="points-hud-group">
+        
+        <!-- GM Point Budget -->
+        <div class="points-card">
+          <span class="label">ORÇAMENTO:</span>
+          <input type="number" id="inp-campaign-budget" class="budget-input" value="150" title="Pontos da Campanha definidos pelo Mestre">
+          <span class="label">PTS</span>
+        </div>
+
+        <!-- Dynamic Spent / Remaining Counter -->
+        <div class="points-card main-budget" id="main-points-card">
+          <span class="label">GASTOS:</span>
+          <span class="value" id="val-points-spent" style="color: var(--accent-primary);">105</span>
+          <span style="color: var(--text-dim); margin: 0 2px;">/</span>
+          <span class="label">RESTANTE:</span>
+          <span class="value" id="val-points-rem">45</span>
+        </div>
+
+        <!-- Disadvantage Ceiling -->
+        <div class="points-card">
+          <span class="label">DESVANTAGENS:</span>
+          <span class="value" id="val-disad-spent" style="font-size: 1rem; color: var(--text-main);">-20 / -75</span>
+        </div>
+
+      </div>
+
+      <!-- TOP ACTION CONTROLS -->
+      <div class="header-actions">
+        <button class="btn-icon" id="btn-toggle-lang" title="Alternar Idioma (PT-BR / EN)">🌐 PT/EN</button>
+        <button class="btn-icon" id="btn-toggle-theme" title="Alternar Tema de Cor">🎨 TEMA</button>
+        <button class="btn-tactical" id="btn-save-char" style="padding: 6px 12px; font-size: 0.8rem;">💾 SALVAR</button>
+        <button class="btn-icon" id="btn-manage-profiles" title="Gerenciar Fichas">📂 SLOTS</button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- TAB NAVIGATION BAR (MOBILE SWIPEABLE) -->
+  <nav class="nav-tab-container">
+    <div class="nav-tabs">
+      <button class="tab-btn active" data-tab="dossier">01 DOSSIÊ</button>
+      <button class="tab-btn" data-tab="biometrics">02 BIOMETRIA</button>
+      <button class="tab-btn" data-tab="combat">03 DEFESA & CARGA</button>
+      <button class="tab-btn" data-tab="traits">04 TRAÇOS</button>
+      <button class="tab-btn" data-tab="skills">05 TREINAMENTO</button>
+      <button class="tab-btn" data-tab="arsenal">06 ARSENAL</button>
+      <button class="tab-btn" data-tab="sheet">07 FICHA FINAL</button>
+    </div>
+  </nav>
+
+  <!-- MAIN APP WORKSPACE (DYNAMIC COMPONENT RENDER) -->
+  <main class="main-app-container">
+    <div id="app-tab-content" class="tab-content">
+      <!-- Injected dynamically by app.js -->
+    </div>
+  </main>
+
+  <!-- FOOTER STATUS BAR -->
+  <footer class="hud-footer">
+    <div>
+      <span class="led-beacon"></span>
+      <span style="letter-spacing: 1px; font-weight: bold; margin-left: 6px;">GROOG TACTICAL v1.0 // ENGINE PRONTO</span>
+    </div>
+    <div style="font-family: var(--font-mono); color: var(--text-dim);">
+      SISTEMA TÁTICO MODULAR 3d6
+    </div>
+  </footer>
+
+  <!-- MASTER JAVASCRIPT MODULE -->
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
