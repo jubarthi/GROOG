@@ -157,9 +157,18 @@ class GroogMobileApp {
     const hasCR = (char.advantages || []).some(ad => ad.name.toLowerCase().includes('reflexos em combate') || ad.name.toLowerCase().includes('combat reflexes'));
     const mobility = GroogMath.getEffectiveMobility(basicMove, basicSpeed, enc, hasCR);
 
-    // 1. Header Display
+    // 1. Header Display & Avatar
     const ptsHeader = document.getElementById('header-pts-display');
     if (ptsHeader) ptsHeader.innerText = `${points.budget} / ${points.totalSpent} ${I18N.t('ptsUnit')}`;
+
+    const avatarBtn = document.getElementById('btn-header-avatar');
+    if (avatarBtn) {
+      if (char.avatar) {
+        avatarBtn.innerHTML = `<img src="${char.avatar}" alt="${char.name || 'Avatar'}">`;
+      } else {
+        avatarBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
+      }
+    }
 
     // 2. Section Titles
     const attrTitle = document.getElementById('attr-section-title');
@@ -474,33 +483,203 @@ class GroogMobileApp {
 
   renderDossierSheet(container) {
     const d = this.character.dossier || {};
+    const p = this.character.personality || {};
+    const isEn = this.currentLang === 'en';
+
+    const presets = [
+      { name: 'Soldier', url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80' },
+      { name: 'Mercenary', url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80' },
+      { name: 'Specialist', url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80' },
+      { name: 'Cyberpunk', url: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80' },
+      { name: 'Infiltrator', url: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=400&q=80' },
+      { name: 'Pilot', url: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80' }
+    ];
 
     container.innerHTML = `
-      <div style="margin-bottom: 14px;">
-        <label style="font-size: 0.8rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">${I18N.t('lblConcept')}</label>
-        <input type="text" class="sheet-input" id="sheet-inp-concept" value="${this.character.concept || ''}" placeholder="Ex: Combat Specialist">
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
-        <div>
-          <label style="font-size: 0.8rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">${I18N.t('lblAge')}</label>
-          <input type="number" class="sheet-input" id="sheet-inp-age" value="${d.age || 28}">
+      <!-- 1. HERO AVATAR SHOWCASE (AMPLIADO) -->
+      <div class="dossier-hero-card">
+        <div class="dossier-avatar-preview-box" id="box-dossier-avatar" title="${isEn ? 'Click to change photo' : 'Clique para trocar de foto'}">
+          ${this.character.avatar 
+            ? `<img src="${this.character.avatar}" alt="Avatar" class="dossier-avatar-img">` 
+            : `<div class="dossier-avatar-placeholder">👤</div>`}
         </div>
-        <div>
-          <label style="font-size: 0.8rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">${I18N.t('lblTl')}</label>
-          <input type="number" class="sheet-input" id="sheet-inp-tl" value="${d.tl || 8}">
+
+        <input type="file" id="inp-avatar-file" accept="image/*" style="display: none;">
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 10px; width: 100%;">
+          <button class="btn-primary-action" id="btn-trigger-file-upload" style="margin: 0; padding: 8px 12px; font-size: 0.78rem; flex: 1;">
+            📷 ${isEn ? 'Upload Photo' : 'Carregar Foto'}
+          </button>
+          <button class="btn-primary-action" id="btn-custom-url-prompt" style="margin: 0; padding: 8px 12px; font-size: 0.78rem; flex: 1; background: var(--bg-surface-sunken); color: var(--accent-primary); border: 1px solid var(--accent-border);">
+            🌐 ${isEn ? 'Image URL' : 'Link Web'}
+          </button>
+        </div>
+
+        <!-- Preset Avatars -->
+        <div class="dossier-avatar-controls">
+          ${presets.map((pr, i) => `
+            <button class="dossier-preset-btn" data-url="${pr.url}">
+              ${pr.name}
+            </button>
+          `).join('')}
         </div>
       </div>
-      <div style="margin-bottom: 14px;">
-        <label style="font-size: 0.8rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">${I18N.t('lblAppearance')}</label>
-        <input type="text" class="sheet-input" id="sheet-inp-app" value="${d.appearance || '1.80m / 80kg'}">
+
+      <!-- 2. PERSONALIDADE & PSICOLOGIA -->
+      <div class="dossier-card-section">
+        <div class="dossier-section-header">
+          🧠 ${isEn ? 'Personality & Psychological Profile' : 'Personalidade & Perfil Psicológico'}
+        </div>
+
+        <div style="margin-bottom: 10px;">
+          <label style="font-size: 0.75rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">
+            ${isEn ? 'CORE TRAITS & TEMPERAMENT' : 'TRAÇOS DE PERSONALIDADE & TEMPERAMENTO'}
+          </label>
+          <textarea class="sheet-input" id="sheet-inp-traits" rows="2" style="resize: vertical; line-height: 1.3;" placeholder="${isEn ? 'E.g., Pragmatic, calm under fire, observant...' : 'Ex: Focado, pragmático, observador silencioso...'}">${p.traits || ''}</textarea>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+          <label style="font-size: 0.75rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">
+            ${isEn ? 'CENTRAL MOTIVATION & DRIVE' : 'MOTIVAÇÃO CENTRAL & OBJETIVO'}
+          </label>
+          <input type="text" class="sheet-input" id="sheet-inp-motivation" value="${p.motivation || ''}" placeholder="${isEn ? 'E.g., Seek truth about the rift' : 'Ex: Resgatar sua antiga unidade'}">
+        </div>
+
+        <div style="margin-bottom: 10px;">
+          <label style="font-size: 0.75rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">
+            ${isEn ? 'PERSONAL CODE / ETHICS' : 'CÓDIGO DE CONDUTA / ÉTICA'}
+          </label>
+          <input type="text" class="sheet-input" id="sheet-inp-code" value="${p.code || ''}" placeholder="${isEn ? 'Never leave an ally behind' : 'Nunca abandonar um companheiro'}">
+        </div>
+
+        <div>
+          <label style="font-size: 0.75rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">
+            ${isEn ? 'ICONIC QUOTE / MOTTO' : 'CITAÇÃO MARCANTE / LEMA'}
+          </label>
+          <input type="text" class="sheet-input" id="sheet-inp-quote" value="${p.quote || ''}" placeholder="${isEn ? '"Precision beats power."' : '"A precisão vence a força bruta."'}" style="font-style: italic; color: var(--accent-primary);">
+        </div>
       </div>
-      <button class="btn-primary-action" id="btn-sheet-export-json" style="margin-top: 10px;">${I18N.t('btnExportJson')}</button>
+
+      <!-- 3. BIOMETRIA & IDENTIFICAÇÃO -->
+      <div class="dossier-card-section">
+        <div class="dossier-section-header">
+          🧬 ${isEn ? 'Biometrics & Identification' : 'Biometria & Identificação'}
+        </div>
+
+        <div style="margin-bottom: 10px;">
+          <label style="font-size: 0.75rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">
+            ${I18N.t('lblConcept')}
+          </label>
+          <input type="text" class="sheet-input" id="sheet-inp-concept" value="${this.character.concept || ''}" placeholder="${isEn ? 'E.g. Tactical Operator' : 'Ex: Veterano Batedor'}">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">${I18N.t('lblAge')}</label>
+            <input type="number" class="sheet-input" id="sheet-inp-age" value="${d.age || 29}">
+          </div>
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">${isEn ? 'GENDER' : 'GÊNERO'}</label>
+            <input type="text" class="sheet-input" id="sheet-inp-gender" value="${d.gender || (isEn ? 'Male' : 'Masculino')}">
+          </div>
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">${I18N.t('lblTl')}</label>
+            <input type="number" class="sheet-input" id="sheet-inp-tl" value="${d.tl || 8}">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">${isEn ? 'HEIGHT' : 'ALTURA'}</label>
+            <input type="text" class="sheet-input" id="sheet-inp-height" value="${d.height || '1.82 m'}">
+          </div>
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">${isEn ? 'WEIGHT' : 'PESO'}</label>
+            <input type="text" class="sheet-input" id="sheet-inp-weight" value="${d.weight || '84 kg'}">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">${isEn ? 'EYES' : 'OLHOS'}</label>
+            <input type="text" class="sheet-input" id="sheet-inp-eyes" value="${d.eyes || (isEn ? 'Grey' : 'Cinza')}">
+          </div>
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">${isEn ? 'HAIR' : 'CABELO'}</label>
+            <input type="text" class="sheet-input" id="sheet-inp-hair" value="${d.hair || (isEn ? 'Black buzz' : 'Raspado')}">
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 0.75rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">
+            ${isEn ? 'SCARS / DISTINCTIVE MARKS' : 'CICATRIZES / MARCAS DISTINTIVAS'}
+          </label>
+          <input type="text" class="sheet-input" id="sheet-inp-scars" value="${d.scars || (isEn ? 'Shoulder scar' : 'Cicatriz na escápula')}">
+        </div>
+      </div>
+
+      <!-- 4. AÇÕES DA FICHA -->
+      <div style="display: flex; gap: 8px;">
+        <button class="btn-primary-action" id="btn-sheet-export-json" style="flex: 1;">
+          💾 ${I18N.t('btnExportJson')}
+        </button>
+      </div>
     `;
 
+    // Bindings de Avatar
+    const fileInp = document.getElementById('inp-avatar-file');
+    document.getElementById('btn-trigger-file-upload')?.addEventListener('click', () => fileInp?.click());
+    document.getElementById('box-dossier-avatar')?.addEventListener('click', () => fileInp?.click());
+
+    fileInp?.addEventListener('change', (e) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (re) => {
+          this.character.avatar = re.target.result;
+          this.onUpdate();
+          this.renderDossierSheet(container);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById('btn-custom-url-prompt')?.addEventListener('click', () => {
+      const url = prompt(isEn ? "Paste image URL for character avatar:" : "Cole a URL da imagem para o avatar do personagem:", this.character.avatar || "");
+      if (url !== null) {
+        this.character.avatar = url.trim();
+        this.onUpdate();
+        this.renderDossierSheet(container);
+      }
+    });
+
+    container.querySelectorAll('.dossier-preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.character.avatar = btn.dataset.url;
+        this.onUpdate();
+        this.renderDossierSheet(container);
+      });
+    });
+
+    // Bindings de Personalidade
+    this.character.personality = this.character.personality || {};
+    document.getElementById('sheet-inp-traits')?.addEventListener('change', (e) => { this.character.personality.traits = e.target.value; this.onUpdate(); });
+    document.getElementById('sheet-inp-motivation')?.addEventListener('change', (e) => { this.character.personality.motivation = e.target.value; this.onUpdate(); });
+    document.getElementById('sheet-inp-code')?.addEventListener('change', (e) => { this.character.personality.code = e.target.value; this.onUpdate(); });
+    document.getElementById('sheet-inp-quote')?.addEventListener('change', (e) => { this.character.personality.quote = e.target.value; this.onUpdate(); });
+
+    // Bindings de Biometria
+    this.character.dossier = this.character.dossier || {};
     document.getElementById('sheet-inp-concept')?.addEventListener('change', (e) => { this.character.concept = e.target.value; this.onUpdate(); });
-    document.getElementById('sheet-inp-age')?.addEventListener('change', (e) => { this.character.dossier.age = parseInt(e.target.value) || 28; this.onUpdate(); });
+    document.getElementById('sheet-inp-age')?.addEventListener('change', (e) => { this.character.dossier.age = parseInt(e.target.value) || 29; this.onUpdate(); });
+    document.getElementById('sheet-inp-gender')?.addEventListener('change', (e) => { this.character.dossier.gender = e.target.value; this.onUpdate(); });
     document.getElementById('sheet-inp-tl')?.addEventListener('change', (e) => { this.character.dossier.tl = parseInt(e.target.value) || 8; this.onUpdate(); });
-    document.getElementById('sheet-inp-app')?.addEventListener('change', (e) => { this.character.dossier.appearance = e.target.value; this.onUpdate(); });
+    document.getElementById('sheet-inp-height')?.addEventListener('change', (e) => { this.character.dossier.height = e.target.value; this.onUpdate(); });
+    document.getElementById('sheet-inp-weight')?.addEventListener('change', (e) => { this.character.dossier.weight = e.target.value; this.onUpdate(); });
+    document.getElementById('sheet-inp-eyes')?.addEventListener('change', (e) => { this.character.dossier.eyes = e.target.value; this.onUpdate(); });
+    document.getElementById('sheet-inp-hair')?.addEventListener('change', (e) => { this.character.dossier.hair = e.target.value; this.onUpdate(); });
+    document.getElementById('sheet-inp-scars')?.addEventListener('change', (e) => { this.character.dossier.scars = e.target.value; this.onUpdate(); });
+
     document.getElementById('btn-sheet-export-json')?.addEventListener('click', () => StorageEngine.exportJSON(this.character));
   }
 

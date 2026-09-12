@@ -58,8 +58,8 @@ body {
 }
 
 .user-avatar-circle {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: var(--bg-surface-elevated);
   box-shadow: var(--nm-flat-sm);
@@ -68,13 +68,114 @@ body {
   justify-content: center;
   cursor: pointer;
   color: var(--accent-primary);
-  border: 1px solid var(--border-glow);
+  border: 1.5px solid var(--accent-border);
   transition: var(--transition-fast);
+  overflow: hidden;
+  position: relative;
+}
+
+.user-avatar-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .user-avatar-circle:active {
   box-shadow: var(--nm-inset-sm);
   transform: scale(0.95);
+}
+
+/* ================= DOSSIÊ & FOTO DO OPERADOR ================= */
+.dossier-hero-card {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--border-radius-card);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--nm-flat-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.dossier-avatar-preview-box {
+  width: 120px;
+  height: 120px;
+  border-radius: 20px;
+  background: var(--bg-surface-sunken);
+  box-shadow: var(--nm-inset), var(--accent-glow-sm);
+  border: 2px solid var(--accent-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.dossier-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dossier-avatar-placeholder {
+  font-size: 3rem;
+  color: var(--accent-primary);
+}
+
+.dossier-avatar-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.dossier-preset-btn {
+  background: var(--bg-surface-sunken);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  padding: 5px 10px;
+  border-radius: var(--border-radius-pill);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--nm-inset-sm);
+  transition: var(--transition-fast);
+}
+
+.dossier-preset-btn:hover, .dossier-preset-btn.active {
+  color: var(--accent-primary);
+  border-color: var(--accent-border);
+}
+
+.dossier-preset-btn:active {
+  transform: scale(0.95);
+}
+
+.dossier-card-section {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--nm-flat-sm);
+  border-radius: var(--border-radius-card);
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.dossier-section-header {
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: var(--accent-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .character-title-wrap {

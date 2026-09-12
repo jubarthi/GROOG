@@ -79,31 +79,41 @@ export const StorageEngine = {
   createDefaultProfile() {
     return {
       id: 'char_' + Date.now(),
-      name: 'Operador Tático 01',
+      name: 'Thorgrim Vane',
       player: 'Jogador',
-      concept: 'Operador Especial / Batedor',
+      concept: 'Veterano Batedor Urbano',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
       campaignBudget: 150,
       disadvantageLimit: 75,
+      personality: {
+        traits: 'Focado, pragmático, observador silencioso e leal aos companheiros.',
+        motivation: 'Descobrir a origem da quebra temporal e resgatar sua antiga unidade.',
+        code: 'Nunca deixar ninguém para trás; cumprir o contrato até o fim.',
+        flaws: 'Desconfiado de burocratas e autoridades distantes.',
+        quote: '"A precisão vence a força bruta em qualquer linha do tempo."'
+      },
       dossier: {
-        age: 28,
-        birthday: '1998 / Setor Urbano 04',
-        height: '1.80m',
-        weight: '82 kg',
-        appearance: 'Atlético, olhar focado, cicatriz na têmpora',
+        age: 29,
+        gender: 'Masculino',
+        birthday: 'Setor Urbano 04 // Zona Industrial',
+        height: '1.82 m',
+        weight: '84 kg',
+        eyes: 'Cinza / Aço',
+        hair: 'Raspado / Preto',
+        scars: 'Cicatriz balística na escápula esquerda',
+        appearance: 'Físico atlético, postura tática alerta, expressão séria',
         tl: 8,
         campaignTL: 8,
         wealth: 'Médio',
         wealthCost: 0,
         status: 0,
-        skinTone: 'Pardo',
-        hair: 'Curto militar',
         dominantHand: 'Destro'
       },
       attributes: {
-        st: 11,
-        dx: 12,
-        iq: 11,
-        ht: 11
+        st: 14,
+        dx: 11,
+        iq: 10,
+        ht: 12
       },
       secondary: {
         hpMod: 0,
