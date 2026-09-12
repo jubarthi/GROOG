@@ -1,133 +1,149 @@
 /**
- * GROOG - INTERNATIONALIZATION DICTIONARY (PT-BR & EN)
+ * GROOG - TACTICAL INTERNATIONALIZATION & SYNONYM ENGINE (EN & PT-BR)
+ * 100% Legally Decoupled Terminology
  */
 
 export const I18N = {
-  currentLang: 'pt',
+  currentLang: localStorage.getItem('groog_lang') || 'en',
 
   dict: {
-    pt: {
-      // Header & System
+    en: {
+      // System & Header
       systemTitle: "GROOG",
-      systemSubtitle: "PAINEL DE AÇO // MOTOR TÁTICO",
-      pointsSpent: "GASTOS",
-      pointsRemaining: "RESTANTE",
-      pointsBudget: "ORÇAMENTO",
-      disadCeiling: "TETO DESV.",
-      themeBtn: "TEMA",
-      langBtn: "IDIO",
-      saveBtn: "SALVAR",
-      slotsBtn: "SLOTS",
+      budgetDisplay: "BUDGET",
+      spentDisplay: "SPENT",
+      ptsUnit: "pts",
 
-      // Wizard Steps (1 to 8)
-      step1Title: "01. IDENTIFICAÇÃO & ORIGEM",
-      step2Title: "02. ATRIBUTOS & BIOMETRIA",
-      step3Title: "03. DEFESAS & MOBILIDADE",
-      step4Title: "04. VANTAGENS & QUALIDADES",
-      step5Title: "05. DESVANTAGENS & PECULIARIDADES",
-      step6Title: "06. TREINAMENTO & PERÍCIAS",
-      step7Title: "07. ARSENAL & CARGA",
-      step8Title: "08. REVISÃO & DOSSIÊ FINAL",
+      // Primary Attributes (PWR, AGI, COG, VIT)
+      attrSectionTitle: "Primary Attributes",
+      attrPwr: "PWR • POWER",
+      attrAgi: "AGI • AGILITY",
+      attrCog: "COG • COGNITION",
+      attrVit: "VIT • VITALITY",
 
-      // Navigation Buttons
-      btnPrev: "◀ VOLTAR",
-      btnNext: "AVANÇAR ▶",
-      btnFinish: "CONCLUIR & SALVAR ✔",
+      // Derived Telemetry
+      telemetryTitle: "Derived Telemetry",
+      lblHp: "Life Points",
+      lblFp: "Energy Pool",
+      lblWill: "Resolve",
+      lblPer: "Awareness",
+      lblDodge: "Evasion (CR)",
+      lblSpeed: "Reaction Speed",
+      lblMove: "Movement Pace",
+      lblDamage: "Kinetic Impact (Sw | Dir)",
 
-      // Attributes
-      st: "FORÇA (ST)",
-      dx: "DESTREZA (DX)",
-      iq: "INTELIGÊNCIA (IQ)",
-      ht: "VITALIDADE (HT)",
-      hp: "PONTOS DE VIDA (PV)",
-      fp: "PONTOS DE FADIGA (PF)",
-      will: "VONTADE",
-      per: "PERCEPÇÃO",
-      basicSpeed: "VELOCIDADE BÁSICA",
-      basicMove: "DESLOCAMENTO (DB)",
-      basicLift: "BASE DE CARGA (BC)",
-      dmgThrust: "DANO PONTA (GdP)",
-      dmgSwing: "DANO BALANÇO (GeB)",
+      // Drawers
+      drawerTraitsTitle: "Talents & Flaws",
+      drawerTraitsSub: "positive / negative traits",
+      drawerSkillsTitle: "Proficiencies & Training",
+      drawerSkillsSub: "learned disciplines",
+      drawerEquipTitle: "Inventory & Loadout",
+      drawerEquipSub: "carried payload",
+      drawerDossierTitle: "Operator Dossier",
+      drawerDiceTitle: "Tactical 3d6 Roller",
 
-      // Combat
-      dodge: "ESQUIVA EFETIVA",
-      parry: "APARAR",
-      block: "BLOQUEIO",
-      dr: "RESISTÊNCIA A DANO (RD)",
-      encumbrance: "NÍVEL DE CARGA",
+      // Buttons & Actions
+      btnSave: "SAVE",
+      btnDice: "ROLL 3d6",
+      btnRollAgain: "🎲 ROLL 3d6 AGAIN",
+      btnExportJson: "💾 Export Character JSON",
+      btnAdd: "+ Add",
+      btnItem: "+ Item",
+      ptsRemaining: "Remaining",
 
-      // Alerts
-      savedSuccess: "OPERADOR SALVO COM SUCESSO!",
-      overBudgetWarn: "ALERTA: ORÇAMENTO EXCEDIDO!",
-      disadExceededWarn: "ALERTA: TETO DE DESVANTAGENS EXCEDIDO!"
+      // Drawer Inner Headings
+      headingTalents: "Talents & Boons",
+      headingFlaws: "Flaws & Burdens",
+      headingSkills: "Registered Proficiencies",
+      headingEquip: "Equipment & Weapons",
+      lblConcept: "CONCEPT / OCCUPATION",
+      lblAge: "AGE",
+      lblTl: "TECH LEVEL (TL)",
+      lblAppearance: "HEIGHT / WEIGHT / LOOKS",
+      elPrefix: "EL",
+
+      // Alerts & Results
+      critSuccess: "CRITICAL SUCCESS!",
+      critFailure: "CRITICAL FAILURE!",
+      normalRoll: "TACTICAL RESOLUTION",
+      saveSuccess: "Character saved successfully in local storage!"
     },
 
-    en: {
-      // Header & System
+    pt: {
+      // Sistema & Cabeçalho
       systemTitle: "GROOG",
-      systemSubtitle: "STEEL CHASSIS // TACTICAL ENGINE",
-      pointsSpent: "SPENT",
-      pointsRemaining: "REMAINING",
-      pointsBudget: "BUDGET",
-      disadCeiling: "DISAD LIMIT",
-      themeBtn: "THEME",
-      langBtn: "LANG",
-      saveBtn: "SAVE",
-      slotsBtn: "SLOTS",
+      budgetDisplay: "ORÇAMENTO",
+      spentDisplay: "GASTOS",
+      ptsUnit: "pts",
 
-      // Wizard Steps (1 to 8)
-      step1Title: "01. DOSSIER & IDENTITY",
-      step2Title: "02. ATTRIBUTES & BIOMETRICS",
-      step3Title: "03. DEFENSES & MOBILITY",
-      step4Title: "04. ADVANTAGES & PERKS",
-      step5Title: "05. DISADVANTAGES & QUIRKS",
-      step6Title: "06. SKILLS & TRAINING",
-      step7Title: "07. ARSENAL & LOADOUT",
-      step8Title: "08. FINAL AUDIT & DOSSIER",
+      // Atributos Primários (FOR, DES, INT, VIT)
+      attrSectionTitle: "Atributos Primários",
+      attrPwr: "FOR • FORÇA",
+      attrAgi: "DES • DESTREZA",
+      attrCog: "INT • COGNIÇÃO",
+      attrVit: "VIT • VITALIDADE",
 
-      // Navigation Buttons
-      btnPrev: "◀ BACK",
-      btnNext: "NEXT ▶",
-      btnFinish: "FINISH & SAVE ✔",
+      // Telemetria Derivada
+      telemetryTitle: "Telemetria & Derivadas",
+      lblHp: "Pontos de Vida",
+      lblFp: "Pontos Fadiga",
+      lblWill: "Vontade",
+      lblPer: "Percepção",
+      lblDodge: "Esquiva (CR)",
+      lblSpeed: "Velocidade Reação",
+      lblMove: "Deslocamento",
+      lblDamage: "Dano (Balanço | Golpe)",
 
-      // Attributes
-      st: "STRENGTH (ST)",
-      dx: "DEXTERITY (DX)",
-      iq: "INTELLIGENCE (IQ)",
-      ht: "HEALTH (HT)",
-      hp: "HIT POINTS (HP)",
-      fp: "FATIGUE POINTS (FP)",
-      will: "WILLPOWER",
-      per: "PERCEPTION",
-      basicSpeed: "BASIC SPEED",
-      basicMove: "BASIC MOVE",
-      basicLift: "BASIC LIFT (BL)",
-      dmgThrust: "THRUST DAMAGE",
-      dmgSwing: "SWING DAMAGE",
+      // Gavetas
+      drawerTraitsTitle: "Dons & Fardos",
+      drawerTraitsSub: "qualidades e limitações",
+      drawerSkillsTitle: "Habilidades Técnicas",
+      drawerSkillsSub: "treinamentos aprendidos",
+      drawerEquipTitle: "Inventário & Carga",
+      drawerEquipSub: "peso transportado",
+      drawerDossierTitle: "Dossiê do Operador",
+      drawerDiceTitle: "Rolador Tático 3d6",
 
-      // Combat
-      dodge: "EFFECTIVE DODGE",
-      parry: "PARRY",
-      block: "BLOCK",
-      dr: "DAMAGE RESISTANCE (DR)",
-      encumbrance: "ENCUMBRANCE LEVEL",
+      // Botões & Ações
+      btnSave: "SALVAR",
+      btnDice: "ROLAR 3d6",
+      btnRollAgain: "🎲 ROLAR 3d6 NOVAMENTE",
+      btnExportJson: "💾 Exportar Ficha JSON",
+      btnAdd: "+ Adicionar",
+      btnItem: "+ Item",
+      ptsRemaining: "Restantes",
 
-      // Alerts
-      savedSuccess: "OPERATOR SAVED SUCCESSFULLY!",
-      overBudgetWarn: "ALERT: BUDGET EXCEEDED!",
-      disadExceededWarn: "ALERT: DISADVANTAGE LIMIT EXCEEDED!"
+      // Conteúdo das Gavetas
+      headingTalents: "Dons & Prerrogativas",
+      headingFlaws: "Fardos & Vulnerabilidades",
+      headingSkills: "Habilidades Cadastradas",
+      headingEquip: "Inventário & Armas",
+      lblConcept: "CONCEITO / OCUPAÇÃO",
+      lblAge: "IDADE",
+      lblTl: "NÍVEL TECNOLÓGICO (NT)",
+      lblAppearance: "ALTURA / PESO / APARÊNCIA",
+      elPrefix: "NE",
+
+      // Alertas & Resultados
+      critSuccess: "SUCESSO DECISIVO (CRÍTICO!)",
+      critFailure: "FALHA CRÍTICA!",
+      normalRoll: "ROLAGEM NORMAL",
+      saveSuccess: "Ficha salva com sucesso no armazenamento local!"
     }
   },
 
   t(key) {
-    const lang = this.currentLang || 'pt';
-    return this.dict[lang][key] || key;
+    const lang = this.currentLang || 'en';
+    const dict = this.dict[lang] || this.dict.en;
+    return dict[key] || key;
   },
 
   setLang(lang) {
     if (this.dict[lang]) {
       this.currentLang = lang;
-      document.documentElement.lang = lang;
+      localStorage.setItem('groog_lang', lang);
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
     }
   }
 };
+

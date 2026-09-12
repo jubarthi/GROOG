@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>GROOG - Ficha Tática Mobile</title>
+  <title>GROOG - Tactical Character Engine</title>
   
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#151821">
@@ -21,26 +21,31 @@
 
   <div class="mobile-app-wrapper">
     
-    <!-- 1. CABEÇALHO DO APLICATIVO COM SELETOR DE TEMAS -->
+    <!-- 1. CABEÇALHO DO APLICATIVO COM SELETOR DE TEMAS E IDIOMA -->
     <header class="app-top-header">
       <div class="header-left-user">
-        <div class="user-avatar-circle" id="btn-header-avatar" title="Abrir Dossiê">
+        <div class="user-avatar-circle" id="btn-header-avatar" title="Open Dossier">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
           </svg>
         </div>
         <div class="character-title-wrap">
-          <input type="text" id="inp-header-char-name" class="character-name-header" value="Thorgrim" placeholder="Nome">
+          <input type="text" id="inp-header-char-name" class="character-name-header" value="Thorgrim" placeholder="Operator Name">
         </div>
       </div>
 
-      <!-- Seletor de 4 Temas de Cores -->
-      <div class="theme-selector-bar" title="Alterar Tema de Cores">
-        <button class="theme-dot-btn dot-blue active" data-theme="blue" title="Azul / Ciano"></button>
-        <button class="theme-dot-btn dot-yellow" data-theme="yellow" title="Amarelo / Âmbar"></button>
-        <button class="theme-dot-btn dot-red" data-theme="red" title="Vermelho / Carmesim"></button>
-        <button class="theme-dot-btn dot-green" data-theme="green" title="Verde / Matrix"></button>
+      <!-- Quick Language & Theme Controls -->
+      <div class="header-controls-group" style="display: flex; align-items: center; gap: 6px;">
+        <button id="btn-lang-toggle" class="btn-lang-pill" title="Toggle Language (EN / PT)">EN</button>
+        
+        <!-- Seletor de 4 Temas de Cores -->
+        <div class="theme-selector-bar" title="Color Theme">
+          <button class="theme-dot-btn dot-blue active" data-theme="blue" title="Cyan / Blue"></button>
+          <button class="theme-dot-btn dot-yellow" data-theme="yellow" title="Amber / Yellow"></button>
+          <button class="theme-dot-btn dot-red" data-theme="red" title="Crimson / Red"></button>
+          <button class="theme-dot-btn dot-green" data-theme="green" title="Matrix / Green"></button>
+        </div>
       </div>
 
       <div class="header-right-pts" id="header-pts-display">
@@ -51,142 +56,142 @@
     <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
     <main class="app-content-scroll">
       
-      <!-- 2. SEÇÃO ATRIBUTOS BÁSICOS (2x2 GRID NEUMORPHIC) -->
+      <!-- 2. SEÇÃO ATRIBUTOS PRIMÁRIOS (PWR, AGI, COG, VIT) -->
       <section class="section-wrapper">
         <div class="section-banner-title" id="attr-section-title">
-          Atributos Principais (80 pts)
+          Primary Attributes (80 pts)
         </div>
 
         <div class="attributes-2x2-grid">
           
-          <!-- ST (FORÇA) -->
-          <div class="attr-tile st">
-            <span class="attr-tile-name">ST • FORÇA</span>
+          <!-- PWR (POWER / FORÇA) -->
+          <div class="attr-tile pwr">
+            <span class="attr-tile-name" id="lbl-attr-pwr">PWR • POWER</span>
             <div class="attr-stepper-row">
               <button class="btn-mini-step" data-attr="st" data-attr-step="-1">-</button>
               <span class="attr-value-display" id="val-attr-st">[14]</span>
               <button class="btn-mini-step" data-attr="st" data-attr-step="1">+</button>
             </div>
-            <span class="attr-cost-subtext" id="sub-attr-st">ST 14 [+40 pts]</span>
+            <span class="attr-cost-subtext" id="sub-attr-st">PWR 14 [+40 pts]</span>
           </div>
 
-          <!-- DX (DESTREZA) -->
-          <div class="attr-tile dx">
-            <span class="attr-tile-name">DX • DESTREZA</span>
+          <!-- AGI (AGILITY / DESTREZA) -->
+          <div class="attr-tile agi">
+            <span class="attr-tile-name" id="lbl-attr-agi">AGI • AGILITY</span>
             <div class="attr-stepper-row">
               <button class="btn-mini-step" data-attr="dx" data-attr-step="-1">-</button>
               <span class="attr-value-display" id="val-attr-dx">[11]</span>
               <button class="btn-mini-step" data-attr="dx" data-attr-step="1">+</button>
             </div>
-            <span class="attr-cost-subtext" id="sub-attr-dx">DX 11 [+20 pts]</span>
+            <span class="attr-cost-subtext" id="sub-attr-dx">AGI 11 [+20 pts]</span>
           </div>
 
-          <!-- IQ (INTELIGÊNCIA) -->
-          <div class="attr-tile iq">
-            <span class="attr-tile-name">IQ • INTELIGÊNCIA</span>
+          <!-- COG (COGNITION / INTELIGÊNCIA) -->
+          <div class="attr-tile cog">
+            <span class="attr-tile-name" id="lbl-attr-cog">COG • COGNITION</span>
             <div class="attr-stepper-row">
               <button class="btn-mini-step" data-attr="iq" data-attr-step="-1">-</button>
               <span class="attr-value-display" id="val-attr-iq">[10]</span>
               <button class="btn-mini-step" data-attr="iq" data-attr-step="1">+</button>
             </div>
-            <span class="attr-cost-subtext" id="sub-attr-iq">IQ 10 [0 pts]</span>
+            <span class="attr-cost-subtext" id="sub-attr-iq">COG 10 [0 pts]</span>
           </div>
 
-          <!-- HT (VITALIDADE) -->
-          <div class="attr-tile ht">
-            <span class="attr-tile-name">HT • VITALIDADE</span>
+          <!-- VIT (VITALITY / VITALIDADE) -->
+          <div class="attr-tile vit">
+            <span class="attr-tile-name" id="lbl-attr-vit">VIT • VITALITY</span>
             <div class="attr-stepper-row">
               <button class="btn-mini-step" data-attr="ht" data-attr-step="-1">-</button>
               <span class="attr-value-display" id="val-attr-ht">[12]</span>
               <button class="btn-mini-step" data-attr="ht" data-attr-step="1">+</button>
             </div>
-            <span class="attr-cost-subtext" id="sub-attr-ht">HT 12 [+20 pts]</span>
+            <span class="attr-cost-subtext" id="sub-attr-ht">VIT 12 [+20 pts]</span>
           </div>
 
         </div>
       </section>
 
-      <!-- 3. SEÇÃO ESTATÍSTICAS DERIVADAS (3x3 SUNKEN TELEMETRY) -->
+      <!-- 3. SEÇÃO TELEMETRIA & DERIVADAS (LP, EP, RES, AWR, EVN, SPD, MOV, DMG) -->
       <section class="section-wrapper">
-        <div class="section-plain-title">
-          Telemetria & Derivadas
+        <div class="section-plain-title" id="lbl-telemetry-title">
+          Derived Telemetry
         </div>
 
         <div class="derived-stats-grid">
           <!-- Row 1 -->
           <div class="derived-cell">
-            <span class="derived-label">Pontos de Vida</span>
+            <span class="derived-label" id="lbl-hp">Life Points</span>
             <span class="derived-val" id="der-hp">14/14</span>
           </div>
           <div class="derived-cell">
-            <span class="derived-label">Pontos Fadiga</span>
+            <span class="derived-label" id="lbl-fp">Energy Pool</span>
             <span class="derived-val" id="der-fp">12/12</span>
           </div>
           <div class="derived-cell">
-            <span class="derived-label">Vontade</span>
+            <span class="derived-label" id="lbl-will">Resolve</span>
             <span class="derived-val" id="der-will">10</span>
           </div>
 
           <!-- Row 2 -->
           <div class="derived-cell">
-            <span class="derived-label">Percepção</span>
+            <span class="derived-label" id="lbl-per">Awareness</span>
             <span class="derived-val" id="der-per">11</span>
           </div>
           <div class="derived-cell">
-            <span class="derived-label">Esquiva (CR)</span>
+            <span class="derived-label" id="lbl-dodge">Evasion (CR)</span>
             <span class="derived-val" id="der-dodge-cr">8+1</span>
           </div>
           <div class="derived-cell">
-            <span class="derived-label">Velocidade</span>
+            <span class="derived-label" id="lbl-speed">Reaction Speed</span>
             <span class="derived-val" id="der-speed">5.75</span>
           </div>
 
           <!-- Row 3 -->
           <div class="derived-cell" style="grid-column: span 1;">
-            <span class="derived-label">Deslocamento</span>
+            <span class="derived-label" id="lbl-move">Movement Pace</span>
             <span class="derived-val" id="der-move">5 m/s</span>
           </div>
           <div class="derived-cell" style="grid-column: span 2;">
-            <span class="derived-label">Dano Básico (GdP | GeB)</span>
-            <span class="derived-val" id="der-dmg">G: 2d-1 | I: 1d+1</span>
+            <span class="derived-label" id="lbl-damage">Kinetic Impact (Sw | Dir)</span>
+            <span class="derived-val" id="der-dmg">Sw: 2d-1 | Dir: 1d+1</span>
           </div>
         </div>
       </section>
 
-      <!-- 4. BOTTOM SHEET TRIGGERS (GAVETAS) -->
+      <!-- 4. GAVETAS / BOTTOM SHEET TRIGGERS -->
       <section class="drawer-triggers-group">
         
-        <!-- Trigger 1: Vantagens & Desvantagens -->
+        <!-- Trigger 1: Talents & Flaws -->
         <div class="drawer-trigger-card" data-open-sheet="traits">
           <div class="trigger-left">
             <div class="trigger-icon-pill">📑</div>
             <div>
-              <div class="trigger-title">Vantagens & Desvantagens</div>
+              <div class="trigger-title" id="lbl-trigger-traits-title">Talents & Flaws</div>
               <div class="trigger-sub" id="sub-trigger-traits">(-15 pts)</div>
             </div>
           </div>
           <span class="trigger-chevron">[ &gt; ]</span>
         </div>
 
-        <!-- Trigger 2: Perícias -->
+        <!-- Trigger 2: Proficiencies & Training -->
         <div class="drawer-trigger-card" data-open-sheet="skills">
           <div class="trigger-left">
             <div class="trigger-icon-pill">📋</div>
             <div>
-              <div class="trigger-title">Perícias & Treinamento</div>
-              <div class="trigger-sub" id="sub-trigger-skills">(8 aprendidas, 25 pts)</div>
+              <div class="trigger-title" id="lbl-trigger-skills-title">Proficiencies & Training</div>
+              <div class="trigger-sub" id="sub-trigger-skills">(8 learned, 25 pts)</div>
             </div>
           </div>
           <span class="trigger-chevron">[ &gt; ]</span>
         </div>
 
-        <!-- Trigger 3: Equipamento & Carga -->
+        <!-- Trigger 3: Inventory & Loadout -->
         <div class="drawer-trigger-card" data-open-sheet="equipment">
           <div class="trigger-left">
             <div class="trigger-icon-pill">🎒</div>
             <div>
-              <div class="trigger-title">Inventário & Carga</div>
-              <div class="trigger-sub" id="sub-trigger-equip">(30 kg, Leve)</div>
+              <div class="trigger-title" id="lbl-trigger-equip-title">Inventory & Loadout</div>
+              <div class="trigger-sub" id="sub-trigger-equip">(30 kg, Light)</div>
             </div>
           </div>
           <span class="trigger-chevron">[ &gt; ]</span>
@@ -196,13 +201,13 @@
 
     </main>
 
-    <!-- 5. BARRA INFERIOR FIXA (STICKY FOOTER) -->
+    <!-- 5. BARRA INFERIOR FIXA (DOCK) -->
     <footer class="sticky-bottom-bar">
       
-      <!-- Green Points Remaining Pill -->
+      <!-- Points Remaining Pill -->
       <div class="points-pill-box" data-open-sheet="dossier">
         <span class="points-pill-num" id="val-points-remaining">[25]</span>
-        <span class="points-pill-label">Pontos<br>Restantes</span>
+        <span class="points-pill-label" id="lbl-points-pill">Build Points<br>Remaining</span>
       </div>
 
       <!-- Action Buttons -->
@@ -212,7 +217,7 @@
           <polyline points="17 21 17 13 7 13 7 21"></polyline>
           <polyline points="7 3 7 8 15 8"></polyline>
         </svg>
-        SALVAR
+        <span id="lbl-btn-save">SAVE</span>
       </button>
 
       <button class="bottom-icon-btn dice-btn" id="btn-dice-bottom">
@@ -224,7 +229,7 @@
           <circle cx="8.5" cy="15.5" r="1.5"></circle>
           <circle cx="15.5" cy="15.5" r="1.5"></circle>
         </svg>
-        ROLAR 3d6
+        <span id="lbl-btn-dice">ROLL 3d6</span>
       </button>
 
     </footer>
@@ -234,7 +239,7 @@
       <div class="bottom-sheet-card">
         <div class="sheet-handle-bar"></div>
         <div class="sheet-header-row">
-          <span class="sheet-title" id="sheet-title-text">Gaveta</span>
+          <span class="sheet-title" id="sheet-title-text">Drawer</span>
           <button class="btn-close-sheet">✕</button>
         </div>
         <div class="sheet-body-scroll" id="sheet-dynamic-content">
@@ -248,3 +253,4 @@
   <script type="module" src="./js/app.js"></script>
 </body>
 </html>
+

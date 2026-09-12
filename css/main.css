@@ -94,6 +94,27 @@ body {
   letter-spacing: 0.3px;
 }
 
+/* Seletor de Idioma (EN / PT) */
+.btn-lang-pill {
+  background: var(--bg-surface-sunken);
+  color: var(--accent-primary);
+  border: 1px solid var(--accent-border);
+  padding: 3px 8px;
+  border-radius: var(--border-radius-pill);
+  font-size: 0.72rem;
+  font-weight: 900;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  box-shadow: var(--nm-inset-sm);
+  transition: var(--transition-fast);
+  outline: none;
+}
+
+.btn-lang-pill:active {
+  transform: scale(0.92);
+  box-shadow: var(--nm-inset);
+}
+
 /* Seletor de Temas (4 Cores) */
 .theme-selector-bar {
   display: flex;
