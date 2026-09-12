@@ -3,106 +3,241 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>GROOG - Painel de Instrumentos & Criação de Personagens</title>
+  <title>GROOG - Ficha Tática Mobile</title>
   
-  <!-- Web Manifest & Mobile Settings -->
   <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#ff8c1a">
+  <meta name="theme-color" content="#354f63">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="description" content="Motor e Calculadora Tática GROOG - Painel de Aço & Máquina do Tempo">
 
-  <!-- Google Fonts: Industrial & Nixie Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
-  <!-- Core CSS Layers -->
   <link rel="stylesheet" href="./css/variables.css">
-  <link rel="stylesheet" href="./css/hud-frames.css">
-  <link rel="stylesheet" href="./css/animations.css">
   <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
 
-  <!-- STICKY TOP CHRONOMETER BAR -->
-  <header class="chrono-header">
-    <div class="header-inner">
+  <div class="mobile-app-wrapper">
+    
+    <!-- 1. CABEÇALHO DO APLICATIVO -->
+    <header class="app-top-header">
+      <div class="header-left-user">
+        <div class="user-avatar-circle" id="btn-header-avatar" title="Abrir Dossiê">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <div class="character-title-wrap">
+          <span style="font-size: 0.75rem; color: #94a3b8; font-weight: bold;">FICHA:</span>
+          <input type="text" id="inp-header-char-name" class="character-name-header" value="Thorgrim">
+        </div>
+      </div>
+
+      <div class="header-right-pts" id="header-pts-display">
+        [Pts: 150 / 125 Gastos]
+      </div>
+    </header>
+
+    <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
+    <main class="app-content-scroll">
       
-      <!-- LOGO & TOP CONTROLS -->
-      <div class="top-brand-row">
-        <div class="logo-wrapper">
-          <img src="./groog_logo.png" alt="GROOG Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('logo-fallback-text').style.display='block';">
-          <div id="logo-fallback-text" class="logo-fallback" style="display: none;">GROOG</div>
+      <!-- 2. SEÇÃO ATRIBUTOS BÁSICOS (2x2 GRID COM CORES PASTEL) -->
+      <section class="section-wrapper">
+        <div class="section-banner-title" id="attr-section-title">
+          Atributos Básicos (80 pts)
         </div>
 
-        <div class="header-quick-actions">
-          <button class="btn-chrono" id="btn-toggle-lang" style="padding: 6px 10px; font-size: 0.75rem;">🌐 PT/EN</button>
-          <button class="btn-chrono" id="btn-toggle-theme" style="padding: 6px 10px; font-size: 0.75rem;">🎨 TEMA</button>
-          <button class="btn-chrono primary" id="btn-save-char" style="padding: 6px 12px; font-size: 0.8rem;">💾 SALVAR</button>
-          <button class="btn-chrono" id="btn-manage-profiles" style="padding: 6px 10px; font-size: 0.75rem;">📂 SLOTS</button>
+        <div class="attributes-2x2-grid">
+          
+          <!-- ST (FORÇA) -->
+          <div class="attr-tile st">
+            <span class="attr-tile-name">ST</span>
+            <div class="attr-stepper-row">
+              <button class="btn-mini-step" data-attr="st" data-attr-step="-1">-</button>
+              <span class="attr-value-display" id="val-attr-st">[14]</span>
+              <button class="btn-mini-step" data-attr="st" data-attr-step="1">+</button>
+            </div>
+            <span class="attr-cost-subtext" id="sub-attr-st">ST 14 [40 pts]</span>
+          </div>
+
+          <!-- DX (DESTREZA) -->
+          <div class="attr-tile dx">
+            <span class="attr-tile-name">DX</span>
+            <div class="attr-stepper-row">
+              <button class="btn-mini-step" data-attr="dx" data-attr-step="-1">-</button>
+              <span class="attr-value-display" id="val-attr-dx">[11]</span>
+              <button class="btn-mini-step" data-attr="dx" data-attr-step="1">+</button>
+            </div>
+            <span class="attr-cost-subtext" id="sub-attr-dx">DX 11 [20 pts]</span>
+          </div>
+
+          <!-- IQ (INTELIGÊNCIA) -->
+          <div class="attr-tile iq">
+            <span class="attr-tile-name">IQ</span>
+            <div class="attr-stepper-row">
+              <button class="btn-mini-step" data-attr="iq" data-attr-step="-1">-</button>
+              <span class="attr-value-display" id="val-attr-iq">[10]</span>
+              <button class="btn-mini-step" data-attr="iq" data-attr-step="1">+</button>
+            </div>
+            <span class="attr-cost-subtext" id="sub-attr-iq">IQ 10 [0 pts]</span>
+          </div>
+
+          <!-- HT (VITALIDADE) -->
+          <div class="attr-tile ht">
+            <span class="attr-tile-name">HT</span>
+            <div class="attr-stepper-row">
+              <button class="btn-mini-step" data-attr="ht" data-attr-step="-1">-</button>
+              <span class="attr-value-display" id="val-attr-ht">[12]</span>
+              <button class="btn-mini-step" data-attr="ht" data-attr-step="1">+</button>
+            </div>
+            <span class="attr-cost-subtext" id="sub-attr-ht">HT 12 [20 pts]</span>
+          </div>
+
         </div>
+      </section>
+
+      <!-- 3. SEÇÃO ESTATÍSTICAS DERIVADAS (3x3 TELEMETRY GRID) -->
+      <section class="section-wrapper">
+        <div class="section-plain-title">
+          Estatísticas Derivadas
+        </div>
+
+        <div class="derived-stats-grid">
+          <!-- Row 1 -->
+          <div class="derived-cell">
+            <span class="derived-label">PV</span>
+            <span class="derived-val" id="der-hp">14/14</span>
+          </div>
+          <div class="derived-cell">
+            <span class="derived-label">PF</span>
+            <span class="derived-val" id="der-fp">12/12</span>
+          </div>
+          <div class="derived-cell">
+            <span class="derived-label">Vontade</span>
+            <span class="derived-val" id="der-will">10</span>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="derived-cell">
+            <span class="derived-label">Percepção</span>
+            <span class="derived-val" id="der-per">11</span>
+          </div>
+          <div class="derived-cell">
+            <span class="derived-label">Esquiva (CR)</span>
+            <span class="derived-val" id="der-dodge-cr">8+1</span>
+          </div>
+          <div class="derived-cell">
+            <span class="derived-label">Velocidade</span>
+            <span class="derived-val" id="der-speed">5.75</span>
+          </div>
+
+          <!-- Row 3 -->
+          <div class="derived-cell" style="grid-column: span 1;">
+            <span class="derived-label">Deslocamento</span>
+            <span class="derived-val" id="der-move">5 m/s</span>
+          </div>
+          <div class="derived-cell" style="grid-column: span 2;">
+            <span class="derived-label">Dano Básico (GdP | GeB)</span>
+            <span class="derived-val" id="der-dmg">G: 2d-1 | I: 1d+1</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. BOTTOM SHEET TRIGGERS (GAVETAS) -->
+      <section class="drawer-triggers-group">
+        
+        <!-- Trigger 1: Vantagens & Desvantagens -->
+        <div class="drawer-trigger-card" data-open-sheet="traits">
+          <div class="trigger-left">
+            <span class="trigger-icon">📑</span>
+            <div>
+              <div class="trigger-title">Vantagens & Desvantagens</div>
+              <div class="trigger-sub" id="sub-trigger-traits">(-15 pts)</div>
+            </div>
+          </div>
+          <span class="trigger-chevron">[ &gt; ]</span>
+        </div>
+
+        <!-- Trigger 2: Perícias -->
+        <div class="drawer-trigger-card" data-open-sheet="skills">
+          <div class="trigger-left">
+            <span class="trigger-icon">📋</span>
+            <div>
+              <div class="trigger-title">Perícias</div>
+              <div class="trigger-sub" id="sub-trigger-skills">(8 aprendidas, 25 pts)</div>
+            </div>
+          </div>
+          <span class="trigger-chevron">[ &gt; ]</span>
+        </div>
+
+        <!-- Trigger 3: Equipamento & Carga -->
+        <div class="drawer-trigger-card" data-open-sheet="equipment">
+          <div class="trigger-left">
+            <span class="trigger-icon">🎒</span>
+            <div>
+              <div class="trigger-title">Equipamento & Carga</div>
+              <div class="trigger-sub" id="sub-trigger-equip">(30 kg, Leve)</div>
+            </div>
+          </div>
+          <span class="trigger-chevron">[ &gt; ]</span>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- 5. BARRA INFERIOR FIXA (STICKY FOOTER) -->
+    <footer class="sticky-bottom-bar">
+      
+      <!-- Green Points Remaining Pill -->
+      <div class="points-pill-box" data-open-sheet="dossier">
+        <span class="points-pill-num" id="val-points-remaining">[25]</span>
+        <span class="points-pill-label">Pontos<br>Restantes</span>
       </div>
 
-      <!-- NIXIE COUNTERS GROUP -->
-      <div class="nixie-meter-group">
-        <div class="meter-unit">
-          <span class="meter-label">ORÇAMENTO</span>
-          <input type="number" id="inp-campaign-budget" class="budget-edit-input" value="150" title="Pontos da Campanha">
+      <!-- Action Buttons -->
+      <button class="bottom-icon-btn" id="btn-save-bottom">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+          <polyline points="17 21 17 13 7 13 7 21"></polyline>
+          <polyline points="7 3 7 8 15 8"></polyline>
+        </svg>
+        SALVAR
+      </button>
+
+      <button class="bottom-icon-btn dice-btn" id="btn-dice-bottom">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <circle cx="15.5" cy="8.5" r="1.5"></circle>
+          <circle cx="12" cy="12" r="1.5"></circle>
+          <circle cx="8.5" cy="15.5" r="1.5"></circle>
+          <circle cx="15.5" cy="15.5" r="1.5"></circle>
+        </svg>
+        ROLAR 3d6
+      </button>
+
+    </footer>
+
+    <!-- 6. GAVETA MODAL (BOTTOM SHEET OVERLAY) -->
+    <div class="bottom-sheet-overlay" id="bottom-sheet-overlay">
+      <div class="bottom-sheet-card">
+        <div class="sheet-handle-bar"></div>
+        <div class="sheet-header-row">
+          <span class="sheet-title" id="sheet-title-text">Gaveta</span>
+          <button class="btn-close-sheet">✕</button>
         </div>
-
-        <div class="meter-divider"></div>
-
-        <div class="meter-unit">
-          <span class="meter-label">GASTOS</span>
-          <span class="meter-value" id="val-points-spent" style="color: var(--brass-light);">105</span>
-        </div>
-
-        <div class="meter-divider"></div>
-
-        <div class="meter-unit">
-          <span class="meter-label">RESTANTE</span>
-          <span class="meter-value" id="val-points-rem">45</span>
-        </div>
-
-        <div class="meter-divider"></div>
-
-        <div class="meter-unit">
-          <span class="meter-label">TETO DESV.</span>
-          <span class="meter-value" id="val-disad-spent" style="font-size: 1.1rem; color: var(--text-dim);">-20/-75</span>
+        <div class="sheet-body-scroll" id="sheet-dynamic-content">
+          <!-- Injetado dinamicamente -->
         </div>
       </div>
+    </div>
 
-    </div>
-  </header>
-
-  <!-- STEPPER PROGRESS BAR -->
-  <div class="stepper-progress-wrap">
-    <div class="step-indicator-row">
-      <span class="step-title-badge" id="step-title-badge">01. IDENTIFICAÇÃO & ORIGEM</span>
-      <span class="step-count-badge" id="step-count-badge">ETAPA 1 DE 8</span>
-    </div>
-    <div class="step-track">
-      <div class="step-bar-fill" id="step-bar-fill" style="width: 12.5%;"></div>
-    </div>
   </div>
 
-  <!-- MAIN WIZARD CONTAINER -->
-  <main class="wizard-main-container">
-    <div id="wizard-step-content">
-      <!-- Injetado dinamicamente pelo app.js -->
-    </div>
-  </main>
-
-  <!-- BOTTOM FIXED ACTION BAR (THUMB ZONE) -->
-  <nav class="bottom-action-bar">
-    <div class="bottom-action-inner">
-      <button class="btn-chrono btn-nav-prev" id="btn-nav-prev" disabled>◀ VOLTAR</button>
-      <button class="btn-chrono primary btn-nav-next" id="btn-nav-next">AVANÇAR ▶</button>
-    </div>
-  </nav>
-
-  <!-- MASTER JAVASCRIPT MODULE -->
   <script type="module" src="./js/app.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GROOG - MAIN LAYOUT (WIZARD MOBILE-FIRST 8 PASSOS & PAINEL DE AÇO)
+   GROOG - INTERFACE TÉCNICA MOBILE (SLATE CLEAN & BOTTOM SHEETS)
    ========================================================================== */
 
 * {
@@ -10,297 +10,500 @@
 }
 
 body {
-  background-color: var(--bg-darkest);
-  background-image: 
-    radial-gradient(circle at 50% 15%, rgba(var(--accent-primary-rgb), 0.08) 0%, transparent 55%),
-    linear-gradient(#12161f 1px, transparent 1px),
-    linear-gradient(90deg, #12161f 1px, transparent 1px);
-  background-size: 100% 100%, 24px 24px, 24px 24px;
-  color: var(--text-main);
-  font-family: var(--font-body);
+  background-color: #1e293b;
+  color: var(--text-dark);
+  font-family: var(--font-family);
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-  padding-bottom: 90px; /* Espaço para a barra inferior fixa */
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0;
 }
 
-/* ================= CABEÇALHO DO PAINEL / CHRONOMETER BAR ================= */
-.chrono-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: rgba(15, 18, 23, 0.96);
-  backdrop-filter: blur(12px);
-  border-bottom: 2px solid var(--chassis-border);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-  padding: 10px 14px;
-}
-
-.header-inner {
-  max-width: 680px;
-  margin: 0 auto;
+/* Container do App Mobile */
+.mobile-app-wrapper {
+  max-width: 480px;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-body);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  padding-bottom: 85px; /* Espaço para barra inferior */
 }
 
-.top-brand-row {
+/* ================= 1. CABEÇALHO DO APLICATIVO ================= */
+.app-top-header {
+  background-color: var(--bg-app-header);
+  color: var(--text-white);
+  padding: 12px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.logo-wrapper {
+.header-left-user {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.logo-img {
-  height: 38px;
-  width: auto;
-  max-width: 140px;
-  object-fit: contain;
-  filter: drop-shadow(0 0 6px var(--accent-glow));
-}
-
-.logo-fallback {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 900;
-  letter-spacing: 4px;
-  color: var(--nixie-filament);
-  text-shadow: 0 0 10px var(--accent-glow);
-}
-
-.header-quick-actions {
+.user-avatar-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  cursor: pointer;
 }
 
-/* Painel de Contadores Nixie (Pontos do Mestre & Saldo) */
-.nixie-meter-group {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #090b10;
-  border: 1.5px solid var(--chassis-border);
-  border-radius: 6px;
-  padding: 6px 10px;
-}
-
-.meter-unit {
+.character-title-wrap {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  flex: 1;
 }
 
-.meter-divider {
-  width: 1px;
-  height: 30px;
-  background: var(--chassis-border);
-}
-
-.meter-label {
-  font-size: 0.65rem;
+.character-name-header {
+  font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 1px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-}
-
-.meter-value {
-  font-family: var(--font-mono);
-  font-size: 1.4rem;
-  font-weight: 900;
-  color: var(--nixie-filament);
-  text-shadow: 0 0 8px var(--accent-glow);
-  line-height: 1.1;
-}
-
-.budget-edit-input {
-  width: 65px;
+  color: #ffffff;
   background: transparent;
   border: none;
-  border-bottom: 1.5px dashed var(--accent-primary);
-  color: var(--nixie-filament);
-  font-family: var(--font-mono);
-  font-size: 1.3rem;
-  font-weight: 900;
-  text-align: center;
+  color: #ffffff;
   outline: none;
+  width: 130px;
 }
 
-/* ================= STEPPER PROGRESS BAR (ETAPA 1 A 8) ================= */
-.stepper-progress-wrap {
-  max-width: 680px;
-  margin: 10px auto 0 auto;
-  padding: 0 14px;
-  width: 100%;
-}
-
-.step-indicator-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.step-title-badge {
-  font-family: var(--font-display);
-  font-size: 0.9rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  color: var(--accent-primary);
-  text-transform: uppercase;
-}
-
-.step-count-badge {
-  font-family: var(--font-mono);
+.header-right-pts {
   font-size: 0.85rem;
-  color: var(--text-dim);
+  font-weight: 600;
+  color: #e2e8f0;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 4px 10px;
+  border-radius: 6px;
 }
 
-.step-track {
-  width: 100%;
-  height: 6px;
-  background: #151922;
-  border: 1px solid var(--chassis-border);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.step-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #d97706, var(--accent-primary));
-  box-shadow: 0 0 8px var(--accent-primary);
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* ================= ÁREA DE CONTEÚDO DO WIZARD (MOBILE-FIRST) ================= */
-.wizard-main-container {
-  max-width: 680px;
-  width: 100%;
-  margin: 12px auto 0 auto;
-  padding: 0 14px;
-  flex: 1;
-}
-
-.form-group-heavy {
-  margin-bottom: 16px;
-}
-
-.form-group-heavy label {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: var(--brass-light);
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-
-/* ================= BARRA DE AÇÃO INFERIOR FIXA (THUMB ZONE) ================= */
-.bottom-action-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(15, 18, 23, 0.98);
-  backdrop-filter: blur(15px);
-  border-top: 2px solid var(--chassis-border);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.8);
-  padding: 10px 14px;
-}
-
-.bottom-action-inner {
-  max-width: 680px;
-  margin: 0 auto;
+/* ================= ÁREA DE CONTEÚDO PRINCIPAL ================= */
+.app-content-scroll {
+  padding: 12px;
   display: flex;
+  flex-direction: column;
   gap: 12px;
 }
 
-.btn-nav-prev {
-  flex: 1;
+/* Seção de Contêiner com Gradiente / Card */
+.section-wrapper {
+  background: var(--bg-container);
+  border-radius: var(--border-radius-card);
+  padding: 12px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-subtle);
 }
 
-.btn-nav-next {
-  flex: 1.5;
-}
-
-/* Tabelas e Listas no Estilo Painel de Aço */
-.chrono-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font-mono);
+.section-banner-title {
+  background: linear-gradient(90deg, #38bdf8 0%, #f97316 100%);
+  color: #0f172a;
   font-size: 0.95rem;
+  font-weight: 800;
+  text-align: center;
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
 }
 
-.chrono-table th {
-  background: #11141b;
-  color: var(--brass-light);
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  letter-spacing: 1.5px;
+.section-plain-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-slate);
+  text-align: center;
+  margin-bottom: 8px;
   text-transform: uppercase;
-  padding: 10px 8px;
-  border-bottom: 2px solid var(--chassis-border);
-  text-align: left;
+  letter-spacing: 0.5px;
 }
 
-.chrono-table td {
-  padding: 10px 8px;
-  border-bottom: 1px solid rgba(84, 96, 114, 0.2);
-  color: var(--text-main);
+/* ================= 2. GRID 2x2 DE ATRIBUTOS BÁSICOS ================= */
+.attributes-2x2-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
 }
 
-/* ==========================================================================
-   PRINT / PDF (ALTO CONTRASTE PRETO E BRANCO EM FOLHA A4)
-   ========================================================================== */
-@media print {
-  body {
-    background: #ffffff !important;
-    color: #000000 !important;
-    padding: 0 !important;
-  }
+.attr-tile {
+  border-radius: 10px;
+  padding: 8px;
+  border: 1.5px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .chrono-header,
-  .stepper-progress-wrap,
-  .bottom-action-bar,
-  .btn-chrono,
-  .btn-stepper-heavy {
-    display: none !important;
-  }
+.attr-tile.st { background: var(--st-bg); border-color: var(--st-border); }
+.attr-tile.dx { background: var(--dx-bg); border-color: var(--dx-border); }
+.attr-tile.iq { background: var(--iq-bg); border-color: var(--iq-border); }
+.attr-tile.ht { background: var(--ht-bg); border-color: var(--ht-border); }
 
-  .wizard-main-container {
-    max-width: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
+.attr-tile-name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
 
-  .steel-plate {
-    background: #ffffff !important;
-    border: 1px solid #000000 !important;
-    box-shadow: none !important;
-    color: #000000 !important;
-    margin-bottom: 12px !important;
-  }
+.attr-stepper-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
 
-  .brass-plaque {
-    background: #e8e8e8 !important;
-    color: #000000 !important;
-    border: 1px solid #000000 !important;
-    text-shadow: none !important;
-    box-shadow: none !important;
-  }
+.btn-mini-step {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  font-size: 1.2rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #ffffff;
+  color: var(--text-dark);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  user-select: none;
+}
 
-  strong, .nixie-val {
-    color: #000000 !important;
-    text-shadow: none !important;
-  }
+.btn-mini-step:active {
+  transform: scale(0.92);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.attr-value-display {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--text-dark);
+  min-width: 46px;
+  text-align: center;
+}
+
+.attr-cost-subtext {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* ================= 3. GRID DE ESTATÍSTICAS DERIVADAS ================= */
+.derived-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.derived-cell {
+  background: #ffffff;
+  padding: 8px 4px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.derived-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+  text-transform: uppercase;
+}
+
+.derived-val {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+/* ================= 4. GAVETAS / BOTTOM SHEET TRIGGERS ================= */
+.drawer-triggers-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.drawer-trigger-card {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-fast);
+}
+
+.drawer-trigger-card:active {
+  background: #f8fafc;
+  transform: scale(0.98);
+}
+
+.trigger-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.trigger-icon {
+  font-size: 1.3rem;
+}
+
+.trigger-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.trigger-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.trigger-chevron {
+  font-weight: 800;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ================= 5. BARRA INFERIOR FIXA ================= */
+.sticky-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 480px;
+  width: 100%;
+  background: var(--bg-app-footer);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  z-index: 100;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.points-pill-box {
+  background: #14532d;
+  border: 1.5px solid var(--accent-green);
+  border-radius: 8px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.points-pill-num {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #4ade80;
+}
+
+.points-pill-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #dcfce7;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.bottom-icon-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 800;
+  cursor: pointer;
+  min-width: 68px;
+  gap: 2px;
+  text-transform: uppercase;
+}
+
+.bottom-icon-btn:active {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.bottom-icon-btn.dice-btn {
+  background: #166534;
+  border-color: #22c55e;
+}
+
+/* ================= 6. GAVETAS MODAIS (BOTTOM SHEETS) ================= */
+.bottom-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.bottom-sheet-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bottom-sheet-card {
+  background: #ffffff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 16px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sheet);
+  transform: translateY(100%);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.bottom-sheet-overlay.active .bottom-sheet-card {
+  transform: translateY(0);
+}
+
+.sheet-handle-bar {
+  width: 40px;
+  height: 5px;
+  background: #cbd5e1;
+  border-radius: 3px;
+  margin: 0 auto 12px auto;
+}
+
+.sheet-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sheet-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.sheet-body-scroll {
+  overflow-y: auto;
+  flex: 1;
+  padding-bottom: 16px;
+}
+
+.btn-close-sheet {
+  background: #f1f5f9;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-slate);
+}
+
+/* Inputs & Form Rows dentro das Gavetas */
+.sheet-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: var(--font-family);
+  margin-bottom: 8px;
+  outline: none;
+}
+
+.sheet-input:focus {
+  border-color: var(--accent-blue);
+}
+
+.btn-primary-action {
+  background: #0284c7;
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* ================= 7. ROLADOR DE DADOS 3d6 MODAL ================= */
+.dice-results-box {
+  background: #0f172a;
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.dice-cubes-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.die-cube {
+  width: 46px;
+  height: 46px;
+  background: #38bdf8;
+  color: #0f172a;
+  font-size: 1.6rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.dice-sum-display {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #38bdf8;
 }

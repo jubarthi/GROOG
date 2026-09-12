@@ -1,114 +1,58 @@
 /* ==========================================================================
-   GROOG - DESIGN TOKENS: PAINEL DE AÇO & MÁQUINA DO TEMPO
-   Industrial Steel Plates, Rivets, Brass Plaques, Nixie Tubes, Warm Filaments
+   GROOG - DESIGN SYSTEM & TOKENS (VISUAL TÉCNICO MOBILE LIMPO)
+   Baseado no design slate mobile com cards em alto contraste e gavetas
    ========================================================================== */
 
 :root {
-  /* THEME: CHRONO STEEL (Default - Máquina do Tempo / Aço Escovado) */
-  --bg-darkest: #0f1217;
-  --bg-dark: #151922;
-  --bg-panel: rgba(24, 29, 38, 0.94);
-  --bg-card: rgba(32, 38, 50, 0.88);
-  --bg-glass: rgba(20, 25, 34, 0.75);
-  --bg-input: #0a0d12;
+  /* Slate & Steel Backgrounds */
+  --bg-app-header: #354f63;
+  --bg-app-footer: #2b4152;
+  --bg-body: #e2e8f0;
+  --bg-container: #ffffff;
+  --bg-subpanel: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-overlay: rgba(15, 23, 42, 0.75);
 
-  /* Metal Chassis & Hardware */
-  --chassis-metal: #546072;
-  --chassis-metal-light: #8e9cb0;
-  --chassis-metal-dark: #222834;
-  --chassis-border: #3b4453;
-  --chassis-bevel-light: #6a788e;
-  --chassis-bevel-dark: #12161e;
+  /* Borders & Dividers */
+  --border-subtle: #cbd5e1;
+  --border-strong: #94a3b8;
+  --border-radius-card: 14px;
+  --border-radius-pill: 10px;
 
-  /* Brass & Bronze Trim */
-  --brass-gold: #c8963e;
-  --brass-light: #e6b86a;
-  --brass-dark: #7a5418;
-  --brass-border: rgba(200, 150, 62, 0.4);
+  /* Attribute Pastel Themes */
+  --st-bg: #e0f2fe;
+  --st-border: #7dd3fc;
+  --st-btn: #bae6fd;
 
-  /* Nixie Tube & Incandescent Tungsten Glow (Laranja / Âmbar Quente) */
-  --accent-primary: #ff8c1a;
-  --accent-primary-rgb: 255, 140, 26;
-  --accent-secondary: #ffaa33;
-  --accent-glow: rgba(255, 140, 26, 0.5);
-  --accent-glow-strong: rgba(255, 140, 26, 0.85);
-  --nixie-filament: #ffdd99;
+  --dx-bg: #ffedd5;
+  --dx-border: #fdba74;
+  --dx-btn: #fed7aa;
 
-  /* Typography Colors */
-  --neon-white: #fff4e0;
-  --text-main: #e2e8f0;
-  --text-dim: #94a3b8;
-  --text-bright: #ffffff;
-  --text-accent: #ff8c1a;
+  --iq-bg: #f0fdf4;
+  --iq-border: #86efac;
+  --iq-btn: #bbf7d0;
 
-  /* Status Colors (Válvulas & Indicadores) */
-  --status-ready: #4ade80;
-  --status-warn: #fbbf24;
-  --status-alert: #f43f5e;
+  --ht-bg: #fef9c3;
+  --ht-border: #fde047;
+  --ht-btn: #fef08a;
 
-  /* Fonts */
-  --font-display: 'Rajdhani', 'Orbitron', -apple-system, sans-serif;
+  /* Accents & Status */
+  --accent-green: #22c55e;
+  --accent-green-bg: rgba(34, 197, 94, 0.15);
+  --accent-blue: #0284c7;
+  --accent-amber: #ea580c;
+  --accent-red: #ef4444;
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-mono: 'Share Tech Mono', 'Courier New', monospace;
-  --font-body: 'Rajdhani', -apple-system, sans-serif;
 
-  /* Ergonomics */
-  --touch-target-min: 48px;
-  --transition-smooth: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-}
+  --text-dark: #0f172a;
+  --text-slate: #334155;
+  --text-muted: #64748b;
+  --text-white: #ffffff;
 
-/* THEME 2: HEAVY BRASS & COPPER (Vapor / Bronze / Relojoaria) */
-[data-theme="brass"] {
-  --bg-darkest: #120e0a;
-  --bg-dark: #1c1712;
-  --bg-panel: rgba(36, 28, 20, 0.94);
-  --bg-card: rgba(48, 38, 28, 0.88);
-  --bg-input: #0e0a07;
-
-  --chassis-metal: #8a6a48;
-  --chassis-metal-light: #c29e76;
-  --chassis-metal-dark: #2e2014;
-  --chassis-border: #523e2a;
-
-  --accent-primary: #ffaa33;
-  --accent-primary-rgb: 255, 170, 51;
-  --accent-glow: rgba(255, 170, 51, 0.5);
-  --text-accent: #ffaa33;
-}
-
-/* THEME 3: COLD TITANIUM (Aço Cirúrgico / Moderno) */
-[data-theme="titanium"] {
-  --bg-darkest: #0a0e14;
-  --bg-dark: #101620;
-  --bg-panel: rgba(20, 28, 40, 0.94);
-  --bg-card: rgba(28, 38, 54, 0.88);
-  --bg-input: #070a0e;
-
-  --chassis-metal: #607898;
-  --chassis-metal-light: #98b0d0;
-  --chassis-metal-dark: #182230;
-  --chassis-border: #384860;
-
-  --accent-primary: #38bdf8;
-  --accent-primary-rgb: 56, 189, 248;
-  --accent-glow: rgba(56, 189, 248, 0.5);
-  --text-accent: #38bdf8;
-}
-
-/* THEME 4: RAD-GREEN (Instrumentação Militar de Radar) */
-[data-theme="radar"] {
-  --bg-darkest: #08100a;
-  --bg-dark: #0e1810;
-  --bg-panel: rgba(18, 32, 22, 0.94);
-  --bg-card: rgba(24, 44, 30, 0.88);
-  --bg-input: #050a06;
-
-  --chassis-metal: #507858;
-  --chassis-metal-light: #80b088;
-  --chassis-metal-dark: #142418;
-  --chassis-border: #2e4a34;
-
-  --accent-primary: #22c55e;
-  --accent-primary-rgb: 34, 197, 94;
-  --accent-glow: rgba(34, 197, 94, 0.5);
-  --text-accent: #22c55e;
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-sheet: 0 -8px 30px rgba(0, 0, 0, 0.25);
+  --transition-fast: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
