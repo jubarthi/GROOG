@@ -1,58 +1,99 @@
 /* ==========================================================================
-   GROOG - DESIGN SYSTEM & TOKENS (VISUAL TÉCNICO MOBILE LIMPO)
-   Baseado no design slate mobile com cards em alto contraste e gavetas
+   GROOG - DESIGN SYSTEM & TOKENS (DARK NEUMORPHISM / SOFT UI DARK)
+   Estilo gráfico com relevos suaves, sombras duplas e 4 temas de acento
    ========================================================================== */
 
 :root {
-  /* Slate & Steel Backgrounds */
-  --bg-app-header: #354f63;
-  --bg-app-footer: #2b4152;
-  --bg-body: #e2e8f0;
-  --bg-container: #ffffff;
-  --bg-subpanel: #f1f5f9;
-  --bg-card: #ffffff;
-  --bg-overlay: rgba(15, 23, 42, 0.75);
+  /* Base Dark Neumorphic Palette */
+  --bg-app: #151821;
+  --bg-surface: #1a1e29;
+  --bg-surface-elevated: #1f2432;
+  --bg-surface-sunken: #11141c;
+  --bg-overlay: rgba(10, 12, 18, 0.85);
+
+  /* Neumorphic Shadows */
+  --nm-flat: 5px 5px 12px #0d0f15, -5px -5px 12px #272d3d;
+  --nm-flat-sm: 3px 3px 8px #0d0f15, -3px -3px 8px #272d3d;
+  --nm-flat-lg: 8px 8px 20px #0b0d13, -8px -8px 20px #2a3143;
+  --nm-inset: inset 3px 3px 7px #0c0e14, inset -3px -3px 7px #282f40;
+  --nm-inset-sm: inset 2px 2px 4px #0c0e14, inset -2px -2px 4px #282f40;
+  --nm-pill: 4px 4px 10px #0d0f15, -4px -4px 10px #262c3b;
+
+  /* Typography Colors */
+  --text-primary: #e6edf3;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #0f172a;
 
   /* Borders & Dividers */
-  --border-subtle: #cbd5e1;
-  --border-strong: #94a3b8;
-  --border-radius-card: 14px;
-  --border-radius-pill: 10px;
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-glow: rgba(255, 255, 255, 0.12);
+  --border-radius-card: 16px;
+  --border-radius-pill: 9999px;
+  --border-radius-btn: 12px;
 
-  /* Attribute Pastel Themes */
-  --st-bg: #e0f2fe;
-  --st-border: #7dd3fc;
-  --st-btn: #bae6fd;
-
-  --dx-bg: #ffedd5;
-  --dx-border: #fdba74;
-  --dx-btn: #fed7aa;
-
-  --iq-bg: #f0fdf4;
-  --iq-border: #86efac;
-  --iq-btn: #bbf7d0;
-
-  --ht-bg: #fef9c3;
-  --ht-border: #fde047;
-  --ht-btn: #fef08a;
-
-  /* Accents & Status */
-  --accent-green: #22c55e;
-  --accent-green-bg: rgba(34, 197, 94, 0.15);
-  --accent-blue: #0284c7;
-  --accent-amber: #ea580c;
-  --accent-red: #ef4444;
-
-  /* Typography */
+  /* Typography Fonts */
   --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-mono: 'Share Tech Mono', 'Courier New', monospace;
 
-  --text-dark: #0f172a;
-  --text-slate: #334155;
-  --text-muted: #64748b;
-  --text-white: #ffffff;
+  /* Default Theme: 🟦 AZUL / CIANO NEON */
+  --accent-primary: #00d2ff;
+  --accent-secondary: #0077ff;
+  --accent-gradient: linear-gradient(135deg, #00d2ff 0%, #0066ff 100%);
+  --accent-glow: 0 0 16px rgba(0, 210, 255, 0.45);
+  --accent-glow-sm: 0 0 8px rgba(0, 210, 255, 0.3);
+  --accent-bg-subtle: rgba(0, 210, 255, 0.12);
+  --accent-border: rgba(0, 210, 255, 0.35);
 
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-sheet: 0 -8px 30px rgba(0, 0, 0, 0.25);
   --transition-fast: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ================= 4 TEMAS DE CORES SELECIONÁVEIS ================= */
+
+/* 1. 🟦 TEMA AZUL / CIANO NEON (CYBER) */
+body.theme-blue, :root {
+  --theme-color-name: 'blue';
+  --accent-primary: #00d2ff;
+  --accent-secondary: #0072ff;
+  --accent-gradient: linear-gradient(135deg, #00d2ff 0%, #0055ff 100%);
+  --accent-glow: 0 0 16px rgba(0, 210, 255, 0.45);
+  --accent-glow-sm: 0 0 8px rgba(0, 210, 255, 0.3);
+  --accent-bg-subtle: rgba(0, 210, 255, 0.12);
+  --accent-border: rgba(0, 210, 255, 0.4);
+}
+
+/* 2. 🟨 TEMA AMARELO / ÂMBAR (TACTICAL WARNING) */
+body.theme-yellow {
+  --theme-color-name: 'yellow';
+  --accent-primary: #facc15;
+  --accent-secondary: #f59e0b;
+  --accent-gradient: linear-gradient(135deg, #fde047 0%, #d97706 100%);
+  --accent-glow: 0 0 16px rgba(250, 204, 21, 0.45);
+  --accent-glow-sm: 0 0 8px rgba(250, 204, 21, 0.3);
+  --accent-bg-subtle: rgba(250, 204, 21, 0.12);
+  --accent-border: rgba(250, 204, 21, 0.4);
+}
+
+/* 3. 🟥 TEMA VERMELHO / CARMESIM (COMBAT / DANGER) */
+body.theme-red {
+  --theme-color-name: 'red';
+  --accent-primary: #ff4b60;
+  --accent-secondary: #e11d48;
+  --accent-gradient: linear-gradient(135deg, #ff4b60 0%, #be123c 100%);
+  --accent-glow: 0 0 16px rgba(255, 75, 96, 0.45);
+  --accent-glow-sm: 0 0 8px rgba(255, 75, 96, 0.3);
+  --accent-bg-subtle: rgba(255, 75, 96, 0.12);
+  --accent-border: rgba(255, 75, 96, 0.4);
+}
+
+/* 4. 🟩 TEMA VERDE / ESMERALDA (BIO / NIGHT-VISION) */
+body.theme-green {
+  --theme-color-name: 'green';
+  --accent-primary: #10b981;
+  --accent-secondary: #059669;
+  --accent-gradient: linear-gradient(135deg, #34d399 0%, #047857 100%);
+  --accent-glow: 0 0 16px rgba(16, 185, 129, 0.45);
+  --accent-glow-sm: 0 0 8px rgba(16, 185, 129, 0.3);
+  --accent-bg-subtle: rgba(16, 185, 129, 0.12);
+  --accent-border: rgba(16, 185, 129, 0.4);
 }

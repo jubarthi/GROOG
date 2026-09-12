@@ -9,14 +9,53 @@ class GroogMobileApp {
   constructor() {
     this.character = StorageEngine.getActiveProfile();
     this.activeSheet = null;
+    this.currentTheme = localStorage.getItem('groog_theme') || 'blue';
     this.init();
   }
 
   init() {
+    this.setupThemeEngine();
     this.setupHeaderEvents();
     this.setupDrawerEvents();
     this.setupDiceRoller();
     this.render();
+  }
+
+  setupThemeEngine() {
+    this.applyTheme(this.currentTheme);
+
+    document.querySelectorAll('.theme-dot-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selectedTheme = btn.dataset.theme;
+        this.applyTheme(selectedTheme);
+      });
+    });
+  }
+
+  applyTheme(themeName) {
+    this.currentTheme = themeName;
+    localStorage.setItem('groog_theme', themeName);
+
+    document.body.classList.remove('theme-blue', 'theme-yellow', 'theme-red', 'theme-green');
+    document.body.classList.add(`theme-${themeName}`);
+
+    document.querySelectorAll('.theme-dot-btn').forEach(btn => {
+      if (btn.dataset.theme === themeName) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    // Atualizar meta theme-color para navegadores mobile
+    const themeColors = {
+      blue: '#00d2ff',
+      yellow: '#facc15',
+      red: '#ff4b60',
+      green: '#10b981'
+    };
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme) metaTheme.setAttribute('content', '#151821');
   }
 
   setupHeaderEvents() {
@@ -32,7 +71,7 @@ class GroogMobileApp {
     document.getElementById('btn-header-avatar')?.addEventListener('click', () => this.openSheet('dossier'));
     document.getElementById('btn-save-bottom')?.addEventListener('click', () => {
       StorageEngine.saveProfile(this.character);
-      alert("Ficha salva com sucesso!");
+      alert("Ficha salva com sucesso no armazenamento local!");
     });
     document.getElementById('btn-dice-bottom')?.addEventListener('click', () => this.openSheet('dice'));
   }
@@ -69,13 +108,13 @@ class GroogMobileApp {
       titleEl.innerText = "Perícias & Treinamento";
       this.renderSkillsSheet(container);
     } else if (sheetId === 'equipment') {
-      titleEl.innerText = "Equipamento & Carga";
+      titleEl.innerText = "Inventário & Carga";
       this.renderEquipmentSheet(container);
     } else if (sheetId === 'dossier') {
-      titleEl.innerText = "Dossiê do Personagem";
+      titleEl.innerText = "Dossiê & Exportação";
       this.renderDossierSheet(container);
     } else if (sheetId === 'dice') {
-      titleEl.innerText = "Rolador de Dados 3d6";
+      titleEl.innerText = "Rolador Tático 3d6";
       this.renderDiceSheet(container);
     }
   }
@@ -110,11 +149,11 @@ class GroogMobileApp {
 
     // 1. Header
     const ptsHeader = document.getElementById('header-pts-display');
-    if (ptsHeader) ptsHeader.innerText = `[Pts: ${points.budget} / ${points.totalSpent} Gastos]`;
+    if (ptsHeader) ptsHeader.innerText = `${points.budget} / ${points.totalSpent} pts`;
 
     // 2. Attributes Section Title
     const attrTitle = document.getElementById('attr-section-title');
-    if (attrTitle) attrTitle.innerText = `Atributos Básicos (${points.attributesTotal} pts)`;
+    if (attrTitle) attrTitle.innerText = `Atributos Principais (${points.attributesTotal} pts)`;
 
     // 3. Attribute Cards
     const setAttr = (key, val, costPer) => {
@@ -160,7 +199,7 @@ class GroogMobileApp {
     const ptsPill = document.getElementById('val-points-remaining');
     if (ptsPill) {
       ptsPill.innerText = `[${points.remaining}]`;
-      ptsPill.style.color = points.remaining < 0 ? '#f43f5e' : '#4ade80';
+      ptsPill.style.color = points.remaining < 0 ? '#ff4b60' : 'var(--accent-primary)';
     }
 
     this.bindAttributeSteppers();
@@ -186,30 +225,30 @@ class GroogMobileApp {
     const disad = this.character.disadvantages || [];
 
     container.innerHTML = `
-      <div style="margin-bottom: 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <strong>Vantagens</strong>
-          <button class="btn-primary-action" id="btn-sheet-add-adv" style="width: auto; padding: 6px 12px; font-size: 0.8rem;">+ Adicionar</button>
+      <div style="margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <strong style="color: var(--text-primary); font-size: 1rem;">Vantagens</strong>
+          <button class="btn-primary-action" id="btn-sheet-add-adv" style="width: auto; padding: 6px 14px; font-size: 0.8rem; margin: 0;">+ Adicionar</button>
         </div>
         ${adv.map((a, i) => `
-          <div style="display: flex; gap: 6px; margin-bottom: 6px;">
+          <div style="display: flex; gap: 8px; margin-bottom: 8px; align-items: center;">
             <input type="text" class="sheet-input adv-name" data-idx="${i}" value="${a.name}" placeholder="Nome da vantagem" style="flex: 3; margin-bottom: 0;">
             <input type="number" class="sheet-input adv-pts" data-idx="${i}" value="${a.points}" placeholder="Pts" style="flex: 1; margin-bottom: 0; text-align: center;">
-            <button class="btn-close-sheet btn-del-adv" data-idx="${i}" style="color: red;">✕</button>
+            <button class="btn-close-sheet btn-del-adv" data-idx="${i}" style="color: #ff4b60;">✕</button>
           </div>
         `).join('')}
       </div>
 
       <div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <strong>Desvantagens</strong>
-          <button class="btn-primary-action" id="btn-sheet-add-disad" style="width: auto; padding: 6px 12px; font-size: 0.8rem; background: #ea580c;">+ Adicionar</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <strong style="color: var(--text-primary); font-size: 1rem;">Desvantagens</strong>
+          <button class="btn-primary-action" id="btn-sheet-add-disad" style="width: auto; padding: 6px 14px; font-size: 0.8rem; margin: 0;">+ Adicionar</button>
         </div>
         ${disad.map((d, i) => `
-          <div style="display: flex; gap: 6px; margin-bottom: 6px;">
+          <div style="display: flex; gap: 8px; margin-bottom: 8px; align-items: center;">
             <input type="text" class="sheet-input disad-name" data-idx="${i}" value="${d.name}" placeholder="Nome da desvantagem" style="flex: 3; margin-bottom: 0;">
             <input type="number" class="sheet-input disad-pts" data-idx="${i}" value="${d.points}" placeholder="-Pts" style="flex: 1; margin-bottom: 0; text-align: center;">
-            <button class="btn-close-sheet btn-del-disad" data-idx="${i}" style="color: red;">✕</button>
+            <button class="btn-close-sheet btn-del-disad" data-idx="${i}" style="color: #ff4b60;">✕</button>
           </div>
         `).join('')}
       </div>
@@ -267,39 +306,39 @@ class GroogMobileApp {
     };
 
     container.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <strong>Perícias Cadastradas</strong>
-        <button class="btn-primary-action" id="btn-sheet-add-skill" style="width: auto; padding: 6px 12px; font-size: 0.8rem;">+ Adicionar</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <strong style="color: var(--text-primary); font-size: 1rem;">Perícias Cadastradas</strong>
+        <button class="btn-primary-action" id="btn-sheet-add-skill" style="width: auto; padding: 6px 14px; font-size: 0.8rem; margin: 0;">+ Adicionar</button>
       </div>
 
       ${skills.map((sk, i) => {
         const attrVal = getAttrVal(sk.attr);
         const finalNH = GroogMath.getSkillFinalNH(attrVal, sk.difficulty || 'A', sk.points || 1);
         return `
-          <div style="background: #f8fafc; border: 1px solid var(--border-subtle); border-radius: 8px; padding: 8px; margin-bottom: 8px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <input type="text" class="sheet-input sk-name" data-idx="${i}" value="${sk.name}" style="flex: 1; margin-bottom: 0; font-weight: 700; margin-right: 6px;">
-              <strong style="font-size: 1.2rem; color: #0284c7; min-width: 45px; text-align: center;">NH ${finalNH}</strong>
-              <button class="btn-close-sheet btn-del-sk" data-idx="${i}" style="color: red;">✕</button>
+          <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); box-shadow: var(--nm-flat-sm); border-radius: 12px; padding: 10px; margin-bottom: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <input type="text" class="sheet-input sk-name" data-idx="${i}" value="${sk.name}" style="flex: 1; margin-bottom: 0; font-weight: 800; margin-right: 8px;">
+              <strong style="font-size: 1.25rem; color: var(--accent-primary); font-family: var(--font-mono); min-width: 55px; text-align: center;">NH ${finalNH}</strong>
+              <button class="btn-close-sheet btn-del-sk" data-idx="${i}" style="color: #ff4b60;">✕</button>
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 6px;">
-              <select class="sheet-input sk-attr" data-idx="${i}" style="margin-bottom: 0; padding: 6px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 8px; align-items: center;">
+              <select class="sheet-input sk-attr" data-idx="${i}" style="margin-bottom: 0; padding: 8px;">
                 <option value="DX" ${sk.attr === 'DX' ? 'selected' : ''}>DX</option>
                 <option value="IQ" ${sk.attr === 'IQ' ? 'selected' : ''}>IQ</option>
                 <option value="HT" ${sk.attr === 'HT' ? 'selected' : ''}>HT</option>
                 <option value="ST" ${sk.attr === 'ST' ? 'selected' : ''}>ST</option>
                 <option value="Per" ${sk.attr === 'Per' ? 'selected' : ''}>Per</option>
               </select>
-              <select class="sheet-input sk-diff" data-idx="${i}" style="margin-bottom: 0; padding: 6px;">
+              <select class="sheet-input sk-diff" data-idx="${i}" style="margin-bottom: 0; padding: 8px;">
                 <option value="E" ${sk.difficulty === 'E' ? 'selected' : ''}>Fácil</option>
                 <option value="A" ${sk.difficulty === 'A' ? 'selected' : ''}>Média</option>
                 <option value="H" ${sk.difficulty === 'H' ? 'selected' : ''}>Difícil</option>
                 <option value="VH" ${sk.difficulty === 'VH' ? 'selected' : ''}>M.Difícil</option>
               </select>
-              <div style="display: flex; align-items: center; justify-content: center; gap: 4px;">
-                <button class="btn-mini-step" data-action="sk-pts-dec" data-idx="${i}">-</button>
-                <span style="font-weight: bold; width: 30px; text-align: center;">${sk.points}p</span>
-                <button class="btn-mini-step" data-action="sk-pts-inc" data-idx="${i}">+</button>
+              <div style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <button class="btn-mini-step" data-action="sk-pts-dec" data-idx="${i}" style="width: 32px; height: 32px;">-</button>
+                <span style="font-weight: 900; width: 32px; text-align: center; font-family: var(--font-mono); color: var(--text-primary);">${sk.points}p</span>
+                <button class="btn-mini-step" data-action="sk-pts-inc" data-idx="${i}" style="width: 32px; height: 32px;">+</button>
               </div>
             </div>
           </div>
@@ -353,16 +392,16 @@ class GroogMobileApp {
     const equip = this.character.equipment || [];
 
     container.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <strong>Inventário & Armas</strong>
-        <button class="btn-primary-action" id="btn-sheet-add-item" style="width: auto; padding: 6px 12px; font-size: 0.8rem;">+ Item</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <strong style="color: var(--text-primary); font-size: 1rem;">Inventário & Carga</strong>
+        <button class="btn-primary-action" id="btn-sheet-add-item" style="width: auto; padding: 6px 14px; font-size: 0.8rem; margin: 0;">+ Item</button>
       </div>
 
       ${equip.map((it, i) => `
-        <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 6px;">
+        <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
           <input type="text" class="sheet-input eq-name" data-idx="${i}" value="${it.name}" placeholder="Item" style="flex: 3; margin-bottom: 0;">
           <input type="number" step="0.1" class="sheet-input eq-weight" data-idx="${i}" value="${it.weight || 0}" placeholder="kg" style="flex: 1; margin-bottom: 0; text-align: center;">
-          <button class="btn-close-sheet btn-del-eq" data-idx="${i}" style="color: red;">✕</button>
+          <button class="btn-close-sheet btn-del-eq" data-idx="${i}" style="color: #ff4b60;">✕</button>
         </div>
       `).join('')}
     `;
@@ -389,22 +428,22 @@ class GroogMobileApp {
     const d = this.character.dossier || {};
 
     container.innerHTML = `
-      <div style="margin-bottom: 12px;">
-        <label style="font-size: 0.8rem; font-weight: bold; color: #475569;">CONCEITO / OCUPAÇÃO</label>
-        <input type="text" class="sheet-input" id="sheet-inp-concept" value="${this.character.concept || ''}">
+      <div style="margin-bottom: 14px;">
+        <label style="font-size: 0.8rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">CONCEITO / OCUPAÇÃO</label>
+        <input type="text" class="sheet-input" id="sheet-inp-concept" value="${this.character.concept || ''}" placeholder="Ex: Guerreiro Veterano">
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
         <div>
-          <label style="font-size: 0.8rem; font-weight: bold; color: #475569;">IDADE</label>
+          <label style="font-size: 0.8rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">IDADE</label>
           <input type="number" class="sheet-input" id="sheet-inp-age" value="${d.age || 28}">
         </div>
         <div>
-          <label style="font-size: 0.8rem; font-weight: bold; color: #475569;">NÍVEL TECNOLÓGICO (NT)</label>
+          <label style="font-size: 0.8rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">NÍVEL TECNOLÓGICO (NT)</label>
           <input type="number" class="sheet-input" id="sheet-inp-tl" value="${d.tl || 8}">
         </div>
       </div>
-      <div style="margin-bottom: 12px;">
-        <label style="font-size: 0.8rem; font-weight: bold; color: #475569;">ALTURA / PESO / APARÊNCIA</label>
+      <div style="margin-bottom: 14px;">
+        <label style="font-size: 0.8rem; font-weight: 800; color: var(--text-secondary); display: block; margin-bottom: 4px;">ALTURA / PESO / APARÊNCIA</label>
         <input type="text" class="sheet-input" id="sheet-inp-app" value="${d.appearance || '1.80m / 80kg'}">
       </div>
       <button class="btn-primary-action" id="btn-sheet-export-json" style="margin-top: 10px;">💾 Exportar Ficha JSON</button>
@@ -428,7 +467,7 @@ class GroogMobileApp {
     const sum = d1 + d2 + d3;
 
     let verdict = (sum <= 4) ? "SUCESSO DECISIVO (CRÍTICO!)" : (sum >= 17) ? "FALHA CRÍTICA!" : "ROLAGEM NORMAL";
-    let color = (sum <= 4) ? "#22c55e" : (sum >= 17) ? "#ef4444" : "#38bdf8";
+    let color = (sum <= 4) ? "var(--accent-primary)" : (sum >= 17) ? "#ff4b60" : "var(--text-primary)";
 
     container.innerHTML = `
       <div class="dice-results-box">
@@ -438,9 +477,9 @@ class GroogMobileApp {
           <div class="die-cube">${d3}</div>
         </div>
         <div class="dice-sum-display">${sum}</div>
-        <strong style="color: ${color}; font-size: 1rem; display: block; margin-top: 6px;">${verdict}</strong>
+        <strong style="color: ${color}; font-size: 1.05rem; display: block; margin-top: 8px; font-weight: 900; letter-spacing: 0.5px;">${verdict}</strong>
       </div>
-      <button class="btn-primary-action" id="btn-roll-again" style="background: #166534; font-size: 1.1rem; padding: 14px;">🎲 ROLAR 3d6 NOVAMENTE</button>
+      <button class="btn-primary-action" id="btn-roll-again" style="font-size: 1.05rem; padding: 14px;">🎲 ROLAR 3d6 NOVAMENTE</button>
     `;
 
     document.getElementById('btn-roll-again')?.addEventListener('click', () => this.renderDiceSheet(container));

@@ -6,7 +6,7 @@
   <title>GROOG - Ficha Tática Mobile</title>
   
   <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#354f63">
+  <meta name="theme-color" content="#151821">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -17,11 +17,11 @@
   <link rel="stylesheet" href="./css/variables.css">
   <link rel="stylesheet" href="./css/main.css">
 </head>
-<body>
+<body class="theme-blue">
 
   <div class="mobile-app-wrapper">
     
-    <!-- 1. CABEÇALHO DO APLICATIVO -->
+    <!-- 1. CABEÇALHO DO APLICATIVO COM SELETOR DE TEMAS -->
     <header class="app-top-header">
       <div class="header-left-user">
         <div class="user-avatar-circle" id="btn-header-avatar" title="Abrir Dossiê">
@@ -31,52 +31,59 @@
           </svg>
         </div>
         <div class="character-title-wrap">
-          <span style="font-size: 0.75rem; color: #94a3b8; font-weight: bold;">FICHA:</span>
-          <input type="text" id="inp-header-char-name" class="character-name-header" value="Thorgrim">
+          <input type="text" id="inp-header-char-name" class="character-name-header" value="Thorgrim" placeholder="Nome">
         </div>
       </div>
 
+      <!-- Seletor de 4 Temas de Cores -->
+      <div class="theme-selector-bar" title="Alterar Tema de Cores">
+        <button class="theme-dot-btn dot-blue active" data-theme="blue" title="Azul / Ciano"></button>
+        <button class="theme-dot-btn dot-yellow" data-theme="yellow" title="Amarelo / Âmbar"></button>
+        <button class="theme-dot-btn dot-red" data-theme="red" title="Vermelho / Carmesim"></button>
+        <button class="theme-dot-btn dot-green" data-theme="green" title="Verde / Matrix"></button>
+      </div>
+
       <div class="header-right-pts" id="header-pts-display">
-        [Pts: 150 / 125 Gastos]
+        150 / 125 pts
       </div>
     </header>
 
     <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
     <main class="app-content-scroll">
       
-      <!-- 2. SEÇÃO ATRIBUTOS BÁSICOS (2x2 GRID COM CORES PASTEL) -->
+      <!-- 2. SEÇÃO ATRIBUTOS BÁSICOS (2x2 GRID NEUMORPHIC) -->
       <section class="section-wrapper">
         <div class="section-banner-title" id="attr-section-title">
-          Atributos Básicos (80 pts)
+          Atributos Principais (80 pts)
         </div>
 
         <div class="attributes-2x2-grid">
           
           <!-- ST (FORÇA) -->
           <div class="attr-tile st">
-            <span class="attr-tile-name">ST</span>
+            <span class="attr-tile-name">ST • FORÇA</span>
             <div class="attr-stepper-row">
               <button class="btn-mini-step" data-attr="st" data-attr-step="-1">-</button>
               <span class="attr-value-display" id="val-attr-st">[14]</span>
               <button class="btn-mini-step" data-attr="st" data-attr-step="1">+</button>
             </div>
-            <span class="attr-cost-subtext" id="sub-attr-st">ST 14 [40 pts]</span>
+            <span class="attr-cost-subtext" id="sub-attr-st">ST 14 [+40 pts]</span>
           </div>
 
           <!-- DX (DESTREZA) -->
           <div class="attr-tile dx">
-            <span class="attr-tile-name">DX</span>
+            <span class="attr-tile-name">DX • DESTREZA</span>
             <div class="attr-stepper-row">
               <button class="btn-mini-step" data-attr="dx" data-attr-step="-1">-</button>
               <span class="attr-value-display" id="val-attr-dx">[11]</span>
               <button class="btn-mini-step" data-attr="dx" data-attr-step="1">+</button>
             </div>
-            <span class="attr-cost-subtext" id="sub-attr-dx">DX 11 [20 pts]</span>
+            <span class="attr-cost-subtext" id="sub-attr-dx">DX 11 [+20 pts]</span>
           </div>
 
           <!-- IQ (INTELIGÊNCIA) -->
           <div class="attr-tile iq">
-            <span class="attr-tile-name">IQ</span>
+            <span class="attr-tile-name">IQ • INTELIGÊNCIA</span>
             <div class="attr-stepper-row">
               <button class="btn-mini-step" data-attr="iq" data-attr-step="-1">-</button>
               <span class="attr-value-display" id="val-attr-iq">[10]</span>
@@ -87,32 +94,32 @@
 
           <!-- HT (VITALIDADE) -->
           <div class="attr-tile ht">
-            <span class="attr-tile-name">HT</span>
+            <span class="attr-tile-name">HT • VITALIDADE</span>
             <div class="attr-stepper-row">
               <button class="btn-mini-step" data-attr="ht" data-attr-step="-1">-</button>
               <span class="attr-value-display" id="val-attr-ht">[12]</span>
               <button class="btn-mini-step" data-attr="ht" data-attr-step="1">+</button>
             </div>
-            <span class="attr-cost-subtext" id="sub-attr-ht">HT 12 [20 pts]</span>
+            <span class="attr-cost-subtext" id="sub-attr-ht">HT 12 [+20 pts]</span>
           </div>
 
         </div>
       </section>
 
-      <!-- 3. SEÇÃO ESTATÍSTICAS DERIVADAS (3x3 TELEMETRY GRID) -->
+      <!-- 3. SEÇÃO ESTATÍSTICAS DERIVADAS (3x3 SUNKEN TELEMETRY) -->
       <section class="section-wrapper">
         <div class="section-plain-title">
-          Estatísticas Derivadas
+          Telemetria & Derivadas
         </div>
 
         <div class="derived-stats-grid">
           <!-- Row 1 -->
           <div class="derived-cell">
-            <span class="derived-label">PV</span>
+            <span class="derived-label">Pontos de Vida</span>
             <span class="derived-val" id="der-hp">14/14</span>
           </div>
           <div class="derived-cell">
-            <span class="derived-label">PF</span>
+            <span class="derived-label">Pontos Fadiga</span>
             <span class="derived-val" id="der-fp">12/12</span>
           </div>
           <div class="derived-cell">
@@ -152,7 +159,7 @@
         <!-- Trigger 1: Vantagens & Desvantagens -->
         <div class="drawer-trigger-card" data-open-sheet="traits">
           <div class="trigger-left">
-            <span class="trigger-icon">📑</span>
+            <div class="trigger-icon-pill">📑</div>
             <div>
               <div class="trigger-title">Vantagens & Desvantagens</div>
               <div class="trigger-sub" id="sub-trigger-traits">(-15 pts)</div>
@@ -164,9 +171,9 @@
         <!-- Trigger 2: Perícias -->
         <div class="drawer-trigger-card" data-open-sheet="skills">
           <div class="trigger-left">
-            <span class="trigger-icon">📋</span>
+            <div class="trigger-icon-pill">📋</div>
             <div>
-              <div class="trigger-title">Perícias</div>
+              <div class="trigger-title">Perícias & Treinamento</div>
               <div class="trigger-sub" id="sub-trigger-skills">(8 aprendidas, 25 pts)</div>
             </div>
           </div>
@@ -176,9 +183,9 @@
         <!-- Trigger 3: Equipamento & Carga -->
         <div class="drawer-trigger-card" data-open-sheet="equipment">
           <div class="trigger-left">
-            <span class="trigger-icon">🎒</span>
+            <div class="trigger-icon-pill">🎒</div>
             <div>
-              <div class="trigger-title">Equipamento & Carga</div>
+              <div class="trigger-title">Inventário & Carga</div>
               <div class="trigger-sub" id="sub-trigger-equip">(30 kg, Leve)</div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GROOG - INTERFACE TÉCNICA MOBILE (SLATE CLEAN & BOTTOM SHEETS)
+   GROOG - INTERFACE DARK NEUMORPHISM (SOFT UI DARK & THEMED ACCENTS)
    ========================================================================== */
 
 * {
@@ -10,14 +10,15 @@
 }
 
 body {
-  background-color: #1e293b;
-  color: var(--text-dark);
+  background-color: #0d0f15;
+  color: var(--text-primary);
   font-family: var(--font-family);
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 0;
+  transition: background-color 0.3s ease;
 }
 
 /* Container do App Mobile */
@@ -25,18 +26,20 @@ body {
   max-width: 480px;
   width: 100%;
   min-height: 100vh;
-  background-color: var(--bg-body);
+  background-color: var(--bg-app);
   display: flex;
   flex-direction: column;
   position: relative;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
-  padding-bottom: 85px; /* Espaço para barra inferior */
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+  padding-bottom: 95px; /* Espaço para barra inferior */
+  border-left: 1px solid rgba(255, 255, 255, 0.03);
+  border-right: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 /* ================= 1. CABEÇALHO DO APLICATIVO ================= */
 .app-top-header {
-  background-color: var(--bg-app-header);
-  color: var(--text-white);
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
   padding: 12px 16px;
   display: flex;
   align-items: center;
@@ -44,7 +47,8 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--nm-flat-sm);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .header-left-user {
@@ -54,14 +58,23 @@ body {
 }
 
 .user-avatar-circle {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--bg-surface-elevated);
+  box-shadow: var(--nm-flat-sm);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  color: var(--accent-primary);
+  border: 1px solid var(--border-glow);
+  transition: var(--transition-fast);
+}
+
+.user-avatar-circle:active {
+  box-shadow: var(--nm-inset-sm);
+  transform: scale(0.95);
 }
 
 .character-title-wrap {
@@ -70,90 +83,130 @@ body {
 }
 
 .character-name-header {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-primary);
   background: transparent;
   border: none;
-  color: #ffffff;
   outline: none;
-  width: 130px;
+  width: 110px;
+  font-family: var(--font-family);
+  letter-spacing: 0.3px;
+}
+
+/* Seletor de Temas (4 Cores) */
+.theme-selector-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-surface-sunken);
+  padding: 4px 8px;
+  border-radius: var(--border-radius-pill);
+  box-shadow: var(--nm-inset-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.theme-dot-btn {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  outline: none;
+}
+
+.theme-dot-btn.dot-blue { background: #00d2ff; }
+.theme-dot-btn.dot-yellow { background: #facc15; }
+.theme-dot-btn.dot-red { background: #ff4b60; }
+.theme-dot-btn.dot-green { background: #10b981; }
+
+.theme-dot-btn.active {
+  border-color: #ffffff;
+  transform: scale(1.2);
+  box-shadow: 0 0 10px currentColor;
 }
 
 .header-right-pts {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #e2e8f0;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 4px 10px;
-  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  background: var(--bg-surface-sunken);
+  padding: 5px 10px;
+  border-radius: var(--border-radius-btn);
+  box-shadow: var(--nm-inset-sm);
+  border: 1px solid var(--accent-border);
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
 }
 
 /* ================= ÁREA DE CONTEÚDO PRINCIPAL ================= */
 .app-content-scroll {
-  padding: 12px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
-/* Seção de Contêiner com Gradiente / Card */
+/* Seção de Contêiner Neumórfico */
 .section-wrapper {
-  background: var(--bg-container);
+  background: var(--bg-surface);
   border-radius: var(--border-radius-card);
-  padding: 12px;
-  box-shadow: var(--shadow-card);
+  padding: 14px;
+  box-shadow: var(--nm-flat);
   border: 1px solid var(--border-subtle);
 }
 
 .section-banner-title {
-  background: linear-gradient(90deg, #38bdf8 0%, #f97316 100%);
-  color: #0f172a;
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
   font-size: 0.95rem;
-  font-weight: 800;
+  font-weight: 900;
   text-align: center;
-  padding: 6px 12px;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  margin-bottom: 12px;
   letter-spacing: 0.5px;
+  box-shadow: var(--accent-glow-sm);
+  text-transform: uppercase;
 }
 
 .section-plain-title {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 800;
-  color: var(--text-slate);
+  color: var(--text-secondary);
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
 /* ================= 2. GRID 2x2 DE ATRIBUTOS BÁSICOS ================= */
 .attributes-2x2-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 10px;
 }
 
 .attr-tile {
-  border-radius: 10px;
-  padding: 8px;
-  border: 1.5px solid transparent;
+  background: var(--bg-surface-elevated);
+  border-radius: var(--border-radius-card);
+  padding: 12px 10px;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--nm-flat-sm);
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  transition: var(--transition-fast);
 }
 
-.attr-tile.st { background: var(--st-bg); border-color: var(--st-border); }
-.attr-tile.dx { background: var(--dx-bg); border-color: var(--dx-border); }
-.attr-tile.iq { background: var(--iq-bg); border-color: var(--iq-border); }
-.attr-tile.ht { background: var(--ht-bg); border-color: var(--ht-border); }
-
 .attr-tile-name {
-  font-size: 0.9rem;
-  font-weight: 800;
-  color: var(--text-dark);
-  margin-bottom: 4px;
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
 }
 
 .attr-stepper-row {
@@ -165,98 +218,105 @@ body {
 }
 
 .btn-mini-step {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  font-size: 1.2rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--border-glow);
+  font-size: 1.25rem;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  background: #ffffff;
-  color: var(--text-dark);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: var(--bg-surface-elevated);
+  color: var(--accent-primary);
+  box-shadow: var(--nm-flat-sm);
   user-select: none;
+  transition: var(--transition-fast);
 }
 
 .btn-mini-step:active {
+  box-shadow: var(--nm-inset);
   transform: scale(0.92);
-  background: rgba(0, 0, 0, 0.05);
+  color: #ffffff;
 }
 
 .attr-value-display {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 900;
-  color: var(--text-dark);
-  min-width: 46px;
+  color: var(--text-primary);
+  min-width: 48px;
   text-align: center;
+  font-family: var(--font-mono);
 }
 
 .attr-cost-subtext {
   font-size: 0.72rem;
   color: var(--text-muted);
-  font-weight: 600;
-  margin-top: 4px;
+  font-weight: 700;
+  margin-top: 6px;
+  font-family: var(--font-mono);
 }
 
-/* ================= 3. GRID DE ESTATÍSTICAS DERIVADAS ================= */
+/* ================= 3. GRID DE ESTATÍSTICAS DERIVADAS (SUNKEN TELEMETRY) ================= */
 .derived-stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--border-subtle);
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  overflow: hidden;
+  gap: 8px;
+  background: transparent;
 }
 
 .derived-cell {
-  background: #ffffff;
-  padding: 8px 4px;
+  background: var(--bg-surface-sunken);
+  box-shadow: var(--nm-inset-sm);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 8px 6px;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  transition: var(--transition-fast);
 }
 
 .derived-label {
-  font-size: 0.7rem;
-  font-weight: 700;
+  font-size: 0.68rem;
+  font-weight: 800;
   color: var(--text-muted);
   margin-bottom: 2px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .derived-val {
   font-size: 0.95rem;
-  font-weight: 800;
-  color: var(--text-dark);
+  font-weight: 900;
+  color: var(--accent-primary);
+  font-family: var(--font-mono);
 }
 
 /* ================= 4. GAVETAS / BOTTOM SHEET TRIGGERS ================= */
 .drawer-triggers-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .drawer-trigger-card {
-  background: #ffffff;
+  background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  border-radius: 10px;
-  padding: 12px 14px;
+  border-radius: var(--border-radius-card);
+  padding: 12px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--nm-flat);
   transition: var(--transition-fast);
 }
 
 .drawer-trigger-card:active {
-  background: #f8fafc;
+  box-shadow: var(--nm-inset);
   transform: scale(0.98);
 }
 
@@ -266,29 +326,40 @@ body {
   gap: 12px;
 }
 
-.trigger-icon {
-  font-size: 1.3rem;
+.trigger-icon-pill {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--bg-surface-sunken);
+  box-shadow: var(--nm-inset-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--accent-primary);
+  border: 1px solid var(--accent-border);
 }
 
 .trigger-title {
   font-size: 0.95rem;
   font-weight: 800;
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 
 .trigger-sub {
   font-size: 0.75rem;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-weight: 600;
+  margin-top: 2px;
 }
 
 .trigger-chevron {
-  font-weight: 800;
-  color: var(--text-muted);
-  font-size: 0.9rem;
+  font-weight: 900;
+  color: var(--accent-primary);
+  font-size: 0.95rem;
 }
 
-/* ================= 5. BARRA INFERIOR FIXA ================= */
+/* ================= 5. BARRA INFERIOR FIXA (NEUMORPHIC DOCK) ================= */
 .sticky-bottom-bar {
   position: fixed;
   bottom: 0;
@@ -296,47 +367,55 @@ body {
   transform: translateX(-50%);
   max-width: 480px;
   width: 100%;
-  background: var(--bg-app-footer);
+  background: var(--bg-surface);
   padding: 10px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 10px;
   z-index: 100;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.7);
+  border-top: 1px solid var(--border-glow);
 }
 
 .points-pill-box {
-  background: #14532d;
-  border: 1.5px solid var(--accent-green);
-  border-radius: 8px;
+  background: var(--bg-surface-sunken);
+  border: 1.5px solid var(--accent-primary);
+  border-radius: var(--border-radius-btn);
   padding: 6px 12px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   cursor: pointer;
+  box-shadow: var(--nm-inset-sm), var(--accent-glow-sm);
+  transition: var(--transition-fast);
+}
+
+.points-pill-box:active {
+  transform: scale(0.96);
 }
 
 .points-pill-num {
   font-size: 1.5rem;
   font-weight: 900;
-  color: #4ade80;
+  color: var(--accent-primary);
+  font-family: var(--font-mono);
 }
 
 .points-pill-label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #dcfce7;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--text-secondary);
   line-height: 1.1;
   text-transform: uppercase;
 }
 
 .bottom-icon-btn {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  color: #ffffff;
-  padding: 6px 10px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--border-radius-btn);
+  color: var(--text-primary);
+  padding: 8px 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -345,25 +424,37 @@ body {
   font-weight: 800;
   cursor: pointer;
   min-width: 68px;
-  gap: 2px;
+  gap: 3px;
   text-transform: uppercase;
+  box-shadow: var(--nm-flat-sm);
+  transition: var(--transition-fast);
 }
 
 .bottom-icon-btn:active {
-  background: rgba(255, 255, 255, 0.25);
+  box-shadow: var(--nm-inset);
+  transform: scale(0.94);
+  color: var(--accent-primary);
 }
 
 .bottom-icon-btn.dice-btn {
-  background: #166534;
-  border-color: #22c55e;
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
+  border: none;
+  box-shadow: var(--accent-glow);
 }
 
-/* ================= 6. GAVETAS MODAIS (BOTTOM SHEETS) ================= */
+.bottom-icon-btn.dice-btn:active {
+  box-shadow: var(--nm-inset);
+  transform: scale(0.94);
+}
+
+/* ================= 6. GAVETAS MODAIS (BOTTOM SHEETS NEUMORPHIC) ================= */
 .bottom-sheet-overlay {
   position: fixed;
   inset: 0;
   background: var(--bg-overlay);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -379,19 +470,22 @@ body {
 }
 
 .bottom-sheet-card {
-  background: #ffffff;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  padding: 16px;
+  background: var(--bg-surface);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 18px 16px;
   max-height: 85vh;
   display: flex;
   flex-direction: column;
-  box-shadow: var(--shadow-sheet);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
   transform: translateY(100%);
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   max-width: 480px;
   width: 100%;
   margin: 0 auto;
+  border-top: 1px solid var(--border-glow);
+  border-left: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
 }
 
 .bottom-sheet-overlay.active .bottom-sheet-card {
@@ -399,11 +493,11 @@ body {
 }
 
 .sheet-handle-bar {
-  width: 40px;
+  width: 44px;
   height: 5px;
-  background: #cbd5e1;
-  border-radius: 3px;
-  margin: 0 auto 12px auto;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius-pill);
+  margin: 0 auto 14px auto;
 }
 
 .sheet-header-row {
@@ -411,14 +505,15 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 14px;
-  padding-bottom: 8px;
+  padding-bottom: 10px;
   border-bottom: 1px solid var(--border-subtle);
 }
 
 .sheet-title {
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: var(--text-dark);
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: 0.3px;
 }
 
 .sheet-body-scroll {
@@ -428,55 +523,77 @@ body {
 }
 
 .btn-close-sheet {
-  background: #f1f5f9;
-  border: none;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-glow);
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  font-size: 1rem;
-  font-weight: bold;
+  width: 32px;
+  height: 32px;
+  font-size: 0.95rem;
+  font-weight: 800;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-slate);
+  color: var(--text-secondary);
+  box-shadow: var(--nm-flat-sm);
+  transition: var(--transition-fast);
+}
+
+.btn-close-sheet:active {
+  box-shadow: var(--nm-inset-sm);
+  color: var(--accent-primary);
 }
 
 /* Inputs & Form Rows dentro das Gavetas */
 .sheet-input {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid var(--border-strong);
-  border-radius: 8px;
+  padding: 10px 14px;
+  background: var(--bg-surface-sunken);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
   font-size: 0.95rem;
+  color: var(--text-primary);
   font-family: var(--font-family);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   outline: none;
+  box-shadow: var(--nm-inset-sm);
+  transition: var(--transition-fast);
 }
 
 .sheet-input:focus {
-  border-color: var(--accent-blue);
+  border-color: var(--accent-primary);
+  box-shadow: var(--nm-inset-sm), var(--accent-glow-sm);
 }
 
 .btn-primary-action {
-  background: #0284c7;
-  color: #ffffff;
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
   border: none;
   padding: 12px;
-  border-radius: 8px;
-  font-weight: 800;
+  border-radius: var(--border-radius-btn);
+  font-weight: 900;
   font-size: 0.95rem;
   width: 100%;
   cursor: pointer;
   margin-top: 8px;
+  box-shadow: var(--accent-glow-sm);
+  transition: var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary-action:active {
+  box-shadow: var(--nm-inset);
+  transform: scale(0.98);
 }
 
 /* ================= 7. ROLADOR DE DADOS 3d6 MODAL ================= */
 .dice-results-box {
-  background: #0f172a;
-  color: #ffffff;
-  border-radius: 12px;
-  padding: 20px;
+  background: var(--bg-surface-sunken);
+  box-shadow: var(--nm-inset);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--border-radius-card);
+  padding: 22px;
   text-align: center;
   margin-bottom: 16px;
 }
@@ -484,26 +601,53 @@ body {
 .dice-cubes-row {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 14px;
+  margin-bottom: 14px;
 }
 
 .die-cube {
-  width: 46px;
-  height: 46px;
-  background: #38bdf8;
-  color: #0f172a;
-  font-size: 1.6rem;
+  width: 52px;
+  height: 52px;
+  background: var(--bg-surface-elevated);
+  color: var(--accent-primary);
+  font-size: 1.8rem;
   font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  border: 1.5px solid var(--accent-border);
+  box-shadow: var(--nm-flat-sm), var(--accent-glow-sm);
+  font-family: var(--font-mono);
 }
 
 .dice-sum-display {
-  font-size: 2.2rem;
+  font-size: 2.6rem;
   font-weight: 900;
-  color: #38bdf8;
+  color: var(--accent-primary);
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+}
+
+/* ================= 8. PRINT MEDIA STYLES ================= */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .mobile-app-wrapper {
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+    padding-bottom: 0 !important;
+  }
+  .sticky-bottom-bar, .bottom-sheet-overlay, .theme-selector-bar {
+    display: none !important;
+  }
+  .section-wrapper, .attr-tile, .derived-cell, .drawer-trigger-card {
+    background: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    border: 1px solid #cccccc !important;
+  }
 }
