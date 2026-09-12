@@ -78,6 +78,20 @@ class GroogMobileApp {
       });
     }
 
+    const budgetInp = document.getElementById('inp-header-budget');
+    if (budgetInp) {
+      budgetInp.value = this.character.campaignBudget || 150;
+      const handleBudgetChange = (e) => {
+        const val = parseInt(e.target.value);
+        if (!isNaN(val) && val >= 1) {
+          this.character.campaignBudget = val;
+          this.onUpdate();
+        }
+      };
+      budgetInp.addEventListener('change', handleBudgetChange);
+      budgetInp.addEventListener('blur', handleBudgetChange);
+    }
+
     document.getElementById('btn-header-avatar')?.addEventListener('click', () => this.openSheet('dossier'));
     document.getElementById('btn-save-bottom')?.addEventListener('click', () => {
       StorageEngine.saveProfile(this.character);
@@ -158,8 +172,14 @@ class GroogMobileApp {
     const mobility = GroogMath.getEffectiveMobility(basicMove, basicSpeed, enc, hasCR);
 
     // 1. Header Display & Avatar
-    const ptsHeader = document.getElementById('header-pts-display');
-    if (ptsHeader) ptsHeader.innerText = `${points.budget} / ${points.totalSpent} ${I18N.t('ptsUnit')}`;
+    const budgetHeaderInp = document.getElementById('inp-header-budget');
+    if (budgetHeaderInp && document.activeElement !== budgetHeaderInp) {
+      budgetHeaderInp.value = points.budget;
+    }
+    const spentHeaderVal = document.getElementById('val-header-spent');
+    if (spentHeaderVal) spentHeaderVal.innerText = points.totalSpent;
+    const unitHeaderLbl = document.getElementById('lbl-header-pts-unit');
+    if (unitHeaderLbl) unitHeaderLbl.innerText = I18N.t('ptsUnit');
 
     const avatarBtn = document.getElementById('btn-header-avatar');
     if (avatarBtn) {
@@ -525,7 +545,30 @@ class GroogMobileApp {
         </div>
       </div>
 
-      <!-- 2. PERSONALIDADE & PSICOLOGIA -->
+      <!-- 2. CAMPAIGN BUDGET & LIMITS (DEFINED BY GM) -->
+      <div class="dossier-card-section">
+        <div class="dossier-section-header">
+          🎯 ${I18N.t('campaignBudgetTitle')}
+        </div>
+        <div style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 8px;">
+          ${I18N.t('campaignBudgetSub')}
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 10px;">
+          <input type="number" class="sheet-input" id="sheet-inp-budget" value="${this.character.campaignBudget || 150}" min="1" max="9999" step="5" style="font-size: 1.1rem; font-weight: 900; font-family: var(--font-mono); color: var(--accent-primary); text-align: center; margin-bottom: 0;">
+          <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-secondary);">${I18N.t('ptsUnit')}</span>
+        </div>
+        <div class="budget-tier-grid">
+          <button class="budget-tier-btn ${(this.character.campaignBudget || 150) === 50 ? 'active' : ''}" data-budget="50">${I18N.t('tierAverage')}</button>
+          <button class="budget-tier-btn ${(this.character.campaignBudget || 150) === 75 ? 'active' : ''}" data-budget="75">${I18N.t('tierCompetent')}</button>
+          <button class="budget-tier-btn ${(this.character.campaignBudget || 150) === 100 ? 'active' : ''}" data-budget="100">${I18N.t('tierHeroic')}</button>
+          <button class="budget-tier-btn ${(this.character.campaignBudget || 150) === 150 ? 'active' : ''}" data-budget="150">${I18N.t('tierVeteran')}</button>
+          <button class="budget-tier-btn ${(this.character.campaignBudget || 150) === 200 ? 'active' : ''}" data-budget="200">${I18N.t('tierLegendary')}</button>
+          <button class="budget-tier-btn ${(this.character.campaignBudget || 150) === 300 ? 'active' : ''}" data-budget="300">${I18N.t('tierSuperhuman')}</button>
+          <button class="budget-tier-btn ${(this.character.campaignBudget || 150) === 500 ? 'active' : ''}" data-budget="500">${I18N.t('tierGodlike')}</button>
+        </div>
+      </div>
+
+      <!-- 3. PERSONALIDADE & PSICOLOGIA -->
       <div class="dossier-card-section">
         <div class="dossier-section-header">
           🧠 ${isEn ? 'Personality & Psychological Profile' : 'Personalidade & Perfil Psicológico'}
@@ -658,6 +701,28 @@ class GroogMobileApp {
         this.character.avatar = btn.dataset.url;
         this.onUpdate();
         this.renderDossierSheet(container);
+      });
+    });
+
+    // Bindings de Orçamento / Budget da Campanha
+    const sheetBudgetInp = document.getElementById('sheet-inp-budget');
+    sheetBudgetInp?.addEventListener('change', (e) => {
+      const val = parseInt(e.target.value);
+      if (!isNaN(val) && val >= 1) {
+        this.character.campaignBudget = val;
+        this.onUpdate();
+        this.renderDossierSheet(container);
+      }
+    });
+
+    container.querySelectorAll('.budget-tier-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = parseInt(btn.dataset.budget);
+        if (!isNaN(val)) {
+          this.character.campaignBudget = val;
+          this.onUpdate();
+          this.renderDossierSheet(container);
+        }
       });
     });
 

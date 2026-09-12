@@ -250,16 +250,97 @@ body {
 }
 
 .header-right-pts {
-  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.76rem;
   font-weight: 700;
   color: var(--accent-primary);
   background: var(--bg-surface-sunken);
-  padding: 5px 10px;
+  padding: 3px 6px;
   border-radius: var(--border-radius-btn);
   box-shadow: var(--nm-inset-sm);
   border: 1px solid var(--accent-border);
   font-family: var(--font-mono);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+}
+
+.header-budget-input {
+  width: 44px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  color: var(--accent-primary);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-align: center;
+  padding: 2px 2px;
+  outline: none;
+  box-shadow: var(--nm-flat-xs);
+  transition: var(--transition-fast);
+}
+
+.header-budget-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 6px var(--accent-border);
+  background: var(--bg-surface);
+}
+
+.header-budget-input::-webkit-inner-spin-button,
+.header-budget-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.header-budget-input {
+  -moz-appearance: textfield;
+}
+
+.header-pts-slash {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.72rem;
+}
+
+.header-spent-val {
+  color: var(--text-primary);
+  font-weight: 800;
+}
+
+.header-pts-unit {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+
+.budget-tier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.budget-tier-btn {
+  background: var(--bg-surface-sunken);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  padding: 6px 8px;
+  border-radius: var(--border-radius-btn);
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--nm-inset-sm);
+  transition: var(--transition-fast);
+  text-align: center;
+}
+
+.budget-tier-btn:hover, .budget-tier-btn.active {
+  color: var(--accent-primary);
+  border-color: var(--accent-border);
+  box-shadow: var(--nm-inset), var(--accent-glow-sm);
+}
+
+.budget-tier-btn:active {
+  transform: scale(0.95);
 }
 
 /* ================= ÁREA DE CONTEÚDO PRINCIPAL ================= */

@@ -48,8 +48,11 @@
         </div>
       </div>
 
-      <div class="header-right-pts" id="header-pts-display">
-        150 / 125 pts
+      <div class="header-right-pts" id="header-pts-display" title="Defined Budget / Spent">
+        <input type="number" id="inp-header-budget" class="header-budget-input" value="150" min="1" max="9999" step="5" title="Adventure Budget (Pts) - Defined by GM">
+        <span class="header-pts-slash">/</span>
+        <span id="val-header-spent" class="header-spent-val">125</span>
+        <span class="header-pts-unit" id="lbl-header-pts-unit">pts</span>
       </div>
     </header>
 

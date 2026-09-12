@@ -13,6 +13,15 @@ export const I18N = {
       budgetDisplay: "BUDGET",
       spentDisplay: "SPENT",
       ptsUnit: "pts",
+      campaignBudgetTitle: "Campaign Budget (Max Pts)",
+      campaignBudgetSub: "Defined by GM for this adventure",
+      tierAverage: "Average (50)",
+      tierCompetent: "Competent (75)",
+      tierHeroic: "Heroic (100)",
+      tierVeteran: "Veteran (150)",
+      tierLegendary: "Legendary (200)",
+      tierSuperhuman: "Superhuman (300)",
+      tierGodlike: "Godlike (500)",
 
       // Primary Attributes (PWR, AGI, COG, VIT)
       attrSectionTitle: "Primary Attributes",
@@ -75,6 +84,15 @@ export const I18N = {
       budgetDisplay: "ORÇAMENTO",
       spentDisplay: "GASTOS",
       ptsUnit: "pts",
+      campaignBudgetTitle: "Orçamento da Aventura (Pontos Totais)",
+      campaignBudgetSub: "Definido pelo Mestre/Árbitro para a campanha",
+      tierAverage: "Comum (50)",
+      tierCompetent: "Competente (75)",
+      tierHeroic: "Heróico (100)",
+      tierVeteran: "Veterano (150)",
+      tierLegendary: "Lendário (200)",
+      tierSuperhuman: "Super-Humano (300)",
+      tierGodlike: "Divino (500)",
 
       // Atributos Primários (FOR, DES, INT, VIT)
       attrSectionTitle: "Atributos Primários",
