@@ -351,6 +351,254 @@ body {
   gap: 14px;
 }
 
+/* ================= 1.1 SELETOR DE MODO (INICIANTE / PRO) ================= */
+.mode-switch-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2px;
+}
+
+.mode-switch-pill {
+  display: inline-flex;
+  background: var(--bg-surface-sunken);
+  padding: 4px;
+  border-radius: var(--border-radius-pill);
+  box-shadow: var(--nm-inset-sm);
+  border: 1px solid var(--border-subtle);
+  gap: 4px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.mode-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: var(--border-radius-pill);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-family);
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  outline: none;
+}
+
+.mode-btn .mode-icon {
+  font-size: 1rem;
+}
+
+.mode-btn.active {
+  background: var(--bg-surface-elevated);
+  color: var(--accent-primary);
+  box-shadow: var(--nm-flat-sm), var(--accent-glow-sm);
+  border: 1px solid var(--accent-border);
+}
+
+.mode-btn:active {
+  transform: scale(0.96);
+}
+
+/* Visibilidade Condicional por Modo */
+body.mode-pro .beginner-only {
+  display: none !important;
+}
+
+body.mode-basic .pro-only {
+  display: none !important;
+}
+
+/* Barras de Medição de Atributos (Modo Iniciante) */
+.attr-meter-wrap {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-surface-sunken);
+  border-radius: 4px;
+  margin-top: 8px;
+  overflow: hidden;
+  box-shadow: var(--nm-inset-sm);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.attr-meter-bar {
+  height: 100%;
+  background: var(--accent-gradient);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  box-shadow: var(--accent-glow-sm);
+}
+
+/* ================= BARRAS VITAIS (HP & FP NO MODO INICIANTE) ================= */
+.vital-gauges-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+  background: var(--bg-surface-elevated);
+  padding: 10px 12px;
+  border-radius: var(--border-radius-card);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--nm-flat-sm);
+}
+
+.vital-gauge-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vital-gauge-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vital-gauge-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.vital-gauge-val {
+  font-size: 0.82rem;
+  font-weight: 900;
+  font-family: var(--font-mono);
+  color: var(--accent-primary);
+}
+
+.vital-gauge-track {
+  width: 100%;
+  height: 10px;
+  background: var(--bg-surface-sunken);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: var(--nm-inset-sm);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.vital-gauge-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+.vital-gauge-fill.hp-fill {
+  background: linear-gradient(90deg, #ff4b60, #10b981);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+.vital-gauge-fill.fp-fill {
+  background: linear-gradient(90deg, #3b82f6, #00d2ff);
+  box-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+}
+
+/* ================= RESUMO DE CAPACIDADES (QUICK BADGES) ================= */
+.quick-badges-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quick-category-block {
+  background: var(--bg-surface-sunken);
+  border-radius: var(--border-radius-card);
+  padding: 10px;
+  box-shadow: var(--nm-inset-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.quick-category-title {
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quick-chips-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.quick-chip {
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  padding: 5px 9px;
+  border-radius: var(--border-radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--nm-flat-xs);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.quick-chip:hover {
+  border-color: var(--accent-border);
+  color: var(--accent-primary);
+}
+
+.quick-chip:active {
+  transform: scale(0.95);
+}
+
+.quick-chip-pts {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--bg-surface-sunken);
+  color: var(--accent-primary);
+}
+
+.quick-skill-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-surface-elevated);
+  padding: 6px 10px;
+  border-radius: var(--border-radius-btn);
+  margin-bottom: 6px;
+  box-shadow: var(--nm-flat-xs);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.quick-skill-row:hover {
+  border-color: var(--accent-border);
+}
+
+.quick-skill-name {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.quick-skill-badge {
+  font-size: 0.78rem;
+  font-weight: 900;
+  font-family: var(--font-mono);
+  color: var(--accent-primary);
+  background: var(--bg-surface-sunken);
+  padding: 2px 8px;
+  border-radius: 4px;
+  box-shadow: var(--nm-inset-sm);
+}
+
 /* Seção de Contêiner Neumórfico */
 .section-wrapper {
   background: var(--bg-surface);

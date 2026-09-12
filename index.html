@@ -58,6 +58,20 @@
 
     <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
     <main class="app-content-scroll">
+
+      <!-- 1.1 SELETOR DE MODO: INICIANTE (LEIGO) / PRO (AVANÇADO) -->
+      <div class="mode-switch-wrapper">
+        <div class="mode-switch-pill" id="view-mode-switch" title="Toggle Beginner / PRO Mode">
+          <button class="mode-btn mode-btn-basic active" id="btn-mode-basic" data-mode="basic">
+            <span class="mode-icon">🔰</span>
+            <span class="mode-text" id="lbl-mode-basic">INICIANTE</span>
+          </button>
+          <button class="mode-btn mode-btn-pro" id="btn-mode-pro" data-mode="pro">
+            <span class="mode-icon">⚡</span>
+            <span class="mode-text" id="lbl-mode-pro">PRO</span>
+          </button>
+        </div>
+      </div>
       
       <!-- 2. SEÇÃO ATRIBUTOS PRIMÁRIOS (PWR, AGI, COG, VIT) -->
       <section class="section-wrapper">
@@ -75,6 +89,9 @@
               <span class="attr-value-display" id="val-attr-st">[14]</span>
               <button class="btn-mini-step" data-attr="st" data-attr-step="1">+</button>
             </div>
+            <div class="attr-meter-wrap beginner-only">
+              <div class="attr-meter-bar" id="meter-bar-st" style="width: 70%;"></div>
+            </div>
             <span class="attr-cost-subtext" id="sub-attr-st">PWR 14 [+40 pts]</span>
           </div>
 
@@ -85,6 +102,9 @@
               <button class="btn-mini-step" data-attr="dx" data-attr-step="-1">-</button>
               <span class="attr-value-display" id="val-attr-dx">[11]</span>
               <button class="btn-mini-step" data-attr="dx" data-attr-step="1">+</button>
+            </div>
+            <div class="attr-meter-wrap beginner-only">
+              <div class="attr-meter-bar" id="meter-bar-dx" style="width: 55%;"></div>
             </div>
             <span class="attr-cost-subtext" id="sub-attr-dx">AGI 11 [+20 pts]</span>
           </div>
@@ -97,6 +117,9 @@
               <span class="attr-value-display" id="val-attr-iq">[10]</span>
               <button class="btn-mini-step" data-attr="iq" data-attr-step="1">+</button>
             </div>
+            <div class="attr-meter-wrap beginner-only">
+              <div class="attr-meter-bar" id="meter-bar-iq" style="width: 50%;"></div>
+            </div>
             <span class="attr-cost-subtext" id="sub-attr-iq">COG 10 [0 pts]</span>
           </div>
 
@@ -108,6 +131,9 @@
               <span class="attr-value-display" id="val-attr-ht">[12]</span>
               <button class="btn-mini-step" data-attr="ht" data-attr-step="1">+</button>
             </div>
+            <div class="attr-meter-wrap beginner-only">
+              <div class="attr-meter-bar" id="meter-bar-ht" style="width: 60%;"></div>
+            </div>
             <span class="attr-cost-subtext" id="sub-attr-ht">VIT 12 [+20 pts]</span>
           </div>
 
@@ -118,6 +144,29 @@
       <section class="section-wrapper">
         <div class="section-plain-title" id="lbl-telemetry-title">
           Derived Telemetry
+        </div>
+
+        <!-- Barras Gráficas de Vida & Fadiga (Exibidas no Modo Iniciante) -->
+        <div class="vital-gauges-container beginner-only" id="vital-gauges-block">
+          <div class="vital-gauge-row">
+            <div class="vital-gauge-header">
+              <span class="vital-gauge-title" id="lbl-gauge-hp">❤️ Pontos de Vida (PV)</span>
+              <span class="vital-gauge-val" id="gauge-val-hp">14 / 14</span>
+            </div>
+            <div class="vital-gauge-track">
+              <div class="vital-gauge-fill hp-fill" id="gauge-bar-hp" style="width: 100%;"></div>
+            </div>
+          </div>
+
+          <div class="vital-gauge-row">
+            <div class="vital-gauge-header">
+              <span class="vital-gauge-title" id="lbl-gauge-fp">⚡ Energia & Fadiga (PF)</span>
+              <span class="vital-gauge-val" id="gauge-val-fp">12 / 12</span>
+            </div>
+            <div class="vital-gauge-track">
+              <div class="vital-gauge-fill fp-fill" id="gauge-bar-fp" style="width: 100%;"></div>
+            </div>
+          </div>
         </div>
 
         <div class="derived-stats-grid">
@@ -158,6 +207,16 @@
             <span class="derived-label" id="lbl-damage">Kinetic Impact (Sw | Dir)</span>
             <span class="derived-val" id="der-dmg">Sw: 2d-1 | Dir: 1d+1</span>
           </div>
+        </div>
+      </section>
+
+      <!-- 3.1 RESUMO DE CAPACIDADES COM ÍCONES CLICÁVEIS (EXIBIDO NO MODO INICIANTE) -->
+      <section class="section-wrapper beginner-only" id="quick-capabilities-section">
+        <div class="section-plain-title" id="lbl-quick-abilities-title" style="margin-bottom: 8px;">
+          Resumo de Capacidades (Ícones Clicáveis)
+        </div>
+        <div id="quick-badges-container" class="quick-badges-grid">
+          <!-- Renderizado reativamente via app.js -->
         </div>
       </section>
 

@@ -11,15 +11,52 @@ class GroogMobileApp {
     this.activeSheet = null;
     this.currentTheme = localStorage.getItem('groog_theme') || 'blue';
     this.currentLang = localStorage.getItem('groog_lang') || 'en';
+    this.currentViewMode = localStorage.getItem('groog_view_mode') || 'basic';
     this.init();
   }
 
   init() {
     this.setupThemeEngine();
     this.setupLanguageEngine();
+    this.setupViewModeEngine();
     this.setupHeaderEvents();
     this.setupDrawerEvents();
     this.setupDiceRoller();
+    this.render();
+  }
+
+  setupViewModeEngine() {
+    this.applyViewMode(this.currentViewMode);
+
+    document.getElementById('btn-mode-basic')?.addEventListener('click', () => {
+      this.applyViewMode('basic');
+    });
+
+    document.getElementById('btn-mode-pro')?.addEventListener('click', () => {
+      this.applyViewMode('pro');
+    });
+  }
+
+  applyViewMode(mode) {
+    this.currentViewMode = mode;
+    localStorage.setItem('groog_view_mode', mode);
+
+    document.body.classList.remove('mode-basic', 'mode-pro');
+    document.body.classList.add(`mode-${mode}`);
+
+    const btnBasic = document.getElementById('btn-mode-basic');
+    const btnPro = document.getElementById('btn-mode-pro');
+
+    if (btnBasic && btnPro) {
+      if (mode === 'basic') {
+        btnBasic.classList.add('active');
+        btnPro.classList.remove('active');
+      } else {
+        btnPro.classList.add('active');
+        btnBasic.classList.remove('active');
+      }
+    }
+
     this.render();
   }
 
@@ -172,6 +209,15 @@ class GroogMobileApp {
     const mobility = GroogMath.getEffectiveMobility(basicMove, basicSpeed, enc, hasCR);
 
     // 1. Header Display & Avatar
+    const isBasic = this.currentViewMode === 'basic';
+    const isEn = this.currentLang === 'en';
+
+    // Mode Switch Button Labels
+    const lblBasic = document.getElementById('lbl-mode-basic');
+    if (lblBasic) lblBasic.innerText = isEn ? 'BEGINNER' : 'INICIANTE';
+    const lblPro = document.getElementById('lbl-mode-pro');
+    if (lblPro) lblPro.innerText = isEn ? 'PRO' : 'PRO';
+
     const budgetHeaderInp = document.getElementById('inp-header-budget');
     if (budgetHeaderInp && document.activeElement !== budgetHeaderInp) {
       budgetHeaderInp.value = points.budget;
@@ -192,22 +238,32 @@ class GroogMobileApp {
 
     // 2. Section Titles
     const attrTitle = document.getElementById('attr-section-title');
-    if (attrTitle) attrTitle.innerText = `${I18N.t('attrSectionTitle')} (${points.attributesTotal} ${I18N.t('ptsUnit')})`;
+    if (attrTitle) {
+      attrTitle.innerText = isBasic 
+        ? `${I18N.t('attrSectionTitleBasic')} (${points.attributesTotal} ${I18N.t('ptsUnit')})`
+        : `${I18N.t('attrSectionTitlePro')} (${points.attributesTotal} ${I18N.t('ptsUnit')})`;
+    }
 
     const teleTitle = document.getElementById('lbl-telemetry-title');
-    if (teleTitle) teleTitle.innerText = I18N.t('telemetryTitle');
+    if (teleTitle) {
+      teleTitle.innerText = isBasic ? I18N.t('telemetryTitleBasic') : I18N.t('telemetryTitlePro');
+    }
+
+    const quickTitle = document.getElementById('lbl-quick-abilities-title');
+    if (quickTitle) quickTitle.innerText = I18N.t('quickAbilitiesTitle');
 
     // 3. Attribute Cards (PWR, AGI, COG, VIT)
-    const isEn = this.currentLang === 'en';
-    const tagPwr = isEn ? 'PWR' : 'FOR';
-    const tagAgi = isEn ? 'AGI' : 'DES';
-    const tagCog = isEn ? 'COG' : 'INT';
-    const tagVit = 'VIT';
-
-    document.getElementById('lbl-attr-pwr').innerText = I18N.t('attrPwr');
-    document.getElementById('lbl-attr-agi').innerText = I18N.t('attrAgi');
-    document.getElementById('lbl-attr-cog').innerText = I18N.t('attrCog');
-    document.getElementById('lbl-attr-vit').innerText = I18N.t('attrVit');
+    if (isBasic) {
+      document.getElementById('lbl-attr-pwr').innerText = I18N.t('attrPwrBasic');
+      document.getElementById('lbl-attr-agi').innerText = I18N.t('attrAgiBasic');
+      document.getElementById('lbl-attr-cog').innerText = I18N.t('attrCogBasic');
+      document.getElementById('lbl-attr-vit').innerText = I18N.t('attrVitBasic');
+    } else {
+      document.getElementById('lbl-attr-pwr').innerText = isEn ? 'PWR • POWER' : 'FOR • FORÇA';
+      document.getElementById('lbl-attr-agi').innerText = isEn ? 'AGI • AGILITY' : 'DES • DESTREZA';
+      document.getElementById('lbl-attr-cog').innerText = isEn ? 'COG • COGNITION' : 'INT • COGNIÇÃO';
+      document.getElementById('lbl-attr-vit').innerText = isEn ? 'VIT • VITALITY' : 'VIT • VITALIDADE';
+    }
 
     const setAttr = (key, tag, val, costPer) => {
       const elVal = document.getElementById(`val-attr-${key}`);
@@ -215,18 +271,34 @@ class GroogMobileApp {
       const cost = (val - 10) * costPer;
       if (elVal) elVal.innerText = `[${val}]`;
       if (elSub) elSub.innerText = `${tag} ${val} [${cost >= 0 ? '+' + cost : cost} ${I18N.t('ptsUnit')}]`;
+
+      const meter = document.getElementById(`meter-bar-${key}`);
+      if (meter) {
+        const pct = Math.min(100, Math.max(15, Math.round((val / 20) * 100)));
+        meter.style.width = `${pct}%`;
+      }
     };
 
-    setAttr('st', tagPwr, a.st, 10);
-    setAttr('dx', tagAgi, a.dx, 20);
-    setAttr('iq', tagCog, a.iq, 20);
-    setAttr('ht', tagVit, a.ht, 10);
+    setAttr('st', isEn ? 'PWR' : 'FOR', a.st, 10);
+    setAttr('dx', isEn ? 'AGI' : 'DES', a.dx, 20);
+    setAttr('iq', isEn ? 'COG' : 'INT', a.iq, 20);
+    setAttr('ht', 'VIT', a.ht, 10);
 
-    // 4. Derived Telemetry Grid
+    // 4. Derived Telemetry Grid & Vital Gauges
     const hpFinal = a.st + (s.hpMod || 0);
     const fpFinal = a.ht + (s.fpMod || 0);
     const willFinal = a.iq + (s.willMod || 0);
     const perFinal = a.iq + (s.perMod || 0);
+
+    // Vital Gauges
+    const gaugeValHp = document.getElementById('gauge-val-hp');
+    if (gaugeValHp) gaugeValHp.innerText = `${hpFinal} / ${hpFinal}`;
+    const gaugeValFp = document.getElementById('gauge-val-fp');
+    if (gaugeValFp) gaugeValFp.innerText = `${fpFinal} / ${fpFinal}`;
+    const lblGaugeHp = document.getElementById('lbl-gauge-hp');
+    if (lblGaugeHp) lblGaugeHp.innerText = isEn ? `❤️ Life Points (LP)` : `❤️ Pontos de Vida (PV)`;
+    const lblGaugeFp = document.getElementById('lbl-gauge-fp');
+    if (lblGaugeFp) lblGaugeFp.innerText = isEn ? `⚡ Energy Pool (EP)` : `⚡ Energia & Fadiga (PF)`;
 
     document.getElementById('lbl-hp').innerText = I18N.t('lblHp');
     document.getElementById('lbl-fp').innerText = I18N.t('lblFp');
@@ -245,6 +317,115 @@ class GroogMobileApp {
     document.getElementById('der-speed').innerText = `${basicSpeed.toFixed(2)}`;
     document.getElementById('der-move').innerText = `${mobility.effectiveMove} m/s`;
     document.getElementById('der-dmg').innerText = `Sw: ${damage.swing} | Dir: ${damage.thrust}`;
+
+    // 4.1 Resumo de Capacidades Visuais (Modo Iniciante)
+    const quickContainer = document.getElementById('quick-badges-container');
+    if (quickContainer) {
+      const adv = char.advantages || [];
+      const disad = char.disadvantages || [];
+      const skills = char.skills || [];
+
+      const getIconForAdv = (name) => {
+        const n = name.toLowerCase();
+        if (n.includes('reflex') || n.includes('combat')) return '🛡️';
+        if (n.includes('vis') || n.includes('sight') || n.includes('eye')) return '👁️';
+        if (n.includes('mag') || n.includes('spell')) return '✨';
+        if (n.includes('heal') || n.includes('cura') || n.includes('vigor')) return '💖';
+        if (n.includes('luck') || n.includes('sorte')) return '🍀';
+        if (n.includes('speed') || n.includes('rapidez')) return '⚡';
+        return '🌟';
+      };
+
+      const getIconForDisad = (name) => {
+        const n = name.toLowerCase();
+        if (n.includes('confian') || n.includes('overconfid')) return '💥';
+        if (n.includes('honra') || n.includes('code')) return '📜';
+        if (n.includes('medo') || n.includes('phobia')) return '😨';
+        if (n.includes('ceg') || n.includes('blind') || n.includes('deaf')) return '⚠️';
+        if (n.includes('fúria') || n.includes('rage') || n.includes('berserk')) return '😡';
+        return '⚠️';
+      };
+
+      const getIconForSkill = (name) => {
+        const n = name.toLowerCase();
+        if (n.includes('espad') || n.includes('sword') || n.includes('lâmina') || n.includes('blade')) return '🗡️';
+        if (n.includes('arc') || n.includes('bow') || n.includes('tiro') || n.includes('gun') || n.includes('pistol')) return '🏹';
+        if (n.includes('socorr') || n.includes('first aid') || n.includes('medic')) return '🩺';
+        if (n.includes('furtiv') || n.includes('stealth')) return '🥷';
+        if (n.includes('estrat') || n.includes('tactic') || n.includes('lider')) return '♟️';
+        return '🎯';
+      };
+
+      quickContainer.innerHTML = `
+        <!-- VANTAGENS -->
+        <div class="quick-category-block" data-open-sheet="traits" style="cursor: pointer;">
+          <div class="quick-category-title">
+            <span>🌟 ${I18N.t('headingTalents')} (${adv.length})</span>
+            <span style="font-size: 0.7rem; color: var(--accent-primary);">[ ${isEn ? 'Manage' : 'Gerenciar'} ]</span>
+          </div>
+          <div class="quick-chips-wrap">
+            ${adv.length > 0 ? adv.map(a => `
+              <span class="quick-chip">
+                <span>${getIconForAdv(a.name)}</span>
+                <span>${a.name}</span>
+                <span class="quick-chip-pts">+${a.points}p</span>
+              </span>
+            `).join('') : `<span style="font-size: 0.75rem; color: var(--text-muted); font-style: italic;">${isEn ? 'None registered' : 'Nenhum dom cadastrado'}</span>`}
+          </div>
+        </div>
+
+        <!-- DESVANTAGENS -->
+        <div class="quick-category-block" data-open-sheet="traits" style="cursor: pointer;">
+          <div class="quick-category-title">
+            <span>⚠️ ${I18N.t('headingFlaws')} (${disad.length})</span>
+            <span style="font-size: 0.7rem; color: #ff4b60;">[ ${isEn ? 'Manage' : 'Gerenciar'} ]</span>
+          </div>
+          <div class="quick-chips-wrap">
+            ${disad.length > 0 ? disad.map(d => `
+              <span class="quick-chip">
+                <span>${getIconForDisad(d.name)}</span>
+                <span>${d.name}</span>
+                <span class="quick-chip-pts" style="color: #ff4b60;">${d.points}p</span>
+              </span>
+            `).join('') : `<span style="font-size: 0.75rem; color: var(--text-muted); font-style: italic;">${isEn ? 'None registered' : 'Nenhum fardo cadastrado'}</span>`}
+          </div>
+        </div>
+
+        <!-- PERÍCIAS PRINCIPAIS -->
+        <div class="quick-category-block" data-open-sheet="skills" style="cursor: pointer;">
+          <div class="quick-category-title">
+            <span>⚔️ ${I18N.t('headingSkills')} (${skills.length})</span>
+            <span style="font-size: 0.7rem; color: var(--accent-primary);">[ ${isEn ? 'Manage' : 'Gerenciar'} ]</span>
+          </div>
+          <div>
+            ${skills.slice(0, 4).map(sk => {
+              const baseAttrVal = a[sk.attribute || 'dx'] || 10;
+              const finalNH = GroogMath.getSkillFinalNH(baseAttrVal, sk.difficulty || 'Average', sk.points || 1);
+              const tag = (sk.attribute || 'dx').toUpperCase();
+              return `
+                <div class="quick-skill-row">
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span>${getIconForSkill(sk.name)}</span>
+                    <span class="quick-skill-name">${sk.name}</span>
+                    <span style="font-size: 0.68rem; color: var(--text-muted);">(${tag})</span>
+                  </div>
+                  <span class="quick-skill-badge">${I18N.t('elPrefix')} ${finalNH}</span>
+                </div>
+              `;
+            }).join('')}
+            ${skills.length > 4 ? `
+              <div style="text-align: center; margin-top: 4px;">
+                <span style="font-size: 0.72rem; color: var(--accent-primary); font-weight: 700;">+${skills.length - 4} ${isEn ? 'more disciplines...' : 'outras perícias...'}</span>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+
+      quickContainer.querySelectorAll('[data-open-sheet]').forEach(el => {
+        el.onclick = () => this.openSheet(el.dataset.openSheet);
+      });
+    }
 
     // 5. Drawer Summary Subtitles
     const advCount = (char.advantages || []).length;
