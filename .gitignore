@@ -1,6 +1,8 @@
-# Ignore heavy PDF books and zip archives for clean GitHub repository
+# Ignore heavy PDF books, zip archives, and Office temp files
 livros gurps/
 *.pdf
 *.zip
+*.docx
+~$*
 .system_generated/
 .gemini/

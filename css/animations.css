@@ -1,117 +1,71 @@
 /* ==========================================================================
-   GROOG - HUD ANIMATIONS & VISUAL MOTION EFFECTS
-   Hologram Boot, Plasma Pulse, Laser Slide, Alert Glitch
+   GROOG - ANIMAÇÕES CHRONO-MECÂNICAS (VÁLVULAS, NIXIE, SLIDE DE ETAPAS)
    ========================================================================== */
 
-/* Hologram Boot Scanline */
-@keyframes boot-scanline {
+/* Oscilação e Brilho das Válvulas de Vácuo */
+@keyframes tube-flicker {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px var(--status-alert)); }
+  50% { opacity: 0.6; filter: drop-shadow(0 0 2px var(--status-alert)); }
+}
+
+/* Pulsação de Gás Neon do Tubo Nixie ao Gastar Pontos */
+@keyframes nixie-pulse {
   0% {
-    top: 0%;
-    opacity: 0.8;
+    text-shadow: 0 0 4px var(--accent-primary), 0 0 10px var(--accent-glow);
+    transform: scale(1);
   }
   50% {
-    opacity: 1;
+    text-shadow: 0 0 8px #ffffff, 0 0 20px var(--accent-primary), 0 0 35px var(--accent-glow-strong);
+    transform: scale(1.04);
   }
   100% {
-    top: 100%;
-    opacity: 0.1;
+    text-shadow: 0 0 4px var(--accent-primary), 0 0 10px var(--accent-glow);
+    transform: scale(1);
   }
 }
 
-.boot-scan {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
-  box-shadow: 0 0 15px var(--accent-primary);
-  pointer-events: none;
-  z-index: 9999;
-  animation: boot-scanline 2s ease-in-out infinite;
+.nixie-pulse-active {
+  animation: nixie-pulse 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Plasma Energy Pulse on Point Deduction */
-@keyframes plasma-pulse {
-  0% {
-    box-shadow: 0 0 5px var(--accent-glow);
-    border-color: var(--accent-primary);
-  }
-  50% {
-    box-shadow: 0 0 25px var(--accent-glow-strong), inset 0 0 15px rgba(var(--accent-primary-rgb), 0.5);
-    border-color: #ffffff;
-  }
-  100% {
-    box-shadow: 0 0 5px var(--accent-glow);
-    border-color: var(--accent-primary);
-  }
-}
-
-.pulse-active {
-  animation: plasma-pulse 0.4s ease-out;
-}
-
-/* Alert Flashing for Over-Budget */
-@keyframes pulse-alert {
-  0% {
-    opacity: 0.4;
-    transform: scale(0.95);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-}
-
-/* Laser Sweep for Tab Switching */
-@keyframes laser-sweep {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-.tab-content {
-  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes fadeIn {
+/* Transição Deslizante de Etapas do Wizard (Passo 1 a 8) */
+@keyframes wizard-slide-next {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translate3d(24px, 0, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
-/* Micro Tactical Glitch */
-@keyframes micro-glitch {
-  0% { transform: translate(0); }
-  20% { transform: translate(-2px, 1px); }
-  40% { transform: translate(2px, -1px); }
-  60% { transform: translate(-1px, -1px); }
-  80% { transform: translate(1px, 2px); }
-  100% { transform: translate(0); }
+@keyframes wizard-slide-prev {
+  from {
+    opacity: 0;
+    transform: translate3d(-24px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-.glitch-warn {
-  animation: micro-glitch 0.3s ease-in-out;
-  color: var(--status-alert) !important;
-  text-shadow: 0 0 10px var(--status-alert) !important;
+.step-card-next {
+  animation: wizard-slide-next 0.26s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Number Counter Ticking Flash */
-.num-changed {
-  color: #ffffff !important;
-  text-shadow: 0 0 15px var(--accent-primary) !important;
-  transition: color 0.2s, text-shadow 0.2s;
+.step-card-prev {
+  animation: wizard-slide-prev 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Micro-vibração de Alerta Mecânico */
+@keyframes mechanical-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.warn-shake {
+  animation: mechanical-shake 0.25s ease-in-out;
 }

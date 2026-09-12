@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>GROOG - Sistema Tático de Criação de Personagens</title>
+  <title>GROOG - Painel de Instrumentos & Criação de Personagens</title>
   
   <!-- Web Manifest & Mobile Settings -->
   <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#00d2ff">
+  <meta name="theme-color" content="#ff8c1a">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="description" content="Motor e Calculadora Tática de Personagens GROOG (Base 3d6)">
+  <meta name="description" content="Motor e Calculadora Tática GROOG - Painel de Aço & Máquina do Tempo">
 
-  <!-- Google Fonts: Futuristic & Tactical Typography -->
+  <!-- Google Fonts: Industrial & Nixie Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
   <!-- Core CSS Layers -->
   <link rel="stylesheet" href="./css/variables.css">
@@ -25,94 +25,82 @@
 </head>
 <body>
 
-  <!-- Holographic Boot Scanline Overlay -->
-  <div class="boot-scan"></div>
-
-  <!-- STICKY TOP HUD BAR -->
-  <header class="hud-header">
-    <div class="hud-header-content">
+  <!-- STICKY TOP CHRONOMETER BAR -->
+  <header class="chrono-header">
+    <div class="header-inner">
       
-      <!-- LOGO -->
-      <div class="logo-block">
-        <svg class="logo-symbol" viewBox="0 0 100 100">
-          <polygon points="50,5 95,28 95,72 50,95 5,72 5,28" fill="none" stroke="currentColor" stroke-width="8"/>
-          <polygon points="50,22 80,38 80,62 50,78 20,62 20,38" fill="currentColor" opacity="0.3"/>
-          <circle cx="50" cy="50" r="10" fill="currentColor"/>
-        </svg>
-        <div>
-          <div class="logo-text">GROOG</div>
-          <div class="logo-sub">TACTICAL ENGINE</div>
+      <!-- LOGO & TOP CONTROLS -->
+      <div class="top-brand-row">
+        <div class="logo-wrapper">
+          <img src="./groog_logo.png" alt="GROOG Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('logo-fallback-text').style.display='block';">
+          <div id="logo-fallback-text" class="logo-fallback" style="display: none;">GROOG</div>
+        </div>
+
+        <div class="header-quick-actions">
+          <button class="btn-chrono" id="btn-toggle-lang" style="padding: 6px 10px; font-size: 0.75rem;">🌐 PT/EN</button>
+          <button class="btn-chrono" id="btn-toggle-theme" style="padding: 6px 10px; font-size: 0.75rem;">🎨 TEMA</button>
+          <button class="btn-chrono primary" id="btn-save-char" style="padding: 6px 12px; font-size: 0.8rem;">💾 SALVAR</button>
+          <button class="btn-chrono" id="btn-manage-profiles" style="padding: 6px 10px; font-size: 0.75rem;">📂 SLOTS</button>
         </div>
       </div>
 
-      <!-- MASTER POINTS TELEMETRY HUD -->
-      <div class="points-hud-group">
-        
-        <!-- GM Point Budget -->
-        <div class="points-card">
-          <span class="label">ORÇAMENTO:</span>
-          <input type="number" id="inp-campaign-budget" class="budget-input" value="150" title="Pontos da Campanha definidos pelo Mestre">
-          <span class="label">PTS</span>
+      <!-- NIXIE COUNTERS GROUP -->
+      <div class="nixie-meter-group">
+        <div class="meter-unit">
+          <span class="meter-label">ORÇAMENTO</span>
+          <input type="number" id="inp-campaign-budget" class="budget-edit-input" value="150" title="Pontos da Campanha">
         </div>
 
-        <!-- Dynamic Spent / Remaining Counter -->
-        <div class="points-card main-budget" id="main-points-card">
-          <span class="label">GASTOS:</span>
-          <span class="value" id="val-points-spent" style="color: var(--accent-primary);">105</span>
-          <span style="color: var(--text-dim); margin: 0 2px;">/</span>
-          <span class="label">RESTANTE:</span>
-          <span class="value" id="val-points-rem">45</span>
+        <div class="meter-divider"></div>
+
+        <div class="meter-unit">
+          <span class="meter-label">GASTOS</span>
+          <span class="meter-value" id="val-points-spent" style="color: var(--brass-light);">105</span>
         </div>
 
-        <!-- Disadvantage Ceiling -->
-        <div class="points-card">
-          <span class="label">DESVANTAGENS:</span>
-          <span class="value" id="val-disad-spent" style="font-size: 1rem; color: var(--text-main);">-20 / -75</span>
+        <div class="meter-divider"></div>
+
+        <div class="meter-unit">
+          <span class="meter-label">RESTANTE</span>
+          <span class="meter-value" id="val-points-rem">45</span>
         </div>
 
-      </div>
+        <div class="meter-divider"></div>
 
-      <!-- TOP ACTION CONTROLS -->
-      <div class="header-actions">
-        <button class="btn-icon" id="btn-toggle-lang" title="Alternar Idioma (PT-BR / EN)">🌐 PT/EN</button>
-        <button class="btn-icon" id="btn-toggle-theme" title="Alternar Tema de Cor">🎨 TEMA</button>
-        <button class="btn-tactical" id="btn-save-char" style="padding: 6px 12px; font-size: 0.8rem;">💾 SALVAR</button>
-        <button class="btn-icon" id="btn-manage-profiles" title="Gerenciar Fichas">📂 SLOTS</button>
+        <div class="meter-unit">
+          <span class="meter-label">TETO DESV.</span>
+          <span class="meter-value" id="val-disad-spent" style="font-size: 1.1rem; color: var(--text-dim);">-20/-75</span>
+        </div>
       </div>
 
     </div>
   </header>
 
-  <!-- TAB NAVIGATION BAR (MOBILE SWIPEABLE) -->
-  <nav class="nav-tab-container">
-    <div class="nav-tabs">
-      <button class="tab-btn active" data-tab="dossier">01 DOSSIÊ</button>
-      <button class="tab-btn" data-tab="biometrics">02 BIOMETRIA</button>
-      <button class="tab-btn" data-tab="combat">03 DEFESA & CARGA</button>
-      <button class="tab-btn" data-tab="traits">04 TRAÇOS</button>
-      <button class="tab-btn" data-tab="skills">05 TREINAMENTO</button>
-      <button class="tab-btn" data-tab="arsenal">06 ARSENAL</button>
-      <button class="tab-btn" data-tab="sheet">07 FICHA FINAL</button>
+  <!-- STEPPER PROGRESS BAR -->
+  <div class="stepper-progress-wrap">
+    <div class="step-indicator-row">
+      <span class="step-title-badge" id="step-title-badge">01. IDENTIFICAÇÃO & ORIGEM</span>
+      <span class="step-count-badge" id="step-count-badge">ETAPA 1 DE 8</span>
     </div>
-  </nav>
+    <div class="step-track">
+      <div class="step-bar-fill" id="step-bar-fill" style="width: 12.5%;"></div>
+    </div>
+  </div>
 
-  <!-- MAIN APP WORKSPACE (DYNAMIC COMPONENT RENDER) -->
-  <main class="main-app-container">
-    <div id="app-tab-content" class="tab-content">
-      <!-- Injected dynamically by app.js -->
+  <!-- MAIN WIZARD CONTAINER -->
+  <main class="wizard-main-container">
+    <div id="wizard-step-content">
+      <!-- Injetado dinamicamente pelo app.js -->
     </div>
   </main>
 
-  <!-- FOOTER STATUS BAR -->
-  <footer class="hud-footer">
-    <div>
-      <span class="led-beacon"></span>
-      <span style="letter-spacing: 1px; font-weight: bold; margin-left: 6px;">GROOG TACTICAL v1.0 // ENGINE PRONTO</span>
+  <!-- BOTTOM FIXED ACTION BAR (THUMB ZONE) -->
+  <nav class="bottom-action-bar">
+    <div class="bottom-action-inner">
+      <button class="btn-chrono btn-nav-prev" id="btn-nav-prev" disabled>◀ VOLTAR</button>
+      <button class="btn-chrono primary btn-nav-next" id="btn-nav-next">AVANÇAR ▶</button>
     </div>
-    <div style="font-family: var(--font-mono); color: var(--text-dim);">
-      SISTEMA TÁTICO MODULAR 3d6
-    </div>
-  </footer>
+  </nav>
 
   <!-- MASTER JAVASCRIPT MODULE -->
   <script type="module" src="./js/app.js"></script>

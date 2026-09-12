@@ -1,454 +1,305 @@
 /* ==========================================================================
-   GROOG - MAIN LAYOUT & RESPONSIVE MOBILE-FIRST INTERFACE
+   GROOG - MAIN LAYOUT (WIZARD MOBILE-FIRST 8 PASSOS & PAINEL DE AÇO)
    ========================================================================== */
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   background-color: var(--bg-darkest);
   background-image: 
-    radial-gradient(circle at 50% 10%, rgba(var(--accent-primary-rgb), 0.12) 0%, transparent 60%),
-    linear-gradient(rgba(0, 0, 0, 0.4) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.4) 1px, transparent 1px);
-  background-size: 100% 100%, 30px 30px, 30px 30px;
+    radial-gradient(circle at 50% 15%, rgba(var(--accent-primary-rgb), 0.08) 0%, transparent 55%),
+    linear-gradient(#12161f 1px, transparent 1px),
+    linear-gradient(90deg, #12161f 1px, transparent 1px);
+  background-size: 100% 100%, 24px 24px, 24px 24px;
   color: var(--text-main);
   font-family: var(--font-body);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  padding-bottom: 90px; /* Espaço para a barra inferior fixa */
 }
 
-/* ================= HUD TOP BAR (STICKY) ================= */
-.hud-header {
+/* ================= CABEÇALHO DO PAINEL / CHRONOMETER BAR ================= */
+.chrono-header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(4, 8, 16, 0.92);
-  backdrop-filter: blur(15px);
+  background: rgba(15, 18, 23, 0.96);
+  backdrop-filter: blur(12px);
   border-bottom: 2px solid var(--chassis-border);
-  padding: 8px 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+  padding: 10px 14px;
 }
 
-.hud-header-content {
-  max-width: 1200px;
+.header-inner {
+  max-width: 680px;
   margin: 0 auto;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.logo-block {
+.top-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-wrapper {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.logo-symbol {
-  width: 28px;
-  height: 28px;
-  fill: var(--accent-primary);
+.logo-img {
+  height: 38px;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
   filter: drop-shadow(0 0 6px var(--accent-glow));
 }
 
-.logo-text {
+.logo-fallback {
   font-family: var(--font-display);
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 900;
   letter-spacing: 4px;
-  color: var(--neon-white);
+  color: var(--nixie-filament);
   text-shadow: 0 0 10px var(--accent-glow);
 }
 
-.logo-sub {
+.header-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Painel de Contadores Nixie (Pontos do Mestre & Saldo) */
+.nixie-meter-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #090b10;
+  border: 1.5px solid var(--chassis-border);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.meter-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.meter-divider {
+  width: 1px;
+  height: 30px;
+  background: var(--chassis-border);
+}
+
+.meter-label {
   font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   color: var(--text-dim);
   text-transform: uppercase;
 }
 
-/* Points HUD Box */
-.points-hud-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.points-card {
-  background: var(--bg-card);
-  border: 1px solid var(--chassis-border);
-  padding: 4px 12px;
-  border-radius: 2px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.meter-value {
   font-family: var(--font-mono);
-}
-
-.points-card.main-budget {
-  border-color: var(--accent-primary);
-  box-shadow: inset 0 0 10px rgba(var(--accent-primary-rgb), 0.2);
-}
-
-.points-card .label {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--text-dim);
-  letter-spacing: 1px;
-}
-
-.points-card .value {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   font-weight: 900;
-  color: var(--neon-white);
+  color: var(--nixie-filament);
   text-shadow: 0 0 8px var(--accent-glow);
+  line-height: 1.1;
 }
 
-.points-card .budget-input {
-  width: 60px;
+.budget-edit-input {
+  width: 65px;
   background: transparent;
   border: none;
-  border-bottom: 1px dashed var(--accent-primary);
-  color: var(--neon-white);
+  border-bottom: 1.5px dashed var(--accent-primary);
+  color: var(--nixie-filament);
   font-family: var(--font-mono);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 900;
   text-align: center;
   outline: none;
 }
 
-/* Header Controls (Theme & Lang) */
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn-icon {
-  background: var(--bg-card);
-  border: 1px solid var(--chassis-border);
-  color: var(--text-bright);
-  padding: 6px 10px;
-  cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  font-weight: 700;
-  border-radius: 2px;
-  transition: var(--transition-smooth);
-}
-
-.btn-icon:hover {
-  border-color: var(--accent-primary);
-  color: var(--accent-primary);
-  box-shadow: 0 0 8px var(--accent-glow);
-}
-
-/* ================= TAB NAVIGATION ================= */
-.nav-tab-container {
-  background: rgba(6, 12, 22, 0.85);
-  border-bottom: 1px solid var(--chassis-border);
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-
-.nav-tab-container::-webkit-scrollbar {
-  display: none;
-}
-
-.nav-tabs {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  padding: 6px 12px;
-  gap: 6px;
-}
-
-.tab-btn {
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--text-dim);
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  padding: 8px 14px;
-  white-space: nowrap;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: var(--transition-smooth);
-  border-radius: 2px;
-  position: relative;
-}
-
-.tab-btn:hover {
-  color: var(--text-bright);
-  background: rgba(var(--accent-primary-rgb), 0.1);
-}
-
-.tab-btn.active {
-  color: var(--bg-darkest);
-  background: var(--accent-primary);
-  font-weight: 900;
-  box-shadow: 0 0 12px var(--accent-glow);
-}
-
-/* ================= MAIN CONTENT APP CONTAINER ================= */
-.main-app-container {
-  max-width: 1200px;
+/* ================= STEPPER PROGRESS BAR (ETAPA 1 A 8) ================= */
+.stepper-progress-wrap {
+  max-width: 680px;
+  margin: 10px auto 0 auto;
+  padding: 0 14px;
   width: 100%;
-  margin: 0 auto;
-  padding: 16px;
+}
+
+.step-indicator-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.step-title-badge {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--accent-primary);
+  text-transform: uppercase;
+}
+
+.step-count-badge {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.step-track {
+  width: 100%;
+  height: 6px;
+  background: #151922;
+  border: 1px solid var(--chassis-border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.step-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d97706, var(--accent-primary));
+  box-shadow: 0 0 8px var(--accent-primary);
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ================= ÁREA DE CONTEÚDO DO WIZARD (MOBILE-FIRST) ================= */
+.wizard-main-container {
+  max-width: 680px;
+  width: 100%;
+  margin: 12px auto 0 auto;
+  padding: 0 14px;
   flex: 1;
 }
 
-/* Responsive Grid Columns */
-.grid-2col {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-
-@media (min-width: 768px) {
-  .grid-2col {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.grid-4col {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-
-@media (min-width: 768px) {
-  .grid-4col {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* Section Containers */
-.hud-section {
-  padding: 16px;
+.form-group-heavy {
   margin-bottom: 16px;
 }
 
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--chassis-border);
-  padding-bottom: 8px;
-  margin-bottom: 14px;
-}
-
-.section-title {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--neon-white);
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.section-title::before {
-  content: '■';
-  color: var(--accent-primary);
-  font-size: 0.8rem;
-  filter: drop-shadow(0 0 4px var(--accent-primary));
-}
-
-/* Form Rows */
-.form-row {
-  margin-bottom: 12px;
-}
-
-.form-label {
+.form-group-heavy label {
   display: block;
   font-family: var(--font-display);
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  letter-spacing: 1px;
-  color: var(--text-dim);
+  letter-spacing: 1.5px;
+  color: var(--brass-light);
   text-transform: uppercase;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
-/* Tables & Lists */
-.hud-table {
+/* ================= BARRA DE AÇÃO INFERIOR FIXA (THUMB ZONE) ================= */
+.bottom-action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(15, 18, 23, 0.98);
+  backdrop-filter: blur(15px);
+  border-top: 2px solid var(--chassis-border);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.8);
+  padding: 10px 14px;
+}
+
+.bottom-action-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+}
+
+.btn-nav-prev {
+  flex: 1;
+}
+
+.btn-nav-next {
+  flex: 1.5;
+}
+
+/* Tabelas e Listas no Estilo Painel de Aço */
+.chrono-table {
   width: 100%;
   border-collapse: collapse;
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
-.hud-table th {
-  background: rgba(0, 0, 0, 0.4);
-  color: var(--text-dim);
+.chrono-table th {
+  background: #11141b;
+  color: var(--brass-light);
   font-family: var(--font-display);
-  font-size: 0.75rem;
-  letter-spacing: 1px;
+  font-size: 0.8rem;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
+  padding: 10px 8px;
+  border-bottom: 2px solid var(--chassis-border);
   text-align: left;
-  padding: 8px;
-  border-bottom: 1px solid var(--chassis-border);
 }
 
-.hud-table td {
-  padding: 8px;
-  border-bottom: 1px solid rgba(122, 143, 166, 0.15);
+.chrono-table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid rgba(84, 96, 114, 0.2);
   color: var(--text-main);
 }
 
-.hud-table tr:hover td {
-  background: rgba(var(--accent-primary-rgb), 0.08);
-}
-
-/* Bottom Floating Status Bar (Mobile) */
-.hud-footer {
-  background: rgba(4, 8, 16, 0.95);
-  border-top: 1px solid var(--chassis-border);
-  padding: 10px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.8rem;
-  color: var(--text-dim);
-}
-
 /* ==========================================================================
-   PRINT / PDF OPTIMIZED STYLESHEET (PROFESSIONAL HIGH-CONTRAST TACTICAL DOSSIER)
+   PRINT / PDF (ALTO CONTRASTE PRETO E BRANCO EM FOLHA A4)
    ========================================================================== */
 @media print {
   body {
     background: #ffffff !important;
     color: #000000 !important;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+    padding: 0 !important;
   }
 
-  .boot-scan,
-  .hud-header,
-  .nav-tab-container,
-  .hud-footer,
-  .header-actions,
-  #btn-export-json,
-  #btn-print-sheet,
-  .btn-icon,
-  .btn-tactical,
-  .btn-stepper {
+  .chrono-header,
+  .stepper-progress-wrap,
+  .bottom-action-bar,
+  .btn-chrono,
+  .btn-stepper-heavy {
     display: none !important;
   }
 
-  .main-app-container {
+  .wizard-main-container {
     max-width: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
   }
 
-  .hud-section,
-  .hud-frame-chamfer,
-  .hud-panel {
+  .steel-plate {
     background: #ffffff !important;
-    border: 1px solid #333333 !important;
+    border: 1px solid #000000 !important;
     box-shadow: none !important;
-    backdrop-filter: none !important;
-    clip-path: none !important;
     color: #000000 !important;
     margin-bottom: 12px !important;
-    padding: 10px !important;
-    border-radius: 4px !important;
   }
 
-  .section-title {
-    color: #000000 !important;
-    border-bottom: 2px solid #000000 !important;
-    padding-bottom: 4px !important;
-    font-size: 1rem !important;
-    text-shadow: none !important;
-  }
-
-  .section-title::before {
-    content: '▶ ' !important;
-    color: #000000 !important;
-    filter: none !important;
-  }
-
-  .form-label,
-  .label,
-  small {
-    color: #444444 !important;
-    font-weight: 700 !important;
-  }
-
-  strong, .value, .attr-val {
-    color: #000000 !important;
-    text-shadow: none !important;
-  }
-
-  .hud-table {
-    border: 1px solid #000000 !important;
-  }
-
-  .hud-table th {
+  .brass-plaque {
     background: #e8e8e8 !important;
     color: #000000 !important;
-    border-bottom: 1px solid #000000 !important;
-    font-weight: bold !important;
-  }
-
-  .hud-table td {
-    color: #000000 !important;
-    border-bottom: 1px solid #cccccc !important;
-  }
-
-  .hud-input {
-    background: transparent !important;
-    border: none !important;
-    border-bottom: 1px solid #999999 !important;
-    color: #000000 !important;
-    font-weight: bold !important;
-    padding: 2px !important;
-  }
-
-  .grid-2col {
-    grid-template-columns: 1fr 1fr !important;
-    gap: 10px !important;
-  }
-
-  .grid-4col {
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 8px !important;
-  }
-
-  .telemetry-badge {
     border: 1px solid #000000 !important;
-    background: #f0f0f0 !important;
-    color: #000000 !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
   }
 
-  .telemetry-badge .badge-num {
-    background: #000000 !important;
-    color: #ffffff !important;
-  }
-
-  .telemetry-badge .badge-label {
-    color: #333333 !important;
-  }
-
-  .telemetry-badge .badge-val {
+  strong, .nixie-val {
     color: #000000 !important;
     text-shadow: none !important;
   }

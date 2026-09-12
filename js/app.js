@@ -1,5 +1,5 @@
 /**
- * GROOG - MASTER APP CONTROLLER & REACTIVE ENGINE
+ * GROOG - MASTER WIZARD CONTROLLER & CHRONO-STATE ENGINE (8 STEPS)
  */
 import { GroogMath } from './engine/groog-math.js';
 import { I18N } from './engine/i18n.js';
@@ -13,11 +13,12 @@ import { SkillsComponent } from './components/skills.js';
 import { ArsenalComponent } from './components/arsenal.js';
 import { SheetViewComponent } from './components/sheet-view.js';
 
-class GroogApp {
+class GroogWizardApp {
   constructor() {
-    this.activeTab = 'dossier';
-    this.currentTheme = 'cyan';
+    this.currentStep = 1;
+    this.totalSteps = 8;
     this.character = StorageEngine.getActiveProfile();
+    this.currentTheme = localStorage.getItem('groog_theme') || 'steel';
     this.init();
   }
 
@@ -25,17 +26,18 @@ class GroogApp {
     this.setupTheme();
     this.setupLanguage();
     this.setupHeaderEvents();
+    this.setupNavigationEvents();
     this.render();
   }
 
   setupTheme() {
-    const savedTheme = localStorage.getItem('groog_theme') || 'cyan';
-    this.setTheme(savedTheme);
+    const saved = localStorage.getItem('groog_theme') || 'steel';
+    this.setTheme(saved);
   }
 
   setTheme(theme) {
     this.currentTheme = theme;
-    if (theme === 'cyan') {
+    if (theme === 'steel') {
       document.documentElement.removeAttribute('data-theme');
     } else {
       document.documentElement.setAttribute('data-theme', theme);
@@ -44,14 +46,14 @@ class GroogApp {
   }
 
   cycleTheme() {
-    const themes = ['cyan', 'amber', 'red', 'green'];
+    const themes = ['steel', 'brass', 'titanium', 'radar'];
     const nextIdx = (themes.indexOf(this.currentTheme) + 1) % themes.length;
     this.setTheme(themes[nextIdx]);
   }
 
   setupLanguage() {
-    const savedLang = localStorage.getItem('groog_lang') || 'pt';
-    I18N.setLang(savedLang);
+    const saved = localStorage.getItem('groog_lang') || 'pt';
+    I18N.setLang(saved);
   }
 
   toggleLanguage() {
@@ -62,13 +64,9 @@ class GroogApp {
   }
 
   setupHeaderEvents() {
-    // Theme button
     document.getElementById('btn-toggle-theme')?.addEventListener('click', () => this.cycleTheme());
-
-    // Lang button
     document.getElementById('btn-toggle-lang')?.addEventListener('click', () => this.toggleLanguage());
 
-    // Budget input
     const budgetInp = document.getElementById('inp-campaign-budget');
     if (budgetInp) {
       budgetInp.value = this.character.campaignBudget || 150;
@@ -78,66 +76,58 @@ class GroogApp {
       });
     }
 
-    // Save button
     document.getElementById('btn-save-char')?.addEventListener('click', () => {
       StorageEngine.saveProfile(this.character);
-      this.triggerHUDPulse();
+      this.triggerNixiePulse();
       alert(I18N.t('savedSuccess'));
     });
 
-    // Profile manager / Load button
     document.getElementById('btn-manage-profiles')?.addEventListener('click', () => this.openProfileModal());
+  }
 
-    // Import JSON input
-    const fileInp = document.getElementById('inp-import-file');
-    if (fileInp) {
-      fileInp.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (ev) => {
-            try {
-              const loaded = JSON.parse(ev.target.result);
-              if (loaded && loaded.attributes) {
-                this.character = loaded;
-                StorageEngine.saveProfile(this.character);
-                this.render();
-                alert("Personagem importado com sucesso!");
-              }
-            } catch (err) {
-              alert("Erro ao ler arquivo JSON de personagem.");
-            }
-          };
-          reader.readAsText(file);
-        }
-      });
+  setupNavigationEvents() {
+    document.getElementById('btn-nav-prev')?.addEventListener('click', () => this.prevStep());
+    document.getElementById('btn-nav-next')?.addEventListener('click', () => this.nextStep());
+  }
+
+  goToStep(step, direction = 'next') {
+    if (step < 1 || step > this.totalSteps) return;
+    this.currentStep = step;
+    this.renderStepContent(direction);
+    this.renderProgressBar();
+    this.renderBottomButtons();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  nextStep() {
+    if (this.currentStep < this.totalSteps) {
+      this.goToStep(this.currentStep + 1, 'next');
+    } else {
+      StorageEngine.saveProfile(this.character);
+      this.triggerNixiePulse();
+      alert(I18N.t('savedSuccess'));
     }
+  }
 
-    // Tab buttons
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const tab = btn.dataset.tab;
-        if (tab) {
-          this.activeTab = tab;
-          this.renderTabs();
-        }
-      });
-    });
+  prevStep() {
+    if (this.currentStep > 1) {
+      this.goToStep(this.currentStep - 1, 'prev');
+    }
   }
 
   onUpdate() {
     StorageEngine.saveProfile(this.character);
     this.renderHUD();
-    this.renderActiveComponent();
-    this.triggerHUDPulse();
+    this.triggerNixiePulse();
+    this.renderStepContent();
   }
 
-  triggerHUDPulse() {
-    const hudCard = document.getElementById('main-points-card');
-    if (hudCard) {
-      hudCard.classList.remove('pulse-active');
-      void hudCard.offsetWidth; // Trigger reflow
-      hudCard.classList.add('pulse-active');
+  triggerNixiePulse() {
+    const elRem = document.getElementById('val-points-rem');
+    if (elRem) {
+      elRem.classList.remove('nixie-pulse-active');
+      void elRem.offsetWidth;
+      elRem.classList.add('nixie-pulse-active');
     }
   }
 
@@ -147,19 +137,12 @@ class GroogApp {
     const elSpent = document.getElementById('val-points-spent');
     const elRem = document.getElementById('val-points-rem');
     const elDisad = document.getElementById('val-disad-spent');
-    const hudCard = document.getElementById('main-points-card');
 
     if (elSpent) elSpent.innerText = points.totalSpent;
     if (elRem) {
       elRem.innerText = points.remaining;
-      elRem.style.color = points.remaining < 0 ? 'var(--status-alert)' : 'var(--neon-white)';
-      if (points.remaining < 0) {
-        elRem.classList.add('glitch-warn');
-      } else {
-        elRem.classList.remove('glitch-warn');
-      }
+      elRem.style.color = points.remaining < 0 ? 'var(--status-alert)' : 'var(--nixie-filament)';
     }
-
     if (elDisad) {
       elDisad.innerText = `${points.disadvantagesTotal} / -${points.disadLimit}`;
       elDisad.style.color = points.disadExceeded ? 'var(--status-alert)' : 'var(--text-main)';
@@ -171,57 +154,79 @@ class GroogApp {
     }
   }
 
-  renderTabs() {
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      if (btn.dataset.tab === this.activeTab) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
-    });
+  renderProgressBar() {
+    const pct = ((this.currentStep) / this.totalSteps) * 100;
+    const bar = document.getElementById('step-bar-fill');
+    const badge = document.getElementById('step-count-badge');
+    const titleBadge = document.getElementById('step-title-badge');
 
-    this.renderActiveComponent();
+    if (bar) bar.style.width = `${pct}%`;
+    if (badge) badge.innerText = `ETAPA ${this.currentStep} DE ${this.totalSteps}`;
+    if (titleBadge) {
+      const stepKey = `step${this.currentStep}Title`;
+      titleBadge.innerText = I18N.t(stepKey);
+    }
   }
 
-  renderActiveComponent() {
-    const container = document.getElementById('app-tab-content');
-    if (!container) return;
+  renderBottomButtons() {
+    const btnPrev = document.getElementById('btn-nav-prev');
+    const btnNext = document.getElementById('btn-nav-next');
 
-    let html = '';
-    const char = this.character;
-    const updateCb = () => this.onUpdate();
-
-    if (this.activeTab === 'dossier') {
-      html = DossierComponent.render(char, updateCb);
-    } else if (this.activeTab === 'biometrics') {
-      html = BiometricsComponent.render(char, updateCb);
-    } else if (this.activeTab === 'combat') {
-      html = CombatLoadComponent.render(char, updateCb);
-    } else if (this.activeTab === 'traits') {
-      html = TraitsComponent.render(char, updateCb);
-    } else if (this.activeTab === 'skills') {
-      html = SkillsComponent.render(char, updateCb);
-    } else if (this.activeTab === 'arsenal') {
-      html = ArsenalComponent.render(char, updateCb);
-    } else if (this.activeTab === 'sheet') {
-      html = SheetViewComponent.render(char, updateCb);
+    if (btnPrev) {
+      btnPrev.disabled = (this.currentStep === 1);
+      btnPrev.style.opacity = (this.currentStep === 1) ? '0.4' : '1';
     }
 
+    if (btnNext) {
+      if (this.currentStep === this.totalSteps) {
+        btnNext.innerText = I18N.t('btnFinish');
+        btnNext.classList.add('primary');
+      } else {
+        btnNext.innerText = I18N.t('btnNext');
+      }
+    }
+  }
+
+  renderStepContent(direction = 'next') {
+    const container = document.getElementById('wizard-step-content');
+    if (!container) return;
+
+    const char = this.character;
+    const updateCb = () => this.onUpdate();
+    let html = '';
+
+    switch (this.currentStep) {
+      case 1: html = DossierComponent.render(char); break;
+      case 2: html = BiometricsComponent.render(char); break;
+      case 3: html = CombatLoadComponent.render(char); break;
+      case 4: html = TraitsComponent.renderAdvantages(char); break;
+      case 5: html = TraitsComponent.renderDisadvantages(char); break;
+      case 6: html = SkillsComponent.render(char); break;
+      case 7: html = ArsenalComponent.render(char); break;
+      case 8: html = SheetViewComponent.render(char); break;
+    }
+
+    container.className = `wizard-step-card ${direction === 'next' ? 'step-card-next' : 'step-card-prev'}`;
     container.innerHTML = html;
 
     // Bind event listeners for the rendered component
-    if (this.activeTab === 'dossier') DossierComponent.bindEvents(char, updateCb);
-    else if (this.activeTab === 'biometrics') BiometricsComponent.bindEvents(char, updateCb);
-    else if (this.activeTab === 'combat') CombatLoadComponent.bindEvents(char, updateCb);
-    else if (this.activeTab === 'traits') TraitsComponent.bindEvents(char, updateCb);
-    else if (this.activeTab === 'skills') SkillsComponent.bindEvents(char, updateCb);
-    else if (this.activeTab === 'arsenal') ArsenalComponent.bindEvents(char, updateCb);
-    else if (this.activeTab === 'sheet') SheetViewComponent.bindEvents(char, updateCb);
+    switch (this.currentStep) {
+      case 1: DossierComponent.bindEvents(char, updateCb); break;
+      case 2: BiometricsComponent.bindEvents(char, updateCb); break;
+      case 3: CombatLoadComponent.bindEvents(char, updateCb); break;
+      case 4: TraitsComponent.bindEvents(char, updateCb, 'adv'); break;
+      case 5: TraitsComponent.bindEvents(char, updateCb, 'disad'); break;
+      case 6: SkillsComponent.bindEvents(char, updateCb); break;
+      case 7: ArsenalComponent.bindEvents(char, updateCb); break;
+      case 8: SheetViewComponent.bindEvents(char); break;
+    }
   }
 
   render() {
     this.renderHUD();
-    this.renderTabs();
+    this.renderProgressBar();
+    this.renderBottomButtons();
+    this.renderStepContent();
   }
 
   openProfileModal() {
@@ -233,36 +238,36 @@ class GroogApp {
       : keys.map(k => {
           const p = profiles[k];
           return `
-            <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); border: 1px solid var(--chassis-border); padding: 8px 12px; margin-bottom: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; background: #0b0e14; border: 1.5px solid var(--chassis-border); padding: 10px; margin-bottom: 8px; border-radius: 6px;">
               <div>
                 <strong style="color: var(--neon-white); font-size: 1rem;">${p.name || 'Sem nome'}</strong>
                 <small style="color: var(--text-dim); display: block;">${p.concept || 'Combatente'} - ${p.campaignBudget || 150} pts</small>
               </div>
               <div style="display: flex; gap: 6px;">
-                <button class="btn-tactical btn-load-slot" data-id="${k}" style="padding: 4px 8px; font-size: 0.75rem;">CARREGAR</button>
-                <button class="btn-icon btn-del-slot" data-id="${k}" style="color: var(--status-alert); padding: 4px 6px;">✕</button>
+                <button class="btn-chrono btn-load-slot primary" data-id="${k}" style="padding: 6px 10px; font-size: 0.8rem;">CARREGAR</button>
+                <button class="btn-chrono btn-del-slot" data-id="${k}" style="color: var(--status-alert); padding: 6px 10px;">✕</button>
               </div>
             </div>
           `;
         }).join('');
 
     const modalHtml = `
-      <div id="groog-modal-overlay" style="position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 16px;">
-        <div class="hud-frame-chamfer" style="max-width: 500px; width: 100%; padding: 20px; background: var(--bg-darkest);">
-          <div class="section-header">
-            <div class="section-title">GERENCIADOR DE OPERADORES</div>
-            <button class="btn-icon" id="btn-close-modal">✕</button>
+      <div id="groog-modal-overlay" style="position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 16px;">
+        <div class="steel-plate" style="max-width: 480px; width: 100%; max-height: 90vh; overflow-y: auto;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <span class="brass-plaque">GERENCIADOR DE OPERADORES</span>
+            <button class="btn-chrono" id="btn-close-modal" style="padding: 6px 12px;">✕</button>
           </div>
           
           <div style="margin-bottom: 16px; display: flex; gap: 8px;">
-            <button class="btn-tactical" id="btn-modal-new" style="flex: 1;">+ NOVO OPERADOR</button>
-            <label class="btn-tactical" style="flex: 1; text-align: center; cursor: pointer;">
+            <button class="btn-chrono primary" id="btn-modal-new" style="flex: 1;">+ NOVO OPERADOR</button>
+            <label class="btn-chrono" style="flex: 1; text-align: center; cursor: pointer;">
               📂 IMPORTAR JSON
               <input type="file" id="inp-import-file-modal" accept=".json" style="display: none;">
             </label>
           </div>
 
-          <div style="max-height: 300px; overflow-y: auto;">
+          <div style="max-height: 260px; overflow-y: auto;">
             ${listHtml}
           </div>
         </div>
@@ -279,17 +284,18 @@ class GroogApp {
       this.character = StorageEngine.createDefaultProfile();
       StorageEngine.saveProfile(this.character);
       document.getElementById('groog-modal-overlay').remove();
+      this.goToStep(1);
       this.render();
     };
 
     document.querySelectorAll('.btn-load-slot').forEach(btn => {
       btn.onclick = () => {
-        const id = btn.dataset.id;
-        const loaded = StorageEngine.loadProfile(id);
+        const loaded = StorageEngine.loadProfile(btn.dataset.id);
         if (loaded) {
           this.character = loaded;
           StorageEngine.saveProfile(this.character);
           document.getElementById('groog-modal-overlay').remove();
+          this.goToStep(1);
           this.render();
         }
       };
@@ -297,9 +303,8 @@ class GroogApp {
 
     document.querySelectorAll('.btn-del-slot').forEach(btn => {
       btn.onclick = () => {
-        const id = btn.dataset.id;
         if (confirm("Deseja realmente excluir este operador?")) {
-          StorageEngine.deleteProfile(id);
+          StorageEngine.deleteProfile(btn.dataset.id);
           document.getElementById('groog-modal-overlay').remove();
           this.openProfileModal();
         }
@@ -317,8 +322,9 @@ class GroogApp {
               this.character = loaded;
               StorageEngine.saveProfile(this.character);
               document.getElementById('groog-modal-overlay').remove();
+              this.goToStep(1);
               this.render();
-              alert("Personagem importado com sucesso!");
+              alert("Operador importado com sucesso!");
             }
           } catch (err) {
             alert("Arquivo JSON inválido.");
@@ -330,7 +336,6 @@ class GroogApp {
   }
 }
 
-// Boot application when DOM is ready
 window.addEventListener('DOMContentLoaded', () => {
-  window.app = new GroogApp();
+  window.app = new GroogWizardApp();
 });

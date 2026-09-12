@@ -1,5 +1,5 @@
 /**
- * GROOG - COMPONENT 02: BIOMETRICS & ATTRIBUTES (HEXAGONAL NODES & LIVE DERIVATIONS)
+ * GROOG - STEP 02: BIOMETRICS & ATTRIBUTES (PAINEL DE MOSTRADORES NIXIE)
  */
 import { GroogMath } from '../engine/groog-math.js';
 import { I18N } from '../engine/i18n.js';
@@ -9,7 +9,6 @@ export const BiometricsComponent = {
     const a = char.attributes;
     const s = char.secondary;
 
-    // Mathematical Derivations
     const basicLift = GroogMath.getBasicLift(a.st);
     const damage = GroogMath.getDamageByST(a.st);
     const basicSpeed = GroogMath.getBasicSpeed(a.dx, a.ht, s.speedMod);
@@ -21,172 +20,75 @@ export const BiometricsComponent = {
     const willFinal = a.iq + (s.willMod || 0);
     const perFinal = a.iq + (s.perMod || 0);
 
-    const stCost = (a.st - 10) * 10;
-    const dxCost = (a.dx - 10) * 20;
-    const iqCost = (a.iq - 10) * 20;
-    const htCost = (a.ht - 10) * 10;
+    const renderAttrRow = (key, label, val, costPerLevel, baseCost) => {
+      const cost = (val - 10) * costPerLevel;
+      return `
+        <div style="display: flex; align-items: center; justify-content: space-between; background: #0b0e14; border: 1.5px solid var(--chassis-border); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;">
+          <div>
+            <div style="font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; color: var(--brass-light); letter-spacing: 1px;">
+              ${label}
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-primary);">
+              ${cost >= 0 ? '+' + cost : cost} pts (${costPerLevel} pts/nível)
+            </div>
+          </div>
+          
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <button class="btn-stepper-heavy" data-action="attr-dec" data-attr="${key}">-</button>
+            <div class="nixie-display" style="min-width: 60px;">
+              <span class="nixie-val">${val}</span>
+            </div>
+            <button class="btn-stepper-heavy" data-action="attr-inc" data-attr="${key}">+</button>
+          </div>
+        </div>
+      `;
+    };
 
     return `
-      <div class="hud-frame-chamfer hud-section">
-        <div class="section-header">
-          <div class="section-title">${I18N.t('tabBiometrics')} - ATRIBUTOS PRIMÁRIOS & BIOMETRIA</div>
-          <div class="telemetry-badge"><span class="badge-num">002</span><span class="badge-label">TELEMETRIA</span><span class="badge-val">ONLINE</span></div>
+      <div class="steel-plate">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <span class="brass-plaque">ATRIBUTOS PRIMÁRIOS</span>
+          <span class="vacuum-tube-light"></span>
         </div>
 
-        <!-- 4 HEXAGONAL NODES -->
-        <div class="grid-4col" style="margin-bottom: 24px;">
-          
-          <!-- ST (FORÇA) -->
-          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-            <div class="hex-node">
-              <div class="hex-node-inner">
-                <span class="attr-label">ST</span>
-                <span class="attr-val">${a.st}</span>
-                <span class="attr-cost">${stCost >= 0 ? '+' + stCost : stCost} pts</span>
-              </div>
-            </div>
-            <div style="display: flex; gap: 6px;">
-              <button class="btn-stepper" data-action="attr-dec" data-attr="st">-</button>
-              <button class="btn-stepper" data-action="attr-inc" data-attr="st">+</button>
-            </div>
-            <span style="font-size: 0.75rem; color: var(--text-dim);">${I18N.t('st')}</span>
-          </div>
+        ${renderAttrRow('st', 'FORÇA (ST)', a.st, 10)}
+        ${renderAttrRow('dx', 'DESTREZA (DX)', a.dx, 20)}
+        ${renderAttrRow('iq', 'INTELIGÊNCIA (IQ)', a.iq, 20)}
+        ${renderAttrRow('ht', 'VITALIDADE (HT)', a.ht, 10)}
 
-          <!-- DX (DESTREZA) -->
-          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-            <div class="hex-node">
-              <div class="hex-node-inner">
-                <span class="attr-label">DX</span>
-                <span class="attr-val">${a.dx}</span>
-                <span class="attr-cost">${dxCost >= 0 ? '+' + dxCost : dxCost} pts</span>
-              </div>
-            </div>
-            <div style="display: flex; gap: 6px;">
-              <button class="btn-stepper" data-action="attr-dec" data-attr="dx">-</button>
-              <button class="btn-stepper" data-action="attr-inc" data-attr="dx">+</button>
-            </div>
-            <span style="font-size: 0.75rem; color: var(--text-dim);">${I18N.t('dx')}</span>
-          </div>
-
-          <!-- IQ (INTELIGÊNCIA) -->
-          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-            <div class="hex-node">
-              <div class="hex-node-inner">
-                <span class="attr-label">IQ</span>
-                <span class="attr-val">${a.iq}</span>
-                <span class="attr-cost">${iqCost >= 0 ? '+' + iqCost : iqCost} pts</span>
-              </div>
-            </div>
-            <div style="display: flex; gap: 6px;">
-              <button class="btn-stepper" data-action="attr-dec" data-attr="iq">-</button>
-              <button class="btn-stepper" data-action="attr-inc" data-attr="iq">+</button>
-            </div>
-            <span style="font-size: 0.75rem; color: var(--text-dim);">${I18N.t('iq')}</span>
-          </div>
-
-          <!-- HT (VITALIDADE) -->
-          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-            <div class="hex-node">
-              <div class="hex-node-inner">
-                <span class="attr-label">HT</span>
-                <span class="attr-val">${a.ht}</span>
-                <span class="attr-cost">${htCost >= 0 ? '+' + htCost : htCost} pts</span>
-              </div>
-            </div>
-            <div style="display: flex; gap: 6px;">
-              <button class="btn-stepper" data-action="attr-dec" data-attr="ht">-</button>
-              <button class="btn-stepper" data-action="attr-inc" data-attr="ht">+</button>
-            </div>
-            <span style="font-size: 0.75rem; color: var(--text-dim);">${I18N.t('ht')}</span>
-          </div>
-
+        <div style="margin: 20px 0 12px 0;">
+          <span class="brass-plaque" style="font-size: 0.8rem;">TELEMETRIA BIOLÓGICA DERIVADA</span>
         </div>
 
-        <!-- DERIVED STATS & GAUGES -->
-        <div class="section-title" style="margin: 16px 0 12px 0;">TELEMETRIA BIOMÉTRICA DERIVADA</div>
-        
-        <div class="grid-2col">
-          <!-- Left Column: HP, FP, Will, Per -->
-          <div class="hud-panel" style="padding: 14px;">
-            
-            <!-- PV (Hit Points) -->
-            <div style="margin-bottom: 12px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <span class="form-label">${I18N.t('hp')}: <strong style="color: var(--neon-white); font-size: 1.1rem;">${hpFinal} PV</strong></span>
-                <div style="display: flex; gap: 4px;">
-                  <button class="btn-stepper" style="width:26px; height:26px; font-size:1rem;" data-action="sec-dec" data-sec="hpMod">-</button>
-                  <button class="btn-stepper" style="width:26px; height:26px; font-size:1rem;" data-action="sec-inc" data-sec="hpMod">+</button>
-                </div>
-              </div>
-              <div class="hud-progress-bar"><div class="hud-progress-fill" style="width: 100%;"></div></div>
+        <!-- PV & PF GAUGES -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+          <div style="background: #0b0e14; border: 1.5px solid var(--chassis-border); border-radius: 6px; padding: 10px; text-align: center;">
+            <div class="nixie-label">PONTOS DE VIDA (PV)</div>
+            <div class="nixie-val" style="font-size: 1.8rem; color: var(--status-ready);">${hpFinal}</div>
+            <div style="display: flex; justify-content: center; gap: 6px; margin-top: 6px;">
+              <button class="btn-stepper-heavy" style="min-width:38px; height:38px; font-size:1.2rem;" data-action="sec-dec" data-sec="hpMod">-</button>
+              <button class="btn-stepper-heavy" style="min-width:38px; height:38px; font-size:1.2rem;" data-action="sec-inc" data-sec="hpMod">+</button>
             </div>
-
-            <!-- PF (Fatigue Points) -->
-            <div style="margin-bottom: 12px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <span class="form-label">${I18N.t('fp')}: <strong style="color: var(--neon-white); font-size: 1.1rem;">${fpFinal} PF</strong></span>
-                <div style="display: flex; gap: 4px;">
-                  <button class="btn-stepper" style="width:26px; height:26px; font-size:1rem;" data-action="sec-dec" data-sec="fpMod">-</button>
-                  <button class="btn-stepper" style="width:26px; height:26px; font-size:1rem;" data-action="sec-inc" data-sec="fpMod">+</button>
-                </div>
-              </div>
-              <div class="hud-progress-bar"><div class="hud-progress-fill" style="width: 100%; background: linear-gradient(90deg, #0088ff, #00ffaa);"></div></div>
-            </div>
-
-            <!-- Vontade & Percepção -->
-            <div class="grid-2col">
-              <div>
-                <span class="form-label">${I18N.t('will')}: <strong style="color: var(--neon-white);">${willFinal}</strong></span>
-                <div style="display: flex; gap: 4px; margin-top: 4px;">
-                  <button class="btn-stepper" style="width:26px; height:26px;" data-action="sec-dec" data-sec="willMod">-</button>
-                  <button class="btn-stepper" style="width:26px; height:26px;" data-action="sec-inc" data-sec="willMod">+</button>
-                </div>
-              </div>
-              <div>
-                <span class="form-label">${I18N.t('per')}: <strong style="color: var(--neon-white);">${perFinal}</strong></span>
-                <div style="display: flex; gap: 4px; margin-top: 4px;">
-                  <button class="btn-stepper" style="width:26px; height:26px;" data-action="sec-dec" data-sec="perMod">-</button>
-                  <button class="btn-stepper" style="width:26px; height:26px;" data-action="sec-inc" data-sec="perMod">+</button>
-                </div>
-              </div>
-            </div>
-
           </div>
 
-          <!-- Right Column: Combat Physics & Movement -->
-          <div class="hud-panel" style="padding: 14px;">
-            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(122,143,166,0.2);">
-              <span style="color: var(--text-dim);">${I18N.t('basicLift')} [ST² / 10]:</span>
-              <strong style="color: var(--neon-white); font-family: var(--font-mono);">${basicLift} kg</strong>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(122,143,166,0.2);">
-              <span style="color: var(--text-dim);">${I18N.t('dmgThrust')}:</span>
-              <strong style="color: var(--accent-primary); font-family: var(--font-mono); font-size: 1.1rem;">${damage.thrust}</strong>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(122,143,166,0.2);">
-              <span style="color: var(--text-dim);">${I18N.t('dmgSwing')}:</span>
-              <strong style="color: var(--accent-primary); font-family: var(--font-mono); font-size: 1.1rem;">${damage.swing}</strong>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(122,143,166,0.2);">
-              <span style="color: var(--text-dim);">${I18N.t('basicSpeed')} [(DX+HT)/4]:</span>
-              <strong style="color: var(--neon-white); font-family: var(--font-mono);">${basicSpeed.toFixed(2)}</strong>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(122,143,166,0.2);">
-              <span style="color: var(--text-dim);">${I18N.t('basicMove')}:</span>
-              <strong style="color: var(--neon-white); font-family: var(--font-mono);">${basicMove} m/s</strong>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; padding: 6px 0;">
-              <span style="color: var(--text-dim);">${I18N.t('dodge')} (Base):</span>
-              <strong style="color: var(--status-ready); font-family: var(--font-mono); font-size: 1.1rem;">${baseDodge}</strong>
+          <div style="background: #0b0e14; border: 1.5px solid var(--chassis-border); border-radius: 6px; padding: 10px; text-align: center;">
+            <div class="nixie-label">PONTOS FADIGA (PF)</div>
+            <div class="nixie-val" style="font-size: 1.8rem; color: var(--accent-primary);">${fpFinal}</div>
+            <div style="display: flex; justify-content: center; gap: 6px; margin-top: 6px;">
+              <button class="btn-stepper-heavy" style="min-width:38px; height:38px; font-size:1.2rem;" data-action="sec-dec" data-sec="fpMod">-</button>
+              <button class="btn-stepper-heavy" style="min-width:38px; height:38px; font-size:1.2rem;" data-action="sec-inc" data-sec="fpMod">+</button>
             </div>
           </div>
         </div>
 
+        <!-- READOUTS -->
+        <div style="background: #080a0e; border: 1px solid var(--chassis-border); border-radius: 6px; padding: 12px; font-family: var(--font-mono); font-size: 0.95rem; line-height: 1.8;">
+          <div style="display: flex; justify-content: space-between;"><span>VONTADE / PERCEPÇÃO:</span><strong style="color: var(--neon-white);">${willFinal} / ${perFinal}</strong></div>
+          <div style="display: flex; justify-content: space-between;"><span>BASE DE CARGA (BC):</span><strong style="color: var(--accent-primary);">${basicLift} kg</strong></div>
+          <div style="display: flex; justify-content: space-between;"><span>DANO GOLPE PONTA (GdP):</span><strong style="color: var(--nixie-filament);">${damage.thrust}</strong></div>
+          <div style="display: flex; justify-content: space-between;"><span>DANO GOLPE BALANÇO (GeB):</span><strong style="color: var(--nixie-filament);">${damage.swing}</strong></div>
+          <div style="display: flex; justify-content: space-between;"><span>VELOCIDADE / DESLOCAMENTO:</span><strong style="color: var(--neon-white);">${basicSpeed.toFixed(2)} / ${basicMove} m/s</strong></div>
+        </div>
       </div>
     `;
   },
